@@ -76,7 +76,7 @@ class Components {
     );
   }
 
-  _onTapImage(BuildContext context) {
+  dialog(BuildContext context) {
 
     showDialog(context: context, builder: (context) {
       return     AlertDialog(
