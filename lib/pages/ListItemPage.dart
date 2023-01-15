@@ -97,7 +97,8 @@ class ListItemPage extends StatelessWidget {
               const SizedBox(height: 4),
               Text(item.createdAt!),
             ],
-          ))
+          )
+          )
         ],
       ),
     );
