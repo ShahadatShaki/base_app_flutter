@@ -1,9 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.base_app_flutter">
    <application
-        android:label="base_app_flutter"
+        android:label="Base App"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@drawable/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:exported="true"

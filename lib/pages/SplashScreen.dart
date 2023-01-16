@@ -1,3 +1,4 @@
+import 'package:base_app_flutter/pages/BottomNavPage.dart';
 import 'package:base_app_flutter/pages/ListItemPage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,7 +15,7 @@ class SplashScreen extends StatelessWidget {
     checkLoginStatus();
     return Scaffold(
         body: Image.asset(
-      "assets/splash_screen.jpg",
+      "assets/images/splash_screen.png",
       height: double.infinity,
       width: double.infinity,
     ));
@@ -24,9 +25,9 @@ class SplashScreen extends StatelessWidget {
     bool b = await SharedPref.getBool(SharedPref.IS_LOGIN);
     print(b);
     if(b){
-      Get.to(ListItemPage());
+      Get.off(BottomNavPage());
     }else{
-      Get.to(LoginPage());
+      Get.off(BottomNavPage());
     }
   }
 }
