@@ -3,9 +3,11 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:get/state_manager.dart';
 import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 
 import '../base/ApiResponseList.dart';
 import '../model/DataModel.dart';
+import '../utility/DioExceptions.dart';
 import '../utility/Urls.dart';
 
 class DataController extends GetxController {
@@ -48,6 +50,35 @@ class DataController extends GetxController {
 
     apiCalled.value = true;
   }
+
+  submitBill() async {
+
+    Dio dio = await Urls.getDio();
+
+
+    var selfie = "".obs;
+    var bill = "".obs;
+    var formData = FormData.fromMap({
+      'merchant_id': '202',
+      'amount': '200',
+      'review': "",
+      'image_meta': "",
+      'selfie_meta': "",
+      'public': "true",
+    });
+
+    formData.files.add(MapEntry("image", await MultipartFile.fromFile(bill.value, filename: 'image')));
+    formData.files.add(MapEntry("selfies[0]", await MultipartFile.fromFile(selfie.value, filename: 'image')));
+
+    try {
+      var response = await dio.post('/api/v1/user/bills/claim', data: formData);
+      print(response);
+    }catch(e){
+      print("response: "+ DioExceptions.fromDioError(e as DioError).message);
+    }
+
+  }
+
 
 
 
