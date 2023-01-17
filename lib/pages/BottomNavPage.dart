@@ -2,6 +2,7 @@ import 'package:base_app_flutter/pages/LoginPage.dart';
 import 'package:flutter/material.dart';
 
 import 'ListItemPage.dart';
+import 'TextWigetPage.dart';
 
 
 class BottomNavPage extends StatefulWidget {
@@ -55,7 +56,7 @@ class _BottomNavPageState extends State<BottomNavPage> {
         //labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
       ),
       body: <Widget>[
-        ListItemPage(),
+        TextWigetPage(),
         LoginPage(),
         ListItemPage(),
         LoginPage(),

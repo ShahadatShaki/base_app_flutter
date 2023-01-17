@@ -42,6 +42,7 @@ dev_dependencies:
 
 
 
+
 flutter:
 
   uses-material-design: true
@@ -49,5 +50,11 @@ flutter:
     - assets/
     - assets/images/
     - assets/animation/
+
+
+  fonts:
+    - family: Explora
+      fonts:
+        - asset: assets/fonts/Explora.ttf
 
 
