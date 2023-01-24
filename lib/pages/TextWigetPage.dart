@@ -18,7 +18,7 @@ class TextWigetPage extends StatelessWidget {
           height: double.infinity,
           alignment: Alignment.center,
           child: Text(
-            "Welcome to the Flutter Application",
+            "Welcome to the Travela Flutter Application",
             style: TextStyle(fontSize: 20),
           ),
         )

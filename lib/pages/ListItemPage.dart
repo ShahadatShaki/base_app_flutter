@@ -3,7 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../Component/Components.dart';
+import '../component/Component.dart';
 import '../controller/DataController.dart';
 import '../utility/AppColors.dart';
 
@@ -45,7 +45,7 @@ class ListItemPage extends StatelessWidget {
           Visibility(
               visible: !controller.apiCalled.value,
               // visible: false,
-              child: Components.loadingView()),
+              child: Component.loadingView()),
           Visibility(
             visible: controller.apiCalled.value &&
                 controller.notifications.value.isNotEmpty,
@@ -64,7 +64,7 @@ class ListItemPage extends StatelessWidget {
           Visibility(
               visible: controller.notifications.value.isEmpty &&
                   controller.apiCalled.value,
-              child: Components.emptyView(
+              child: Component.emptyView(
                   "No Data Found", "assets/empty_item.json")),
         ],
       ),
@@ -97,8 +97,7 @@ class ListItemPage extends StatelessWidget {
               const SizedBox(height: 4),
               Text(item.createdAt!),
             ],
-          )
-          )
+          ))
         ],
       ),
     );

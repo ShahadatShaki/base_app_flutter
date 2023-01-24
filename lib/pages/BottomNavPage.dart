@@ -1,12 +1,11 @@
-import 'package:base_app_flutter/pages/LoginPage.dart';
+import 'package:base_app_flutter/component/Component.dart';
+import 'package:base_app_flutter/utility/AppColors.dart';
+import 'package:base_app_flutter/utility/AssetsName.dart';
 import 'package:flutter/material.dart';
 
-import 'ListItemPage.dart';
-import 'TextWigetPage.dart';
-
+import 'guest/home/ExplorePage.dart';
 
 class BottomNavPage extends StatefulWidget {
-
   const BottomNavPage({
     Key? key,
   }) : super(key: key);
@@ -16,52 +15,91 @@ class BottomNavPage extends StatefulWidget {
 }
 
 class _BottomNavPageState extends State<BottomNavPage> {
-  int currentPageIndex = 0;
+  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-      // NavigationBar Example
-      bottomNavigationBar: NavigationBar(
-        animationDuration: const Duration(milliseconds: 1000),
-        destinations: const <Widget>[
-          NavigationDestination(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.explore),
+      body: Center(
+        child: _widgetOptions.elementAt(_selectedIndex),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Container(
+                margin: EdgeInsets.only(bottom: 4),
+                child: Component.showIcon(
+                    name: AssetsName.search,
+                    color: _selectedIndex == 0
+                        ? AppColors.appColor
+                        : AppColors.darkGray)),
             label: 'Explore',
           ),
-          NavigationDestination(
-            icon: Icon(Icons.person),
+          BottomNavigationBarItem(
+            icon: Container(
+                margin: EdgeInsets.only(bottom: 4),
+                child: Component.showIcon(
+                    name: AssetsName.bookings,
+                    color: _selectedIndex == 1
+                        ? AppColors.appColor
+                        : AppColors.darkGray)),
+            label: 'Bookings',
+          ),
+          BottomNavigationBarItem(
+            icon: Container(
+                margin: EdgeInsets.only(bottom: 4),
+                child: Component.showIcon(
+                    name: AssetsName.message,
+                    color: _selectedIndex == 2
+                        ? AppColors.appColor
+                        : AppColors.darkGray)),
+            label: 'Inbox',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.business),
+            label: 'Notification',
+          ),
+          BottomNavigationBarItem(
+            icon: Container(
+                margin: EdgeInsets.only(bottom: 4),
+                child: Component.showIcon(
+                    name: AssetsName.guest,
+                    color: _selectedIndex == 4
+                        ? AppColors.appColor
+                        : AppColors.darkGray)),
             label: 'Profile',
           ),
-          NavigationDestination(
-            icon: Icon(Icons.settings_rounded),
-            label: 'Settings',
-          ),
         ],
-        onDestinationSelected: (int index) {
-          setState(() {
-            currentPageIndex = index;
-          });
-        },
-        selectedIndex: currentPageIndex,
-        //backgroundColor: Colors.blue,
-        //elevation: 10,
-        //surfaceTintColor: Colors.lime,
-        //height: 20,
-        //labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
+        currentIndex: _selectedIndex,
+        unselectedItemColor: Colors.black87,
+        unselectedFontSize: 12,
+        selectedFontSize: 12,
+        showUnselectedLabels: true,
+        selectedItemColor: AppColors.appColor,
+        onTap: _onItemTapped,
       ),
-      body: <Widget>[
-        TextWigetPage(),
-        LoginPage(),
-        ListItemPage(),
-        LoginPage(),
-        ListItemPage()
-      ][currentPageIndex],
     );
   }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  static final List<Widget> _widgetOptions = <Widget>[
+    ExplorePage(),
+    Text(
+      'Index 1: Business',
+    ),
+    Text(
+      'Index 1: Business',
+    ),
+    Text(
+      'Index 1: Business',
+    ),
+    Text(
+      'Index 2: School',
+    ),
+  ];
 }

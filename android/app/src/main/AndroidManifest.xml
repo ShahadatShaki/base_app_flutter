@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.base_app_flutter">
+    package="com.travela.flutter">
    <application
-        android:label="Base App"
+        android:label="Travela Flutter"
         android:name="${applicationName}"
         android:icon="@drawable/launcher_icon">
         <activity

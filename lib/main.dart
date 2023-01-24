@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       title: 'Base App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        fontFamily: "Explora",
+        fontFamily: "Roboto",
       ),
       home: SplashScreen(),
     );
