@@ -52,17 +52,6 @@ class Component {
     );
   }
 
-  static void showToast(String s) {
-    Fluttertoast.showToast(
-        msg: s,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.black,
-        textColor: Colors.white,
-        fontSize: 16.0);
-  }
-
   static Widget loadingView() {
     return Expanded(
       child: Container(
@@ -171,7 +160,7 @@ class Component {
         margin: const EdgeInsets.only(right: 40),
         child:  Text(
           name,
-          style: TextStyle(color: AppColors.textColorBlack, fontSize: 18),
+          style: const TextStyle(color: AppColors.textColorBlack, fontWeight: FontWeight.w600, fontSize: 18),
         ),
       ),
     );

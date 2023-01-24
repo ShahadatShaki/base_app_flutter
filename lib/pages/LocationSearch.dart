@@ -1,19 +1,20 @@
-import 'package:base_app_flutter/model/DataModel.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:base_app_flutter/model/LocationModel.dart';
+import 'package:base_app_flutter/utility/AssetsName.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../component/Component.dart';
-import '../controller/DataController.dart';
+import '../controller/LocationSearchController.dart';
 import '../utility/AppColors.dart';
 
 class LocationSearch extends StatelessWidget {
-  final DataController controller = Get.put(DataController());
+  LocationSearchController controller = Get.put(LocationSearchController());
 
   LocationSearch({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    controller.getData(1);
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: Component.appbar(name: "Select Location"),
@@ -41,21 +42,21 @@ class LocationSearch extends StatelessWidget {
               child: Component.loadingView()),
           Visibility(
             visible: controller.apiCalled.value &&
-                controller.notifications.value.isNotEmpty,
+                controller.dataList.value.isNotEmpty,
             // visible: false,
             child: Expanded(
               child: ListView.builder(
                 controller: controller.scrollController,
-                itemCount: controller.notifications.value.length,
+                itemCount: controller.dataList.value.length,
                 shrinkWrap: true,
                 itemBuilder: (BuildContext c, int index) {
-                  return cardDesign(controller.notifications.value[index]);
+                  return cardDesign(controller.dataList.value[index]);
                 },
               ),
             ),
           ),
           Visibility(
-              visible: controller.notifications.value.isEmpty &&
+              visible: controller.dataList.value.isEmpty &&
                   controller.apiCalled.value,
               child: Component.emptyView(
                   "No Data Found", "assets/empty_item.json")),
@@ -64,49 +65,51 @@ class LocationSearch extends StatelessWidget {
     );
   }
 
-  cardDesign(DataModel item) {
+  cardDesign(LocationModel item) {
     var borderRadius = 8.0;
-    return Container(
-      color: item.isNew! ? AppColors.lightestPurple : AppColors.white,
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          CachedNetworkImage(
-            imageUrl: item.image!,
-            height: 80,
-            width: 80,
-            placeholder: (context, url) =>
-                Image.asset("assets/generic_placeholder.png"),
-            errorWidget: (context, url, error) => Icon(Icons.error),
-          ),
-          const SizedBox(
-            width: 8,
-          ),
-          Expanded(
-              child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(item.message!),
-              const SizedBox(height: 4),
-              Text(item.createdAt!),
-            ],
-          ))
-        ],
+    return InkWell(
+      onTap: () => {
+        Get.back(result: item)
+      },
+      child: Container(
+        color: AppColors.separator,
+        padding: const EdgeInsets.only(left: 24, right: 24, top: 16),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Component.showIcon(
+                    name: AssetsName.ic_location, color: AppColors.appColor),
+                SizedBox(
+                  width: 12,
+                ),
+                Text(
+                  item.name!,
+                )
+              ],
+            ),
+            SizedBox(height: 16),
+            Container(
+              width: double.infinity,
+              height: 1,
+              color: AppColors.lineColor,
+            )
+          ],
+        ),
       ),
     );
   }
 
   searchView() {
     return Container(
-      margin: EdgeInsets.all(24),
-      child: TextField(
-        decoration: InputDecoration(
-            filled: true,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-
-            fillColor: AppColors.separator),
+      margin: const EdgeInsets.only(left: 24, right: 24, top: 8, bottom: 24),
+      decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+          color: AppColors.separator),
+      padding: const EdgeInsets.only(left: 16, right: 16),
+      child: const TextField(
+        decoration:
+            InputDecoration(hintText: "Search", border: InputBorder.none),
       ),
     );
   }

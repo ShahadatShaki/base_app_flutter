@@ -1,3 +1,4 @@
+import 'package:base_app_flutter/model/SearchOptions.dart';
 import 'package:base_app_flutter/utility/AppColors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -7,9 +8,20 @@ import '../../../component/Component.dart';
 import '../../../utility/AssetsName.dart';
 import '../../LocationSearch.dart';
 
-class ExplorePage extends StatelessWidget {
+
+
+class ExplorePage extends StatefulWidget {
   ExplorePage({Key? key}) : super(key: key);
 
+  @override
+  State<ExplorePage> createState() => _ExplorePageState();
+
+
+}
+
+class _ExplorePageState extends State<ExplorePage>{
+
+  SearchOptions searchOptions = SearchOptions();
   String checkinCheckout = "sfjkjkj";
   String guestCount = "sfjkjkj";
 
@@ -86,7 +98,16 @@ class ExplorePage extends StatelessWidget {
         shape: Component.roundShape(),
         elevation: 0,
         child: InkWell(
-          onTap: () => {Get.to(LocationSearch())},
+          onTap: () async {
+            var data = await Get.to(() => LocationSearch());
+            if(data!=null){
+              setState(() {
+                searchOptions.name = data.name;
+                searchOptions.lat = data.lat;
+                searchOptions.lng = data.lng;
+              });
+            }
+          },
           child: Container(
             height: 70,
             padding: const EdgeInsets.all(16.0),
@@ -96,10 +117,10 @@ class ExplorePage extends StatelessWidget {
                 const SizedBox(
                   width: 16,
                 ),
-                const Expanded(
+                 Expanded(
                   child: Text(
-                    "Where do you want to stay?",
-                    style: TextStyle(color: AppColors.darkGray, fontSize: 16),
+                    searchOptions.name.isEmpty?"Where do you want to stay?":searchOptions.name,
+                    style: TextStyle(color: searchOptions.name.isEmpty?AppColors.darkGray:AppColors.textColorBlack,fontWeight: FontWeight.w500, fontSize: 16),
                   ),
                 ),
                 const SizedBox(
@@ -141,25 +162,25 @@ class ExplorePage extends StatelessWidget {
               ),
               Expanded(
                   child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Check In - Check Out",
-                    style: TextStyle(
-                        color: AppColors.darkGray,
-                        fontSize: checkinCheckout.isEmpty ? 16 : 12),
-                  ),
-                  SizedBox(height: checkinCheckout.isNotEmpty ? 4 : 0),
-                  checkinCheckout.isNotEmpty
-                      ? Text(
-                          checkinCheckout,
-                          style: const TextStyle(
-                              color: AppColors.textColorBlack, fontSize: 16),
-                        )
-                      : SizedBox(),
-                ],
-              )),
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Check In - Check Out",
+                        style: TextStyle(
+                            color: AppColors.darkGray,
+                            fontSize: checkinCheckout.isEmpty ? 16 : 12),
+                      ),
+                      SizedBox(height: checkinCheckout.isNotEmpty ? 4 : 0),
+                      checkinCheckout.isNotEmpty
+                          ? Text(
+                        checkinCheckout,
+                        style: const TextStyle(
+                            color: AppColors.textColorBlack, fontSize: 16),
+                      )
+                          : SizedBox(),
+                    ],
+                  )),
             ],
           ),
         ),
@@ -194,29 +215,30 @@ class ExplorePage extends StatelessWidget {
               ),
               Expanded(
                   child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Guest",
-                    style: TextStyle(
-                        color: AppColors.darkGray,
-                        fontSize: guestCount.isEmpty ? 16 : 12),
-                  ),
-                  SizedBox(height: guestCount.isNotEmpty ? 4 : 0),
-                  guestCount.isNotEmpty
-                      ? Text(
-                          guestCount,
-                          style: TextStyle(
-                              color: AppColors.textColorBlack, fontSize: 16),
-                        )
-                      : SizedBox(),
-                ],
-              )),
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Guest",
+                        style: TextStyle(
+                            color: AppColors.darkGray,
+                            fontSize: guestCount.isEmpty ? 16 : 12),
+                      ),
+                      SizedBox(height: guestCount.isNotEmpty ? 4 : 0),
+                      guestCount.isNotEmpty
+                          ? Text(
+                        guestCount,
+                        style: TextStyle(
+                            color: AppColors.textColorBlack, fontSize: 16),
+                      )
+                          : SizedBox(),
+                    ],
+                  )),
             ],
           ),
         ),
       ),
     );
   }
+
 }
