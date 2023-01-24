@@ -1,9 +1,11 @@
 import 'package:base_app_flutter/utility/AppColors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 
 import '../../../component/Component.dart';
 import '../../../utility/AssetsName.dart';
+import '../../LocationSearch.dart';
 
 class ExplorePage extends StatelessWidget {
   ExplorePage({Key? key}) : super(key: key);
@@ -29,7 +31,7 @@ class ExplorePage extends StatelessWidget {
             alignment: AlignmentDirectional.bottomCenter,
             child: Container(
               height: MediaQuery.of(context).size.height * 0.55,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(20)),
                   color: AppColors.white),
               child: Container(
@@ -67,15 +69,6 @@ class ExplorePage extends StatelessWidget {
                     ],
                   ),
                 ),
-
-                // Card(
-                //   shape: RoundedRectangleBorder(
-                //       borderRadius: BorderRadius.only(
-                //           topRight: Radius.circular(20),
-                //           topLeft: Radius.circular(20))),
-                //   child:
-                //
-                // ),
               ),
             ),
           )
@@ -92,26 +85,29 @@ class ExplorePage extends StatelessWidget {
       child: Card(
         shape: Component.roundShape(),
         elevation: 0,
-        child: Container(
-          height: 70,
-          padding: const EdgeInsets.all(16.0),
-          child: Row(
-            children: [
-              Component.showIcon(name: AssetsName.ic_location, size: 24),
-              const SizedBox(
-                width: 16,
-              ),
-              const Expanded(
-                child: Text(
-                  "Where do you want to stay?",
-                  style: TextStyle(color: AppColors.darkGray, fontSize: 16),
+        child: InkWell(
+          onTap: () => {Get.to(LocationSearch())},
+          child: Container(
+            height: 70,
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              children: [
+                Component.showIcon(name: AssetsName.ic_location, size: 24),
+                const SizedBox(
+                  width: 16,
                 ),
-              ),
-              const SizedBox(
-                width: 16,
-              ),
-              Component.showIcon(name: AssetsName.search)
-            ],
+                const Expanded(
+                  child: Text(
+                    "Where do you want to stay?",
+                    style: TextStyle(color: AppColors.darkGray, fontSize: 16),
+                  ),
+                ),
+                const SizedBox(
+                  width: 16,
+                ),
+                Component.showIcon(name: AssetsName.search)
+              ],
+            ),
           ),
         ),
       ),

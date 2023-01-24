@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lottie/lottie.dart';
+import 'package:get/get.dart';
 
 import '../utility/AppColors.dart';
+import '../utility/AssetsName.dart';
 
 class Component {
   static TextStyle textStyle16bkw500({Color color = AppColors.textColorBlack}) {
@@ -147,6 +149,30 @@ class Component {
       offset: const Offset(
         5.0, // Move to right 10  horizontally
         6.0, // Move to bottom 10 Vertically
+      ),
+    );
+  }
+
+  static appbar({required String name}) {
+    return AppBar(
+      backgroundColor: AppColors.white,
+      elevation: 0,
+      leading: InkWell(
+        onTap: () => {
+          Get.back()
+        },
+        child: Padding(
+            padding: const EdgeInsets.all(14),
+            child: Component.showIcon(name: AssetsName.back)),
+      ),
+      title: Container(
+        width: double.infinity,
+        alignment: Alignment.center,
+        margin: const EdgeInsets.only(right: 40),
+        child:  Text(
+          name,
+          style: TextStyle(color: AppColors.textColorBlack, fontSize: 18),
+        ),
       ),
     );
   }
