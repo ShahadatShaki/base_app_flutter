@@ -9,19 +9,14 @@ import '../../../component/Component.dart';
 import '../../../utility/AssetsName.dart';
 import '../LocationSearch.dart';
 
-
-
 class ExplorePage extends StatefulWidget {
   ExplorePage({Key? key}) : super(key: key);
 
   @override
   State<ExplorePage> createState() => _ExplorePageState();
-
-
 }
 
-class _ExplorePageState extends State<ExplorePage>{
-
+class _ExplorePageState extends State<ExplorePage> {
   SearchOptions searchOptions = SearchOptions();
   String checkinCheckout = "sfjkjkj";
   String guestCount = "sfjkjkj";
@@ -96,7 +91,7 @@ class _ExplorePageState extends State<ExplorePage>{
         child: InkWell(
           onTap: () async {
             var data = await Get.to(() => LocationSearch());
-            if(data!=null){
+            if (data != null) {
               setState(() {
                 searchOptions.name = data.name;
                 searchOptions.lat = data.lat;
@@ -113,10 +108,17 @@ class _ExplorePageState extends State<ExplorePage>{
                 const SizedBox(
                   width: 16,
                 ),
-                 Expanded(
+                Expanded(
                   child: Text(
-                    searchOptions.name.isEmpty?"Where do you want to stay?":searchOptions.name,
-                    style: TextStyle(color: searchOptions.name.isEmpty?AppColors.darkGray:AppColors.textColorBlack,fontWeight: FontWeight.w500, fontSize: 16),
+                    searchOptions.name.isEmpty
+                        ? "Where do you want to stay?"
+                        : searchOptions.name,
+                    style: TextStyle(
+                        color: searchOptions.name.isEmpty
+                            ? AppColors.darkGray
+                            : AppColors.textColorBlack,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16),
                   ),
                 ),
                 const SizedBox(
@@ -132,7 +134,7 @@ class _ExplorePageState extends State<ExplorePage>{
   }
 
   checkinCheckoutLayout() {
-    checkinCheckout = "fkd";
+    checkinCheckout = "";
 
     return Container(
       decoration: BoxDecoration(
@@ -143,12 +145,12 @@ class _ExplorePageState extends State<ExplorePage>{
         elevation: 0,
         child: InkWell(
           onTap: () async {
-            var data = await Get.to(() => PickCalenderPage(searchOptions: searchOptions));
-            if(data!=null){
+            var data = await Get.to(
+                () => PickCalenderPage(searchOptions: searchOptions));
+            if (data != null) {
               setState(() {
-                // searchOptions.name = data.name;
-                // searchOptions.lat = data.lat;
-                // searchOptions.lng = data.lng;
+                searchOptions = data;
+                int i = 0;
               });
             }
           },
@@ -169,25 +171,25 @@ class _ExplorePageState extends State<ExplorePage>{
                 ),
                 Expanded(
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Check In - Check Out",
-                          style: TextStyle(
-                              color: AppColors.darkGray,
-                              fontSize: checkinCheckout.isEmpty ? 16 : 12),
-                        ),
-                        SizedBox(height: checkinCheckout.isNotEmpty ? 4 : 0),
-                        checkinCheckout.isNotEmpty
-                            ? Text(
-                          checkinCheckout,
-                          style: const TextStyle(
-                              color: AppColors.textColorBlack, fontSize: 16),
-                        )
-                            : SizedBox(),
-                      ],
-                    )),
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Check In - Check Out",
+                      style: TextStyle(
+                          color: AppColors.darkGray,
+                          fontSize: searchOptions.getCheckinCheckoutDate().isEmpty ? 16 : 12),
+                    ),
+                    SizedBox(height: searchOptions.getCheckinCheckoutDate().isNotEmpty ? 4 : 0),
+                    searchOptions.getCheckinCheckoutDate().isNotEmpty
+                        ? Text(
+                      searchOptions.getCheckinCheckoutDate(),
+                            style: const TextStyle(
+                                color: AppColors.textColorBlack, fontSize: 16),
+                          )
+                        : SizedBox(),
+                  ],
+                )),
               ],
             ),
           ),
@@ -223,30 +225,29 @@ class _ExplorePageState extends State<ExplorePage>{
               ),
               Expanded(
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Guest",
-                        style: TextStyle(
-                            color: AppColors.darkGray,
-                            fontSize: guestCount.isEmpty ? 16 : 12),
-                      ),
-                      SizedBox(height: guestCount.isNotEmpty ? 4 : 0),
-                      guestCount.isNotEmpty
-                          ? Text(
-                        guestCount,
-                        style: TextStyle(
-                            color: AppColors.textColorBlack, fontSize: 16),
-                      )
-                          : SizedBox(),
-                    ],
-                  )),
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Guest",
+                    style: TextStyle(
+                        color: AppColors.darkGray,
+                        fontSize: guestCount.isEmpty ? 16 : 12),
+                  ),
+                  SizedBox(height: guestCount.isNotEmpty ? 4 : 0),
+                  guestCount.isNotEmpty
+                      ? Text(
+                          guestCount,
+                          style: TextStyle(
+                              color: AppColors.textColorBlack, fontSize: 16),
+                        )
+                      : SizedBox(),
+                ],
+              )),
             ],
           ),
         ),
       ),
     );
   }
-
 }

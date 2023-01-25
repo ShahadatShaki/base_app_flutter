@@ -23,6 +23,10 @@ class SearchOptions{
     // return checkinDate;
   }
 
+  dynamic getCheckinCheckoutDate(){
+    return "${checkinDate} - ${checkoutDate}";
+  }
+
 
 
 
