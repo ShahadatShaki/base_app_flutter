@@ -25,40 +25,45 @@ class LocationSearchController extends GetxController {
 
   @override
   void onInit() {
+    searchEtController = TextEditingController();
+
     scrollController = ScrollController()
       ..addListener(() {
         double maxScroll = scrollController.position.maxScrollExtent;
         double currentScroll = scrollController.position.pixels;
         double delta = 200.0; // or something else..
-        if ( maxScroll - currentScroll <= delta) { // whatever you determine here
+        if (maxScroll - currentScroll <= delta) { // whatever you determine here
           //.. load more
         }
       });
-    // getData(page);
     super.onInit();
   }
 
-  getData(int page) async {
-    print("api calling");
+  getData(String text) async {
+
+
 
     var client = http.Client();
+    final queryParameters = {"q": text, "page": page.toString()};
+
     var uri = Uri.https(
-        Urls.ROOT_URL_MAIN, "/api/popular-locations");
+        Urls.ROOT_URL_MAIN, "/api/popular-locations", queryParameters);
+    print(uri);
 
     var response = await client.get(uri, headers: await Urls.getHeaders());
+    print(response.body);
 
-
-    print(response.statusCode);
     var res = ApiResponseList<LocationModel>.fromJson(
         json.decode(response.body), (data) => LocationModel.fromJson(data));
-    dataList.value = res.data!;
-    print(dataList);
-
+    if(page==1){
+      dataList.clear();
+    }
+    dataList.value.addAll(res.data!);
+    dataList.refresh();
     apiCalled.value = true;
   }
 
   submitBill() async {
-
     Dio dio = await Urls.getDio();
 
 
@@ -73,19 +78,20 @@ class LocationSearchController extends GetxController {
       'public': "true",
     });
 
-    formData.files.add(MapEntry("image", await MultipartFile.fromFile(bill.value, filename: 'image')));
-    formData.files.add(MapEntry("selfies[0]", await MultipartFile.fromFile(selfie.value, filename: 'image')));
+    formData.files.add(MapEntry(
+        "image", await MultipartFile.fromFile(bill.value, filename: 'image')));
+    formData.files.add(MapEntry("selfies[0]",
+        await MultipartFile.fromFile(selfie.value, filename: 'image')));
 
     try {
       var response = await dio.post('/api/v1/user/bills/claim', data: formData);
       print(response);
-    }catch(e){
-      print("response: "+ DioExceptions.fromDioError(e as DioError).message);
+    } catch (e) {
+      print("response: " + DioExceptions
+          .fromDioError(e as DioError)
+          .message);
     }
-
   }
-
-
 
 
   @override

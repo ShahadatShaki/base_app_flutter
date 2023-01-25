@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:base_app_flutter/model/LocationModel.dart';
 import 'package:base_app_flutter/utility/AssetsName.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +16,7 @@ class LocationSearch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    controller.getData(1);
+    controller.getData("");
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: Component.appbar(name: "Select Location"),
@@ -59,7 +61,7 @@ class LocationSearch extends StatelessWidget {
               visible: controller.dataList.value.isEmpty &&
                   controller.apiCalled.value,
               child: Component.emptyView(
-                  "No Data Found", "assets/empty_item.json")),
+                  "No Data Found", "assets/animation/empty_item.json")),
         ],
       ),
     );
@@ -107,10 +109,27 @@ class LocationSearch extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(8)),
           color: AppColors.separator),
       padding: const EdgeInsets.only(left: 16, right: 16),
-      child: const TextField(
+      child:  TextField(
+        controller: controller.searchEtController,
+        onChanged: textChanged,
         decoration:
             InputDecoration(hintText: "Search", border: InputBorder.none),
       ),
     );
+  }
+
+  Timer? timeHandle;
+
+  void textChanged(String val) {
+    controller.isSearching = true;
+    if (timeHandle != null) {
+      timeHandle!.cancel();
+    }
+
+    timeHandle = Timer(Duration(seconds: 1), () {
+      controller.page = 1;
+      controller.hasMoreData = true;
+      controller.getData(val);
+    });
   }
 }

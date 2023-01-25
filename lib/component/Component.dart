@@ -78,7 +78,7 @@ class Component {
     );
   }
 
-  dialog(BuildContext context) {
+  static dialog(BuildContext context) {
     showDialog(
         context: context,
         builder: (context) {
@@ -100,7 +100,7 @@ class Component {
         });
   }
 
-  showBottommsheetDialog(BuildContext context) {
+  static showBottommsheetDialog(BuildContext context) {
     showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {
@@ -115,7 +115,7 @@ class Component {
                 const Text('Modal BottomSheet'),
                 ElevatedButton(
                   child: const Text('Close BottomSheet'),
-                  onPressed: () => Navigator.pop(context),
+                  onPressed: () => Get.back(),
                 ),
               ],
             ),
