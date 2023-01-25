@@ -1,4 +1,5 @@
 import 'package:base_app_flutter/model/SearchOptions.dart';
+import 'package:base_app_flutter/pages/guest/PickCalenderPage.dart';
 import 'package:base_app_flutter/utility/AppColors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -6,7 +7,7 @@ import 'package:get/get.dart';
 
 import '../../../component/Component.dart';
 import '../../../utility/AssetsName.dart';
-import '../../LocationSearch.dart';
+import '../LocationSearch.dart';
 
 
 
@@ -65,12 +66,7 @@ class _ExplorePageState extends State<ExplorePage>{
                         height: 24,
                       ),
                       TextButton(
-                        style: TextButton.styleFrom(
-                          shape: Component.roundShape(),
-                          foregroundColor: Colors.white,
-                          backgroundColor: AppColors.appColor,
-                          textStyle: const TextStyle(fontSize: 16),
-                        ),
+                        style: Component.textButtonStyle(),
                         onPressed: () {},
                         child: Container(
                             height: 50,
@@ -145,43 +141,55 @@ class _ExplorePageState extends State<ExplorePage>{
       child: Card(
         shape: Component.roundShape(),
         elevation: 0,
-        child: Container(
-          height: 70,
-          alignment: Alignment.center,
-          padding: const EdgeInsets.all(16.0),
-          child: Row(
-            // mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Component.showIcon(
-                name: AssetsName.calender,
-                size: 24,
-              ),
-              const SizedBox(
-                width: 16,
-              ),
-              Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Check In - Check Out",
-                        style: TextStyle(
-                            color: AppColors.darkGray,
-                            fontSize: checkinCheckout.isEmpty ? 16 : 12),
-                      ),
-                      SizedBox(height: checkinCheckout.isNotEmpty ? 4 : 0),
-                      checkinCheckout.isNotEmpty
-                          ? Text(
-                        checkinCheckout,
-                        style: const TextStyle(
-                            color: AppColors.textColorBlack, fontSize: 16),
-                      )
-                          : SizedBox(),
-                    ],
-                  )),
-            ],
+        child: InkWell(
+          onTap: () async {
+            var data = await Get.to(() => PickCalenderPage(searchOptions: searchOptions));
+            if(data!=null){
+              setState(() {
+                // searchOptions.name = data.name;
+                // searchOptions.lat = data.lat;
+                // searchOptions.lng = data.lng;
+              });
+            }
+          },
+          child: Container(
+            height: 70,
+            alignment: Alignment.center,
+            padding: const EdgeInsets.all(16.0),
+            child: Row(
+              // mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Component.showIcon(
+                  name: AssetsName.calender,
+                  size: 24,
+                ),
+                const SizedBox(
+                  width: 16,
+                ),
+                Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Check In - Check Out",
+                          style: TextStyle(
+                              color: AppColors.darkGray,
+                              fontSize: checkinCheckout.isEmpty ? 16 : 12),
+                        ),
+                        SizedBox(height: checkinCheckout.isNotEmpty ? 4 : 0),
+                        checkinCheckout.isNotEmpty
+                            ? Text(
+                          checkinCheckout,
+                          style: const TextStyle(
+                              color: AppColors.textColorBlack, fontSize: 16),
+                        )
+                            : SizedBox(),
+                      ],
+                    )),
+              ],
+            ),
           ),
         ),
       ),

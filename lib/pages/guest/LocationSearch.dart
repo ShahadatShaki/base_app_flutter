@@ -3,9 +3,9 @@ import 'package:base_app_flutter/utility/AssetsName.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../component/Component.dart';
-import '../controller/LocationSearchController.dart';
-import '../utility/AppColors.dart';
+import '../../component/Component.dart';
+import '../../controller/LocationSearchController.dart';
+import '../../utility/AppColors.dart';
 
 class LocationSearch extends StatelessWidget {
   LocationSearchController controller = Get.put(LocationSearchController());

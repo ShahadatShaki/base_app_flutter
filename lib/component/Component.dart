@@ -165,4 +165,13 @@ class Component {
       ),
     );
   }
+
+  static textButtonStyle() {
+    return TextButton.styleFrom(
+      shape: Component.roundShape(),
+      foregroundColor: Colors.white,
+      backgroundColor: AppColors.appColor,
+      textStyle: const TextStyle(fontSize: 16),
+    );
+  }
 }
