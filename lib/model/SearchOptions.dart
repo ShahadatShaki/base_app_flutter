@@ -28,14 +28,14 @@ class SearchOptions {
 
   String getGuestCounts() {
     String result = "";
-    if(guestCount>0){
-      result+="$guestCount Adults, ";
+    if (guestCount > 0) {
+      result += "$guestCount Adults, ";
     }
-    if(childCount>0){
-      result+="$childCount Childes, ";
+    if (childCount > 0) {
+      result += "$childCount Childes, ";
     }
-    if(infantCount>0){
-      result+="$guestCount Infants";
+    if (infantCount > 0) {
+      result += "$infantCount Infants";
     }
 
     return result;

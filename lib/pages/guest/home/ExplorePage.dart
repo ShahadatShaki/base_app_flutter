@@ -242,10 +242,10 @@ class _ExplorePageState extends State<ExplorePage> {
                       "Guest",
                       style: TextStyle(
                           color: AppColors.darkGray,
-                          fontSize: searchOptions.guestCount == 0 ? 16 : 12),
+                          fontSize: searchOptions.getGuestCounts().isEmpty ? 16 : 12),
                     ),
-                    SizedBox(height: searchOptions.guestCount != 0 ? 4 : 0),
-                    searchOptions.guestCount != 0
+                    SizedBox(height: searchOptions.getGuestCounts().isEmpty ? 0 : 4),
+                    searchOptions.getGuestCounts().isNotEmpty
                         ? Text(
                             searchOptions.getGuestCounts(),
                             style: const TextStyle(
@@ -360,11 +360,10 @@ class _ExplorePageState extends State<ExplorePage> {
                         style: Component.textButtonStyle(),
                         onPressed: () {
 
-                          searchOptions.guestCount = damiSearchOption.guestCount;
-                          searchOptions.childCount = damiSearchOption.childCount;
-                          searchOptions.infantCount =damiSearchOption.infantCount;
                           setState(() {
-
+                            searchOptions.guestCount = damiSearchOption.guestCount;
+                            searchOptions.childCount = damiSearchOption.childCount;
+                            searchOptions.infantCount =damiSearchOption.infantCount;
                           });
                           Get.back();
                         },
