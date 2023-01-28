@@ -1,10 +1,10 @@
 import 'package:base_app_flutter/model/SearchOptions.dart';
+import 'package:base_app_flutter/pages/guest/ListingSearchPage.dart';
 import 'package:base_app_flutter/pages/guest/PickCalenderPage.dart';
 import 'package:base_app_flutter/utility/AppColors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'dart:convert';
 
 import '../../../component/Component.dart';
 import '../../../utility/AssetsName.dart';
@@ -44,34 +44,18 @@ class _ExplorePageState extends State<ExplorePage> {
                   borderRadius: BorderRadius.all(Radius.circular(20)),
                   color: AppColors.white),
               child: Container(
+                padding: EdgeInsets.all(24),
                 width: double.infinity,
-                child: Padding(
-                  padding: EdgeInsets.all(24),
-                  child: Column(
-                    children: [
-                      searchLayout(),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      checkinCheckoutLayout(),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                      guestCountLayout(),
-                      const SizedBox(
-                        height: 24,
-                      ),
-                      TextButton(
-                        style: Component.textButtonStyle(),
-                        onPressed: () {},
-                        child: Container(
-                            height: 50,
-                            width: double.infinity,
-                            alignment: Alignment.center,
-                            child: const Text('Gradient')),
-                      ),
-                    ],
-                  ),
+                child: Column(
+                  children: [
+                    searchLayout(),
+                    const SizedBox(height: 16),
+                    checkinCheckoutLayout(),
+                    const SizedBox(height: 16),
+                    guestCountLayout(),
+                    const SizedBox(height: 24),
+                    button()
+                  ],
                 ),
               ),
             ),
@@ -91,12 +75,11 @@ class _ExplorePageState extends State<ExplorePage> {
         elevation: 0,
         child: InkWell(
           onTap: () async {
-            var data = await Get.to(() => LocationSearch());
+            var data = await Get.to(
+                () => LocationSearch(searchOptions: searchOptions));
             if (data != null) {
               setState(() {
-                searchOptions.name = data.name;
-                searchOptions.lat = data.lat;
-                searchOptions.lng = data.lng;
+                searchOptions = data;
               });
             }
           },
@@ -113,7 +96,7 @@ class _ExplorePageState extends State<ExplorePage> {
                   child: Text(
                     searchOptions.name.isEmpty
                         ? "Where do you want to stay?"
-                        : searchOptions.name,
+                        : searchOptions.getName(),
                     style: TextStyle(
                         color: searchOptions.name.isEmpty
                             ? AppColors.darkGray
@@ -242,9 +225,11 @@ class _ExplorePageState extends State<ExplorePage> {
                       "Guest",
                       style: TextStyle(
                           color: AppColors.darkGray,
-                          fontSize: searchOptions.getGuestCounts().isEmpty ? 16 : 12),
+                          fontSize:
+                              searchOptions.getGuestCounts().isEmpty ? 16 : 12),
                     ),
-                    SizedBox(height: searchOptions.getGuestCounts().isEmpty ? 0 : 4),
+                    SizedBox(
+                        height: searchOptions.getGuestCounts().isEmpty ? 0 : 4),
                     searchOptions.getGuestCounts().isNotEmpty
                         ? Text(
                             searchOptions.getGuestCounts(),
@@ -264,8 +249,8 @@ class _ExplorePageState extends State<ExplorePage> {
 
   var bottomSheet;
   late SearchOptions damiSearchOption;
-  showGuestCountBottomSheet() {
 
+  showGuestCountBottomSheet() {
     damiSearchOption = SearchOptions();
     damiSearchOption.guestCount = searchOptions.guestCount;
     damiSearchOption.childCount = searchOptions.childCount;
@@ -359,11 +344,13 @@ class _ExplorePageState extends State<ExplorePage> {
                       child: TextButton(
                         style: Component.textButtonStyle(),
                         onPressed: () {
-
                           setState(() {
-                            searchOptions.guestCount = damiSearchOption.guestCount;
-                            searchOptions.childCount = damiSearchOption.childCount;
-                            searchOptions.infantCount =damiSearchOption.infantCount;
+                            searchOptions.guestCount =
+                                damiSearchOption.guestCount;
+                            searchOptions.childCount =
+                                damiSearchOption.childCount;
+                            searchOptions.infantCount =
+                                damiSearchOption.infantCount;
                           });
                           Get.back();
                         },
@@ -429,6 +416,20 @@ class _ExplorePageState extends State<ExplorePage> {
               child: Component.showIcon(name: AssetsName.plus, size: 40))
         ],
       ),
+    );
+  }
+
+  button() {
+    return TextButton(
+      style: Component.textButtonStyle(),
+      onPressed: () {
+        Get.to(()=> ListingSearchPage(searchOptions: searchOptions));
+      },
+      child: Container(
+          height: 40,
+          width: double.infinity,
+          alignment: Alignment.center,
+          child: const Text('Search')),
     );
   }
 }

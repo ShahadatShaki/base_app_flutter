@@ -1,4 +1,5 @@
 import 'package:base_app_flutter/utility/Constrants.dart';
+import 'package:intl/intl.dart';
 
 class SearchOptions {
   String name = "";
@@ -22,8 +23,15 @@ class SearchOptions {
     // return checkinDate;
   }
 
+
+  // checkinDate ='${DateFormat('dd MMM, yyyy').format(args.value.startDate)}';
+
   dynamic getCheckinCheckoutDate() {
     return checkinDate.isNotEmpty ? "${checkinDate} - ${checkoutDate}" : "";
+  }
+
+  dynamic getCheckinCheckoutShortDate() {
+    return checkinDate.isNotEmpty ? "${DateFormat('MMM dd').format(checkinDateCalender!)} - ${DateFormat('MMM dd').format(checkoutDateCalender!)}" : "";
   }
 
   String getGuestCounts() {
@@ -69,5 +77,10 @@ class SearchOptions {
         infantCount = 0;
       }
     }
+  }
+
+  String getName() {
+
+    return name;
   }
 }

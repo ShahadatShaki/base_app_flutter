@@ -1,8 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:lottie/lottie.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 
 import '../utility/AppColors.dart';
 import '../utility/AssetsName.dart';
@@ -147,9 +147,7 @@ class Component {
       backgroundColor: AppColors.white,
       elevation: 0,
       leading: InkWell(
-        onTap: () => {
-          Get.back()
-        },
+        onTap: () => {Get.back()},
         child: Padding(
             padding: const EdgeInsets.all(14),
             child: Component.showIcon(name: AssetsName.back)),
@@ -158,9 +156,12 @@ class Component {
         width: double.infinity,
         alignment: Alignment.center,
         margin: const EdgeInsets.only(right: 40),
-        child:  Text(
+        child: Text(
           name,
-          style: const TextStyle(color: AppColors.textColorBlack, fontWeight: FontWeight.w600, fontSize: 18),
+          style: const TextStyle(
+              color: AppColors.textColorBlack,
+              fontWeight: FontWeight.w600,
+              fontSize: 18),
         ),
       ),
     );
@@ -172,6 +173,25 @@ class Component {
       foregroundColor: Colors.white,
       backgroundColor: AppColors.appColor,
       textStyle: const TextStyle(fontSize: 16),
+    );
+  }
+
+  static containerRoundShape({double size = 8}) {
+    return BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(size)),
+        color: AppColors.separator);
+  }
+
+  static loadImage({required String imageUrl, width, height}) {
+    return CachedNetworkImage(
+        fit: BoxFit.cover,
+        width: double.infinity,
+        imageUrl: imageUrl,
+        fadeInCurve: Curves.easeIn,
+      errorWidget: (context, url, error) {
+        return Image.asset(AssetsName.generic_placeholder, fit: BoxFit.cover,);
+      },
+
     );
   }
 }

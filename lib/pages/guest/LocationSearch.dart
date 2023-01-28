@@ -7,12 +7,14 @@ import 'package:get/get.dart';
 
 import '../../component/Component.dart';
 import '../../controller/LocationSearchController.dart';
+import '../../model/SearchOptions.dart';
 import '../../utility/AppColors.dart';
 
 class LocationSearch extends StatelessWidget {
   LocationSearchController controller = Get.put(LocationSearchController());
+  SearchOptions searchOptions;
 
-  LocationSearch({Key? key}) : super(key: key);
+  LocationSearch({required this.searchOptions, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -70,8 +72,12 @@ class LocationSearch extends StatelessWidget {
   cardDesign(LocationModel item) {
     var borderRadius = 8.0;
     return InkWell(
-      onTap: () => {
-        Get.back(result: item)
+      onTap: () {
+        searchOptions.name = item.name!;
+        searchOptions.lat = item.lat;
+        searchOptions.lng = item.lng;
+
+        Get.back(result: searchOptions);
       },
       child: Container(
         color: AppColors.separator,
@@ -109,7 +115,7 @@ class LocationSearch extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(8)),
           color: AppColors.separator),
       padding: const EdgeInsets.only(left: 16, right: 16),
-      child:  TextField(
+      child: TextField(
         controller: controller.searchEtController,
         onChanged: textChanged,
         decoration:
