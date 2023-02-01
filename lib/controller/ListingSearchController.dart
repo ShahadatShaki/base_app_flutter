@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:base_app_flutter/model/ListingModel.dart';
 import 'package:base_app_flutter/model/SearchOptions.dart';
+import 'package:base_app_flutter/utility/Constrants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/state_manager.dart';
 import 'package:http/http.dart' as http;
@@ -59,10 +60,12 @@ class ListingSearchController extends GetxController {
       "child": searchOptions.childCount.toString(),
       "infant": searchOptions.infantCount.toString(),
       "location": "${searchOptions.lat},${searchOptions.lng}",
-      if (searchOptions.checkinDate.isNotEmpty)
-        "from": searchOptions.checkinDate,
-      if (searchOptions.checkoutDate.isNotEmpty)
-        "to": searchOptions.checkoutDate,
+      if (searchOptions.checkinDateCalender != null)
+        "from": Constants.calenderToString(
+            searchOptions.checkinDateCalender!, "yyyy-MM-dd"),
+      if (searchOptions.checkoutDateCalender != null)
+        "to": Constants.calenderToString(
+            searchOptions.checkoutDateCalender!, "yyyy-MM-dd"),
     };
 
     var uri = Uri.https(Urls.ROOT_URL_MAIN, "/api/listing", queryParameters);

@@ -1,4 +1,4 @@
-import 'package:base_app_flutter/model/Image.dart';
+import 'package:base_app_flutter/model/ImageModel.dart';
 
 import '../base/Serializable.dart';
 
@@ -14,7 +14,7 @@ class UserProfileModel implements Serializable {
   int? averageResponse;
   int? status;
   int? osPlatform;
-  Image? image;
+  ImageModel? image;
   String? hostStatus;
 
   UserProfileModel(
@@ -44,7 +44,7 @@ class UserProfileModel implements Serializable {
     averageResponse = json['average_response'];
     status = json['status'];
     osPlatform = json['os_platform'];
-    image = json['image'] != null ? new Image.fromJson(json['image']) : null;
+    image = json['image'] != null ? new ImageModel.fromJson(json['image']) : null;
     hostStatus = json['host_status'];
   }
 

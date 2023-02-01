@@ -7,11 +7,47 @@ class SearchOptions {
   dynamic lng;
   DateTime? checkinDateCalender;
   DateTime? checkoutDateCalender;
-  String checkinDate = "";
-  String checkoutDate = "";
   int guestCount = 0;
   int childCount = 0;
   int infantCount = 0;
+
+  SearchOptions();
+
+  clone() {
+    SearchOptions options = SearchOptions();
+    var jsonString = toJson();
+    options = SearchOptions.fromJson(jsonString);
+    return options;
+  }
+
+  SearchOptions.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    lat = json['lat'];
+    lng = json['lng'];
+    checkinDateCalender = json['checkinDateCalender'];
+    checkoutDateCalender = json['checkoutDateCalender'];
+    // checkinDate = json['checkinDate'];
+    // checkoutDate = json['checkoutDate'];
+    guestCount = json['guestCount'];
+    childCount = json['childCount'];
+    infantCount = json['infantCount'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+
+    data['name'] = name;
+    data['lat'] = lat;
+    data['lng'] = lng;
+    data['checkinDateCalender'] = checkinDateCalender;
+    data['checkoutDateCalender'] = checkoutDateCalender;
+    // data['checkinDate'] = checkinDate;
+    // data['checkoutDate'] = checkoutDate;
+    data['guestCount'] = guestCount;
+    data['childCount'] = childCount;
+    data['infantCount'] = infantCount;
+    return data;
+  }
 
   dynamic dayDiff() {
     if (checkinDateCalender != null && checkoutDateCalender != null) {
@@ -23,16 +59,19 @@ class SearchOptions {
     // return checkinDate;
   }
 
-
   // checkinDate ='${DateFormat('dd MMM, yyyy').format(args.value.startDate)}';
 
-  dynamic getCheckinCheckoutDate() {
-    return checkinDate.isNotEmpty ? "${checkinDate} - ${checkoutDate}" : "";
+  String getCheckinCheckoutShortDate() {
+    return checkoutDateCalender != null
+        ? "${Constants.calenderToString(checkinDateCalender!, "dd MMM")} - ${Constants.calenderToString(checkoutDateCalender!, "dd MMM")}"
+        : "";
   }
 
-  dynamic getCheckinCheckoutShortDate() {
-    return checkinDate.isNotEmpty ? "${DateFormat('MMM dd').format(checkinDateCalender!)} - ${DateFormat('MMM dd').format(checkoutDateCalender!)}" : "";
-  }
+  // dynamic getCheckinCheckoutShortDate() {
+  //   return checkinDate.isNotEmpty
+  //       ? "${DateFormat('MMM dd').format(checkinDateCalender!)} - ${DateFormat('MMM dd').format(checkoutDateCalender!)}"
+  //       : "";
+  // }
 
   String getGuestCounts() {
     String result = "";
@@ -80,7 +119,6 @@ class SearchOptions {
   }
 
   String getName() {
-
     return name;
   }
 }

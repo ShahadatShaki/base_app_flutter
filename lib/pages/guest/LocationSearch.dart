@@ -73,7 +73,7 @@ class LocationSearch extends StatelessWidget {
     var borderRadius = 8.0;
     return InkWell(
       onTap: () {
-        searchOptions.name = item.name!;
+        searchOptions.name = item.getName()!;
         searchOptions.lat = item.lat;
         searchOptions.lng = item.lng;
 
@@ -92,7 +92,7 @@ class LocationSearch extends StatelessWidget {
                   width: 12,
                 ),
                 Text(
-                  item.name!,
+                  item.getName(),
                 )
               ],
             ),

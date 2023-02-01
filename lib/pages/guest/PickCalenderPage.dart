@@ -1,6 +1,7 @@
 import 'package:base_app_flutter/component/Component.dart';
 import 'package:base_app_flutter/model/SearchOptions.dart';
 import 'package:base_app_flutter/utility/AppColors.dart';
+import 'package:base_app_flutter/utility/Constrants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -18,11 +19,16 @@ class PickCalenderPage extends StatefulWidget {
 
 class _PickCalender extends State<PickCalenderPage> {
   SearchOptions searchOptions;
+  late SearchOptions damiSearchOptions;
 
-  _PickCalender({required this.searchOptions, Key? key});
+  _PickCalender({required this.searchOptions, Key? key}){
+    damiSearchOptions = searchOptions.clone();
+  }
+
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         appBar: Component.appbar(name: "Select Dates"),
         body: Container(
@@ -57,6 +63,7 @@ class _PickCalender extends State<PickCalenderPage> {
                 TextButton(
                   style: Component.textButtonStyle(),
                   onPressed: () {
+                    searchOptions = damiSearchOptions;
                     Get.back(result: searchOptions);
                   },
                   child: Container(
@@ -77,14 +84,14 @@ class _PickCalender extends State<PickCalenderPage> {
         Expanded(
           flex: 1,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text("Check In",
                   style: TextStyle(fontSize: 12, color: AppColors.darkGray)),
               Text(
-                  searchOptions.checkinDate.isEmpty
+                  damiSearchOptions.checkinDateCalender == null
                       ? "Check In"
-                      : searchOptions.checkinDate,
+                      : Constants.calenderToString(damiSearchOptions.checkinDateCalender!, "dd MMM, yyyy"),
                   style:
                       TextStyle(fontSize: 16, color: AppColors.textColorBlack)),
             ],
@@ -100,7 +107,7 @@ class _PickCalender extends State<PickCalenderPage> {
                 ),
                 borderRadius: const BorderRadius.all(Radius.circular(8))),
             child: Text(
-              "${searchOptions.dayDiff()}\nNight",
+              "${damiSearchOptions.dayDiff()}\nNight",
               textAlign: TextAlign.center,
               style: TextStyle(color: AppColors.appColor, fontSize: 12),
             ),
@@ -113,9 +120,9 @@ class _PickCalender extends State<PickCalenderPage> {
               const Text("Check In",
                   style: TextStyle(fontSize: 12, color: AppColors.darkGray)),
               Text(
-                  searchOptions.checkoutDate.isEmpty
+                  damiSearchOptions.checkoutDateCalender == null
                       ? "Check Out"
-                      : searchOptions.checkoutDate,
+                      : Constants.calenderToString(damiSearchOptions.checkoutDateCalender!, "dd MMM, yyyy") ,
                   style: const TextStyle(
                       fontSize: 16, color: AppColors.textColorBlack)),
             ],
@@ -129,12 +136,12 @@ class _PickCalender extends State<PickCalenderPage> {
     // inspect(dateRangePickerSelectionChangedArgs);
     if (args.value is PickerDateRange) {
       setState(() {
-        searchOptions.checkinDate =
-            '${DateFormat('dd MMM, yyyy').format(args.value.startDate)}';
-        searchOptions.checkoutDate =
-            ' ${DateFormat('dd MMM, yyyy').format(args.value.endDate ?? args.value.startDate)}';
-        searchOptions.checkinDateCalender = args.value.startDate;
-        searchOptions.checkoutDateCalender = args.value.endDate;
+        // damiSearchOptions.checkinDate =
+        //     '${DateFormat('dd MMM, yyyy').format(args.value.startDate)}';
+        // damiSearchOptions.checkoutDate =
+        //     ' ${DateFormat('dd MMM, yyyy').format(args.value.endDate ?? args.value.startDate)}';
+        damiSearchOptions.checkinDateCalender = args.value.startDate;
+        damiSearchOptions.checkoutDateCalender = args.value.endDate;
       });
     }
   }

@@ -1,4 +1,5 @@
 import 'package:base_app_flutter/pages/SplashScreen.dart';
+import 'package:base_app_flutter/utility/Fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
       title: 'Base App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        fontFamily: "Inter",
+        fontFamily: Fonts.regularFont,
       ),
       home: SplashScreen(),
     );

@@ -16,6 +16,17 @@ class AssetsName{
   static String guest = "assets/icon/guest.svg";
   static String calender = "assets/icon/calender.svg";
   static String search = "assets/icon/search.svg";
+  static String star = "assets/icon/star.svg";
   static String ic_location = "assets/icon/ic_location.svg";
+
+
+
+  static String semiBoldFont = "assets/fonts/Inter-SemiBold.ttf";
+  static String regularFont = "assets/fonts/Inter-Regular.ttf";
+  static String mediumFont = "assets/fonts/Inter-Medium.ttf";
+
+
+
+
 
 }

@@ -1,7 +1,8 @@
+import 'package:base_app_flutter/utility/Constrants.dart';
 
 import '../base/Serializable.dart';
 
-class LocationModel implements Serializable{
+class LocationModel implements Serializable {
   String? name;
   dynamic lat;
   dynamic lng;
@@ -9,15 +10,18 @@ class LocationModel implements Serializable{
   dynamic day;
   dynamic id;
 
-  LocationModel(
-      {this.name,
-      this.lat,
-      this.lng,
-      this.count,
-      this.day,
-      this.id,
-      }
-      );
+  getName() {
+    return Constants.capitalizeWords(name!);
+  }
+
+  LocationModel({
+    this.name,
+    this.lat,
+    this.lng,
+    this.count,
+    this.day,
+    this.id,
+  });
 
   LocationModel.fromJson(Map<String, dynamic> json) {
     name = json['name'];

@@ -163,18 +163,18 @@ class _ExplorePageState extends State<ExplorePage> {
                       style: TextStyle(
                           color: AppColors.darkGray,
                           fontSize:
-                              searchOptions.getCheckinCheckoutDate().isEmpty
+                              searchOptions.getCheckinCheckoutShortDate().isEmpty
                                   ? 16
                                   : 12),
                     ),
                     SizedBox(
                         height:
-                            searchOptions.getCheckinCheckoutDate().isNotEmpty
+                            searchOptions.getCheckinCheckoutShortDate().isNotEmpty
                                 ? 4
                                 : 0),
-                    searchOptions.getCheckinCheckoutDate().isNotEmpty
+                    searchOptions.getCheckinCheckoutShortDate().isNotEmpty
                         ? Text(
-                            searchOptions.getCheckinCheckoutDate(),
+                            searchOptions.getCheckinCheckoutShortDate(),
                             style: const TextStyle(
                                 color: AppColors.textColorBlack, fontSize: 16),
                           )

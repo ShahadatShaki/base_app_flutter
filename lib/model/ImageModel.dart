@@ -1,14 +1,13 @@
 import '../base/Serializable.dart';
 
-class Image implements Serializable {
-
+class ImageModel implements Serializable {
   int? id;
   String? url;
   dynamic priority;
 
-  Image({this.id, this.url, this.priority});
+  ImageModel({this.id, this.url, this.priority});
 
-  Image.fromJson(Map<String, dynamic> json) {
+  ImageModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     url = json['url'];
     priority = json['priority'];
@@ -21,5 +20,4 @@ class Image implements Serializable {
     data['priority'] = this.priority;
     return data;
   }
-
 }

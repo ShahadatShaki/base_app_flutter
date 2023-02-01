@@ -1,5 +1,6 @@
-import 'package:base_app_flutter/model/Image.dart';
+import 'package:base_app_flutter/model/ImageModel.dart';
 import 'package:base_app_flutter/model/UserProfileModel.dart';
+import 'package:flutter/material.dart';
 
 import '../base/Serializable.dart';
 import 'Cancellation.dart';
@@ -45,59 +46,19 @@ class ListingModel implements Serializable {
   Location? location;
   PropertyType? propertyType;
   String? status;
-  List<Image>? images;
+  List<ImageModel>? images;
   UserProfileModel? host;
   int? reviewsCount;
   dynamic reviewsAvg;
   Cancellation? cancellation;
   dynamic hotel;
+  int sliderCurrentPosition = 0;
 
-  ListingModel(
-      {this.id,
-      this.title,
-      this.placeType,
-      this.address,
-      this.maxGuest,
-      this.maxChild,
-      this.maxInfant,
-      this.minNights,
-      this.freeGuest,
-      this.bedroom,
-      this.beds,
-      this.bathroom,
-      this.price,
-      this.weekendPrice,
-      this.perGuestAmount,
-      this.checkIn,
-      this.checkOut,
-      this.description,
-      this.createdAt,
-      this.averageRating,
-      this.averageResponse,
-      this.totalAverage,
-      this.commissionRate,
-      this.commissionExpiredDate,
-      this.customCommission,
-      this.instantBookingType,
-      this.instantBookingFrom,
-      this.instantBookingTo,
-      this.instantBookingMessage,
-      this.totalCount,
-      this.showablePrice,
-      this.type,
-      this.advance,
-      this.commission,
-      this.beforeDiscount,
-      this.averagePrice,
-      this.location,
-      this.propertyType,
-      this.status,
-      this.images,
-      this.host,
-      this.reviewsCount,
-      this.reviewsAvg,
-      this.cancellation,
-      this.hotel});
+  ScrollController itemScrollController = ScrollController();
+
+  int getCurrentPrice() {
+    return averagePrice == 0 ? price! : averagePrice!;
+  }
 
   ListingModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -135,21 +96,21 @@ class ListingModel implements Serializable {
     advance = json['advance'];
     commission = json['commission'];
     beforeDiscount = json['before_discount'];
-    averagePrice = json['average_price'];
-    location = json['location'] != null
-        ? Location.fromJson(json['location'])
-        : null;
+    averagePrice = json['average_price'] ?? 0;
+    location =
+        json['location'] != null ? Location.fromJson(json['location']) : null;
     propertyType = json['property_type'] != null
         ? PropertyType.fromJson(json['property_type'])
         : null;
     status = json['status'];
     if (json['images'] != null) {
-      images = <Image>[];
+      images = <ImageModel>[];
       json['images'].forEach((v) {
-        images?.add(new Image.fromJson(v));
+        images?.add(ImageModel.fromJson(v));
       });
     }
-    host = json['host'] != null ? UserProfileModel.fromJson(json['host']) : null;
+    host =
+        json['host'] != null ? UserProfileModel.fromJson(json['host']) : null;
     reviewsCount = json['reviews_count'];
     reviewsAvg = json['reviews_avg'];
     cancellation = json['cancellation'] != null
@@ -218,8 +179,6 @@ class ListingModel implements Serializable {
     return data;
   }
 }
-
-
 
 class Location {
   double? lat;
