@@ -1,3 +1,4 @@
+import 'package:base_app_flutter/pages/ListingDetailsPage.dart';
 import 'package:base_app_flutter/pages/SplashScreen.dart';
 import 'package:base_app_flutter/utility/Fonts.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: Fonts.regularFont,
       ),
-      home: SplashScreen(),
+      // home: SplashScreen(),
+      home: ListingDetailsPage(listingId: "11",),
     );
   }
 }

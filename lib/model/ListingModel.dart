@@ -56,6 +56,9 @@ class ListingModel implements Serializable {
 
   ScrollController itemScrollController = ScrollController();
 
+
+  ListingModel();
+
   int getCurrentPrice() {
     return averagePrice == 0 ? price! : averagePrice!;
   }

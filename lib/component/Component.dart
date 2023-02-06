@@ -167,13 +167,21 @@ class Component {
     );
   }
 
-  static textButtonStyle() {
+  static textButtonStyle({double radius = 8}) {
     return TextButton.styleFrom(
-      shape: Component.roundShape(),
+      shape: Component.roundShape(radius: radius),
       foregroundColor: Colors.white,
       backgroundColor: AppColors.appColor,
       textStyle: const TextStyle(fontSize: 16),
     );
+  }
+
+  static textButtonText(String s) {
+    return Container(
+        height: 40,
+        width: double.infinity,
+        alignment: Alignment.center,
+        child: Text(s, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),));
   }
 
   static containerRoundShape({double size = 8}) {
@@ -182,16 +190,39 @@ class Component {
         color: AppColors.separator);
   }
 
-  static loadImage({required String imageUrl, width, height}) {
-    return CachedNetworkImage(
-        fit: BoxFit.cover,
-        width: double.infinity,
-        imageUrl: imageUrl,
-        fadeInCurve: Curves.easeIn,
-      errorWidget: (context, url, error) {
-        return Image.asset(AssetsName.generic_placeholder, fit: BoxFit.cover,);
-      },
+  static Widget loadImage({required String imageUrl, double width = double.infinity, double height = 50, double cornerRadius = 0}) {
+    return ClipRRect(
+        borderRadius: BorderRadius.all(Radius.circular(cornerRadius)),
+        child: CachedNetworkImage(
+          fit: BoxFit.cover,
+          width: width,
+          height: height,
+          imageUrl: imageUrl,
+          fadeInCurve: Curves.easeIn,
+          errorWidget: (context, url, error) {
+            return Image.asset(
+              AssetsName.generic_placeholder,
+              fit: BoxFit.cover,
+            );
+          },
+        ));
+  }
 
-    );
+  static Widget loadCircleImage({required String imageUrl, double width = double.infinity, double height = 50, double cornerRadius = 0}) {
+    return ClipOval(
+        // borderRadius: BorderRadius.all(Radius.circular(cornerRadius)),
+        child: CachedNetworkImage(
+          fit: BoxFit.cover,
+          width: width,
+          height: height,
+          imageUrl: imageUrl,
+          fadeInCurve: Curves.easeIn,
+          errorWidget: (context, url, error) {
+            return Image.asset(
+              AssetsName.generic_placeholder,
+              fit: BoxFit.cover,
+            );
+          },
+        ));
   }
 }

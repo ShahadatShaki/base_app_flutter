@@ -4,13 +4,14 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
-import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import '../../component/Component.dart';
+import '../../component/ImageSlider.dart';
 import '../../controller/ListingSearchController.dart';
 import '../../model/ListingModel.dart';
 import '../../model/SearchOptions.dart';
 import '../../utility/AppColors.dart';
+import '../ListingDetailsPage.dart';
 
 class ListingSearchPage extends StatelessWidget {
   final ListingSearchController controller = Get.put(ListingSearchController());
@@ -96,32 +97,47 @@ class ListingSearchPage extends StatelessWidget {
                       color: AppColors.textColorBlack,
                     ),
                   ),
-                  SizedBox(height: 6),
-                  Row(
-                    children: [
-                      Text(
-                        searchOptions.getCheckinCheckoutShortDate(),
-                        style: const TextStyle(
-                            fontSize: 12, color: AppColors.textColorBlack),
-                      ), //Date Text
-                      SizedBox(
-                          width: searchOptions
+                  SizedBox(
+                      height: searchOptions.guestCount != 0 ||
+                              searchOptions
                                   .getCheckinCheckoutShortDate()
                                   .isNotEmpty
-                              ? 16
-                              : 0),
-                      Component.showIcon(
-                        name: AssetsName.guest_fill,
-                        size: 16,
-                      ),
-                      SizedBox(width: 8),
-                      Text(
-                        "${searchOptions.guestCount}",
-                        style: const TextStyle(
-                            fontSize: 12, color: AppColors.textColorBlack),
-                      ), //Guest Count Text
-                    ],
-                  )
+                          ? 6
+                          : 0),
+                  searchOptions.guestCount == 0 &&
+                          searchOptions.getCheckinCheckoutShortDate().isEmpty
+                      ? SizedBox()
+                      : Row(
+                          children: [
+                            Text(
+                              searchOptions.getCheckinCheckoutShortDate(),
+                              style: const TextStyle(
+                                  fontSize: 12,
+                                  color: AppColors.textColorBlack),
+                            ), //Date Text
+                            SizedBox(
+                                width: searchOptions
+                                        .getCheckinCheckoutShortDate()
+                                        .isNotEmpty
+                                    ? 16
+                                    : 0),
+                            searchOptions.guestCount != 0
+                                ? Component.showIcon(
+                                    name: AssetsName.guest_fill,
+                                    size: 16,
+                                  )
+                                : const SizedBox(),
+                            SizedBox(width: 8),
+                            searchOptions.guestCount != 0
+                                ? Text(
+                                    "${searchOptions.guestCount}",
+                                    style: const TextStyle(
+                                        fontSize: 12,
+                                        color: AppColors.textColorBlack),
+                                  )
+                                : SizedBox(), //Guest Count Text
+                          ],
+                        )
                 ],
               ),
             ),
@@ -131,183 +147,131 @@ class ListingSearchPage extends StatelessWidget {
   }
 
   cardDesign(int index, ListingModel item) {
-    return Container(
-      padding: const EdgeInsets.only(left: 24, right: 24, top: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(
-            alignment: Alignment.bottomCenter,
-            children: [
-              CarouselSlider(
-                items: getImageSlider(item),
-                options: CarouselOptions(
-                    viewportFraction: 1,
-                    enlargeCenterPage: false,
-                    onPageChanged: (i, reason) {
-                      item.sliderCurrentPosition = i;
-                      controller.dataList[index] = item;
-                    },
-                    enableInfiniteScroll: true),
-              ),
-              indicator(item),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                child: Text(
-                  item.title!,
-                  maxLines: 2,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 16,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 16),
-              Component.showIcon(name: AssetsName.star, size: 16),
-              const SizedBox(width: 4),
-              Text(
-                "${item.reviewsAvg} (${item.reviewsCount})",
-                style: const TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 12,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 6),
-          Text(
-            item.address!,
-            style: const TextStyle(
-              color: AppColors.darkGray,
-              fontWeight: FontWeight.w400,
-              fontSize: 14,
-            ),
-          ),
-          const SizedBox(height: 12),
-          (item.price! > item.averagePrice!) && item.averagePrice != 0
-              ? Container(
-                  margin: EdgeInsets.only(bottom: 8),
+    return InkWell(
+      onTap: () {
+        Get.to(() => ListingDetailsPage(listingId: item.id!.toString()));
+      },
+      child: Container(
+        padding: const EdgeInsets.only(left: 24, right: 24, top: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            imageSlider(index, item),
+            const SizedBox(height: 16),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
                   child: Text(
-                    "BDT ${item.price} ",
+                    item.title!,
+                    maxLines: 2,
                     style: const TextStyle(
-                      color: AppColors.darkGray,
-                      decoration: TextDecoration.lineThrough,
                       fontWeight: FontWeight.w500,
-                      fontSize: 12,
+                      fontSize: 16,
                     ),
                   ),
-                )
-              : SizedBox(),
-          Container(
-            margin: EdgeInsets.only(bottom: 12),
-            child: RichText(
-              text: TextSpan(
-                children: <TextSpan>[
-                  TextSpan(
-                      text: 'BDT ${item.getCurrentPrice()}',
-                      style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.textColorBlack)),
-                  const TextSpan(
-                      text: ' /day',
-                      style:
-                          TextStyle(fontSize: 16, color: AppColors.darkGray)),
-                ],
+                ),
+                const SizedBox(width: 16),
+                Component.showIcon(name: AssetsName.star, size: 16),
+                const SizedBox(width: 4),
+                Text(
+                  "${item.reviewsAvg} (${item.reviewsCount})",
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 12,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 6),
+            Text(
+              item.address!,
+              style: const TextStyle(
+                color: AppColors.darkGray,
+                fontWeight: FontWeight.w400,
+                fontSize: 14,
               ),
             ),
-          ),
-          controller.searchOptions.dayDiff() != 0
-              ? RichText(
-                  text: TextSpan(
-                    children: <TextSpan>[
-                      TextSpan(
-                          text:
-                              'BDT ${item.getCurrentPrice() * controller.searchOptions.dayDiff()}',
-                          style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.textColorBlack)),
-                      const TextSpan(
-                          text: ' /day',
-                          style: TextStyle(
-                              fontSize: 16, color: AppColors.darkGray)),
-                    ],
-                  ),
-                )
-              : SizedBox()
-        ],
-      ),
-    );
-  }
-
-  getImageSlider(ListingModel item) {
-    List<Widget> imageSliders = item.images!
-        .map(
-          (item) => ClipRRect(
-            borderRadius: const BorderRadius.all(Radius.circular(20)),
-            child: InkWell(
-              onTap: () => {Constants.showToast("Slider clicked")},
-              child: Component.loadImage(imageUrl: item.url!),
+            const SizedBox(height: 12),
+            (item.price! > item.averagePrice!) && item.averagePrice != 0
+                ? Container(
+                    margin: EdgeInsets.only(bottom: 8),
+                    child: Text(
+                      "BDT ${item.price} ",
+                      style: const TextStyle(
+                        color: AppColors.darkGray,
+                        decoration: TextDecoration.lineThrough,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 12,
+                      ),
+                    ),
+                  )
+                : SizedBox(),
+            Container(
+              margin: EdgeInsets.only(bottom: 12),
+              child:
+              RichText(
+                text: TextSpan(
+                  children: <TextSpan>[
+                    TextSpan(
+                        text: 'BDT ${item.getCurrentPrice()}',
+                        style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.textColorBlack)),
+                    const TextSpan(
+                        text: ' /day',
+                        style:
+                            TextStyle(fontSize: 16, color: AppColors.darkGray)),
+                  ],
+                ),
+              ),
             ),
-          ),
-        )
-        .toList();
-
-    return imageSliders;
-  }
-
-  indicator(ListingModel item)  {
-
-    indicatorPositionScroll(item);
-    Widget widget =  Container(
-      alignment: Alignment.center,
-      height: 8,
-      margin: EdgeInsets.only(bottom: 12),
-      width: 144,
-      child: ListView.builder(
-        itemCount: item.images!.length,
-        scrollDirection: Axis.horizontal,
-        controller: item.itemScrollController,
-        shrinkWrap: true,
-        itemBuilder: (context, index) {
-
-          return Container(
-            width: 8,
-            height: 8,
-            margin: EdgeInsets.symmetric(horizontal: 4.0),
-            decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: (Theme.of(context).brightness == Brightness.dark
-                        ? Colors.white
-                        : Colors.black)
-                    .withOpacity(
-                        item.sliderCurrentPosition == index ? 0.9 : 0.4)),
-          );
-        },
+            controller.searchOptions.dayDiff() != 0
+                ? RichText(
+                    text: TextSpan(
+                      children: <TextSpan>[
+                        TextSpan(
+                            text:
+                                'BDT ${item.getCurrentPrice() * controller.searchOptions.dayDiff()}',
+                            style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.textColorBlack)),
+                        const TextSpan(
+                            text: ' /day',
+                            style: TextStyle(
+                                fontSize: 16, color: AppColors.darkGray)),
+                      ],
+                    ),
+                  )
+                : SizedBox()
+          ],
+        ),
       ),
     );
-
-
-    return widget;
   }
 
-  Future<void> indicatorPositionScroll(ListingModel item) async {
-    if(item.sliderCurrentPosition> 4){
-      double currentScroll = item.itemScrollController.position.pixels;
-      currentScroll = (item.sliderCurrentPosition-4)*16;
-      // currentScroll = currentScroll+16;
-      item.itemScrollController.animateTo(currentScroll, duration: Duration(milliseconds: 1000),
-          curve: Curves.ease);
-    }
-
-    // item.itemScrollController.jumpTo(index: item.sliderCurrentPosition);
+  imageSlider(int index, ListingModel item) {
+    return Stack(
+      alignment: Alignment.bottomCenter,
+      children: [
+        CarouselSlider(
+          items: ImageSlider.getImageSlider(item),
+          options: CarouselOptions(
+              viewportFraction: 1,
+              enlargeCenterPage: false,
+              onPageChanged: (i, reason) {
+                item.sliderCurrentPosition = i;
+                controller.dataList[index] = item;
+              },
+              enableInfiniteScroll: true),
+        ),
+        ImageSlider.indicator(item),
+      ],
+    );
   }
+
 
 
 }

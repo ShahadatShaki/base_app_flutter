@@ -11,6 +11,14 @@ class AssetsName{
   static String edit = "assets/icon/edit.svg";
   static String guest_fill = "assets/icon/guest_fill.svg";
   static String minus = "assets/icon/minus.svg";
+  static String bed = "assets/icon/bed.svg";
+  static String bathroom = "assets/icon/bathroom.svg";
+  static String clock = "assets/icon/clock.svg";
+  static String verify = "assets/icon/verify.svg";
+  static String language = "assets/icon/language.svg";
+  static String bedroom = "assets/icon/bedroom.svg";
+  static String response_rate = "assets/icon/response_rate.svg";
+  static String max_guest = "assets/icon/max_guest.svg";
   static String plus = "assets/icon/plus.svg";
   static String bookings = "assets/icon/bookings.svg";
   static String guest = "assets/icon/guest.svg";
