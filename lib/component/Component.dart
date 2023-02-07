@@ -176,12 +176,12 @@ class Component {
     );
   }
 
-  static textButtonText(String s) {
+  static textButtonText({required String buttonTitle, double  width = double.infinity }) {
     return Container(
         height: 40,
-        width: double.infinity,
+        width: width,
         alignment: Alignment.center,
-        child: Text(s, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),));
+        child: Text(buttonTitle, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),));
   }
 
   static containerRoundShape({double size = 8}) {

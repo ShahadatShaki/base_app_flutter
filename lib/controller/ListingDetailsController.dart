@@ -9,11 +9,12 @@ import 'package:http/http.dart' as http;
 import '../base/ApiResponseList.dart';
 import '../utility/Urls.dart';
 
-class ListingDetailsController extends GetxController {
+class ListingController extends GetxController {
   var listing = ListingModel().obs;
   var listingId  = "";
   var apiCalled = false.obs;
   bool callingApi = false;
+  String errorMessage = "";
 
   @override
   void onInit() {
@@ -39,6 +40,8 @@ class ListingDetailsController extends GetxController {
       var res = ApiResponse<ListingModel>.fromJson(
           json.decode(response.body), (data) => ListingModel.fromJson(data));
       listing.value = res.data!;
+    }else{
+      // errorMessage = response.
     }
 
     apiCalled.value = true;
