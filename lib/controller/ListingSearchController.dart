@@ -15,7 +15,6 @@ class ListingSearchController extends GetxController {
   late SearchOptions searchOptions;
   var apiCalled = false.obs;
   late ScrollController scrollController;
-  late TextEditingController searchEtController;
   var isSearching = false;
   var page = 1;
   bool callingApi = false;
@@ -23,7 +22,6 @@ class ListingSearchController extends GetxController {
 
   @override
   void onInit() {
-    searchEtController = TextEditingController();
 
     scrollController = ScrollController()
       ..addListener(() {
@@ -90,6 +88,5 @@ class ListingSearchController extends GetxController {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    searchEtController.dispose();
   }
 }

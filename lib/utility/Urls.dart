@@ -27,7 +27,7 @@ class Urls {
 
   static getDio() async {
     var options = BaseOptions(
-      baseUrl: Urls.ROOT_URL_MAIN,
+      baseUrl: "https://"+Urls.ROOT_URL_MAIN+"/",
       headers: await Urls.getHeaders(),
       connectTimeout: 50000,
       receiveTimeout: 30000,

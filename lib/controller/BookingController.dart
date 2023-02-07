@@ -13,11 +13,10 @@ import 'package:get/state_manager.dart';
 import 'package:http/http.dart' as http;
 
 import '../base/ApiResponseList.dart';
-import '../pages/BookingDetailsPage.dart';
 import '../utility/DioExceptions.dart';
 import '../utility/Urls.dart';
 
-class ListingController extends GetxController {
+class BookingController extends GetxController {
   var listing = ListingModel().obs;
   var listingId = "";
   var apiCalled = false.obs;
@@ -78,7 +77,7 @@ class ListingController extends GetxController {
     print(dio);
     try {
       var response = await dio.post('api/booking', data: formData);
-      Get.to(()=> BookingDetailsPage(listingId: "1"));
+      Get.to(()=> ExplorePage());
       print(response.data);
     } catch (e) {
       print("response: " + DioExceptions.fromDioError(e as DioError).message);

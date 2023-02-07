@@ -19,7 +19,6 @@ class ExplorePage extends StatefulWidget {
 
 class _ExplorePageState extends State<ExplorePage> {
   SearchOptions searchOptions = SearchOptions();
-  String checkinCheckout = "sfjkjkj";
   String guestCount = "sfjkjkj";
 
   @override
@@ -118,7 +117,6 @@ class _ExplorePageState extends State<ExplorePage> {
   }
 
   checkinCheckoutLayout() {
-    checkinCheckout = "";
 
     return Container(
       decoration: BoxDecoration(

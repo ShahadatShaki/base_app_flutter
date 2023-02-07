@@ -12,10 +12,10 @@ import '../../component/Component.dart';
 import '../../model/ListingModel.dart';
 import '../../utility/AppColors.dart';
 import '../component/ImageSlider.dart';
+import 'guest/BookingRequestPage.dart';
 
 class ListingDetailsPage extends StatelessWidget {
-  final ListingController controller =
-      Get.put(ListingController());
+  final ListingController controller = Get.put(ListingController());
   String listingId;
   late BuildContext context;
 
@@ -39,16 +39,13 @@ class ListingDetailsPage extends StatelessWidget {
     );
   }
 
-
-
   showListOrEmptyView() {
     return Container(
         child: !controller.apiCalled.value
             ? Component.loadingView()
             : (controller.apiCalled.value &&
                     controller.listing.value.title != null)
-                ?
-        uiDesign(controller.listing.value)
+                ? uiDesign(controller.listing.value)
                 : Component.emptyView("Something Went Wrong",
                     "assets/animation/error_animation.json"));
   }
@@ -437,31 +434,35 @@ class ListingDetailsPage extends StatelessWidget {
                               color: AppColors.textColorBlack)),
                       const TextSpan(
                           text: ' /day',
-                          style:
-                              TextStyle(fontSize: 14, color: AppColors.darkGray)),
+                          style: TextStyle(
+                              fontSize: 14, color: AppColors.darkGray)),
                     ],
                   ),
                 ),
               ],
             ),
           ),
-          bookNowButton()
+          bookNowButton(item)
         ],
       ),
     );
   }
 
-  bookNowButton() {
+  bookNowButton(ListingModel item) {
     return TextButton(
       style: Component.textButtonStyle(radius: 4),
       onPressed: () {
-        // Get.to(()=> ListingSearchPage(searchOptions: searchOptions));
+        Get.to(() =>
+            BookingRequestPage(listingId: item.id!.toString(), listing: item));
       },
       child: Container(
           height: 40,
           margin: EdgeInsets.only(left: 50, right: 50),
           alignment: Alignment.center,
-          child: Text("Book  Now", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),)),
+          child: Text(
+            "Book  Now",
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+          )),
     );
   }
 }
