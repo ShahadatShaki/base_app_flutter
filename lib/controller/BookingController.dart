@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:base_app_flutter/base/ApiResponse.dart';
+import 'package:base_app_flutter/model/BookingModel.dart';
 import 'package:base_app_flutter/model/ListingModel.dart';
 import 'package:base_app_flutter/model/SearchOptions.dart';
 import 'package:base_app_flutter/pages/guest/home/ExplorePage.dart';
@@ -17,36 +18,36 @@ import '../utility/DioExceptions.dart';
 import '../utility/Urls.dart';
 
 class BookingController extends GetxController {
-  var listing = ListingModel().obs;
-  var listingId = "";
+  var booking = BookingModel().obs;
+  var id = "";
   var apiCalled = false.obs;
   bool callingApi = false;
   String errorMessage = "";
   var searchOptions = SearchOptions().obs;
-  late TextEditingController messageController;
 
   @override
   void onInit() {
-    messageController = TextEditingController();
     super.onInit();
   }
 
-  getData() async {
+  getSingleBooking(String bookingId) async {
     if (callingApi) {
       return;
     }
 
+    this.id = bookingId;
+
     callingApi = true;
 
     var client = http.Client();
-    var uri = Uri.https(Urls.ROOT_URL_MAIN, "/api/listing/$listingId");
+    var uri = Uri.https(Urls.ROOT_URL_MAIN, "/api/booking/$bookingId");
     var response = await client.get(uri, headers: await Urls.getHeaders());
     debugPrint(response.body);
 
     if (response.statusCode == 200) {
-      var res = ApiResponse<ListingModel>.fromJson(
-          json.decode(response.body), (data) => ListingModel.fromJson(data));
-      listing.value = res.data!;
+      var res = ApiResponse<BookingModel>.fromJson(
+          json.decode(response.body), (data) => BookingModel.fromJson(data));
+      booking.value = res.data!;
     } else {
       // errorMessage = response.
     }
@@ -67,9 +68,8 @@ class BookingController extends GetxController {
 
     Dio dio = await Urls.getDio();
     var formData = FormData.fromMap({
-      'listing_id': listingId,
+      'listing_id': id,
       'guests': searchOptions.value.guestCount,
-      'message': messageController.text,
       'from': Constants.calenderToString(searchOptions.value.checkinDateCalender!,"yyyy-MM-dd"),
       'to': Constants.calenderToString(searchOptions.value.checkoutDateCalender!,"yyyy-MM-dd"),
     });
@@ -86,8 +86,6 @@ class BookingController extends GetxController {
 
   @override
   void dispose() {
-    // TODO: implement dispose
-    messageController.dispose();
     super.dispose();
   }
 }

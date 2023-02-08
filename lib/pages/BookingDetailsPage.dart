@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:base_app_flutter/controller/ListingDetailsController.dart';
+import 'package:base_app_flutter/model/BookingModel.dart';
 import 'package:base_app_flutter/utility/AssetsName.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -12,23 +13,24 @@ import '../../component/Component.dart';
 import '../../model/ListingModel.dart';
 import '../../utility/AppColors.dart';
 import '../component/ImageSlider.dart';
+import '../controller/BookingController.dart';
 import 'guest/BookingRequestPage.dart';
 
 class BookingDetailsPage extends StatelessWidget {
-  final ListingController controller = Get.put(ListingController());
-  String listingId;
+  final BookingController controller = Get.put(BookingController());
+  String id;
   late BuildContext context;
+  late BookingModel item;
 
-  BookingDetailsPage({required this.listingId, Key? key}) : super(key: key);
+  BookingDetailsPage({required this.id, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    controller.listingId = listingId;
-    controller.getData();
+    controller.getSingleBooking(id);
     this.context = context;
     return Scaffold(
       backgroundColor: AppColors.white,
-      appBar: Component.appbar(name: "Details"),
+      appBar: Component.appbar(name: "Booking Details"),
       body: getMainLayout(),
     );
   }
@@ -44,15 +46,25 @@ class BookingDetailsPage extends StatelessWidget {
         child: !controller.apiCalled.value
             ? Component.loadingView()
             : (controller.apiCalled.value &&
-                    controller.listing.value.title != null)
-                ? uiDesign(controller.listing.value)
+                    controller.booking.value.id != null)
+                ? uiDesign(controller.booking.value)
                 : Component.emptyView("Something Went Wrong",
                     "assets/animation/error_animation.json"));
   }
 
-  uiDesign(ListingModel value) {
+  uiDesign(BookingModel value) {
+    item =  value;
+
     return Container(
-      child: Text("Booking Details"),
+      child: Container(
+        margin: EdgeInsets.only(left: 24, right: 24, top: 16, bottom: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+
+          ],
+        ),
+      ),
     );
   }
 

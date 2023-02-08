@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:base_app_flutter/base/ApiResponse.dart';
+import 'package:base_app_flutter/model/BookingModel.dart';
 import 'package:base_app_flutter/model/ListingModel.dart';
 import 'package:base_app_flutter/model/SearchOptions.dart';
 import 'package:base_app_flutter/pages/guest/home/ExplorePage.dart';
@@ -75,13 +76,23 @@ class ListingController extends GetxController {
       'to': Constants.calenderToString(searchOptions.value.checkoutDateCalender!,"yyyy-MM-dd"),
     });
 
-    print(dio);
     try {
       var response = await dio.post('api/booking', data: formData);
-      Get.to(()=> BookingDetailsPage(listingId: "1"));
+
+      var responseBody = response.data;
+      BookingModel m = BookingModel.fromJson(responseBody["data"]);
+      print(responseBody);
+
+      // var res = ApiResponse<BookingModel>.fromJson(
+      //     json.decode(response.data.toString()), (data) => BookingModel.fromJson(data));
+      //
+      // BookingModel bookingModel = res.data!;
+      // Get.to(()=> BookingDetailsPage(id: bookingModel.id!,));
+
       print(response.data);
     } catch (e) {
-      print("response: " + DioExceptions.fromDioError(e as DioError).message);
+      // print("response: " + DioExceptions.fromDioError(e as DioError).message);
+      print("response: "+e.toString());
     }
   }
 
