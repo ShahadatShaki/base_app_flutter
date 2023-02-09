@@ -14,19 +14,19 @@ class BookingModel implements Serializable {
   String? from;
   String? to;
   String? totalGuest;
-  int? price;
-  int? commission;
-  int? discount;
-  int? moreNightsDiscount;
-  int? totalPayable;
-  int? extraGuestCharge;
-  int? serviceFee;
-  int? paid;
+  String? price;
+  String? commission;
+  String? discount;
+  String? moreNightsDiscount;
+  String? totalPayable;
+  String? extraGuestCharge;
+  String? serviceFee;
+  String? paid;
   String? status;
   String? createdAt;
   List<Null>? reviews;
   String? statusUpdatedAt;
-  int? osPlatform;
+  String? osPlatform;
 
   BookingModel({
     this.id,
@@ -55,7 +55,7 @@ class BookingModel implements Serializable {
 
   BookingModel.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString();
-    formattedId = json['formatted_id'];
+    formattedId = json['formatted_id'].toString();
     guest = json['guest'] != null ? new UserProfileModel.fromJson(json['guest']) : null;
     host = json['host'] != null ? new UserProfileModel.fromJson(json['host']) : null;
     listing =
@@ -66,27 +66,27 @@ class BookingModel implements Serializable {
         images!.add(new ImageModel.fromJson(v));
       });
     }
-    from = json['from'];
-    to = json['to'];
-    totalGuest = json['total_guest'];
-    price = json['price'];
-    commission = json['commission'];
-    discount = json['discount'];
-    moreNightsDiscount = json['more_nights_discount'];
-    totalPayable = json['total_payable'];
-    extraGuestCharge = json['extra_guest_charge'];
-    serviceFee = json['service_fee'];
-    paid = json['paid'];
-    status = json['status'];
-    createdAt = json['created_at'];
+    from = json['from'].toString();
+    to = json['to'].toString();
+    totalGuest = json['total_guest'].toString();
+    price = json['price'].toString();
+    commission = json['commission'].toString();
+    discount = json['discount'].toString();
+    moreNightsDiscount = json['more_nights_discount'].toString();
+    totalPayable = json['total_payable'].toString();
+    extraGuestCharge = json['extra_guest_charge'].toString();
+    serviceFee = json['service_fee'].toString();
+    paid = json['paid'].toString();
+    status = json['status'].toString();
+    createdAt = json['created_at'].toString();
     // if (json['reviews'] != null) {
     //   reviews = <Null>[];
     //   json['reviews'].forEach((v) {
     //     reviews!.add(new Null.fromJson(v));
     //   });
     // }
-    statusUpdatedAt = json['status_updated_at'];
-    osPlatform = json['os_platform'];
+    statusUpdatedAt = json['status_updated_at'].toString();
+    osPlatform = json['os_platform'].toString();
   }
 
   Map<String, dynamic> toJson() => {

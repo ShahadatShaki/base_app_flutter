@@ -46,15 +46,15 @@ class LocationSearch extends StatelessWidget {
               child: Component.loadingView()),
           Visibility(
             visible: controller.apiCalled.value &&
-                controller.dataList.value.isNotEmpty,
+                controller.dataList.isNotEmpty,
             // visible: false,
             child: Expanded(
               child: ListView.builder(
                 controller: controller.scrollController,
-                itemCount: controller.dataList.value.length,
+                itemCount: controller.dataList.length,
                 shrinkWrap: true,
                 itemBuilder: (BuildContext c, int index) {
-                  return cardDesign(controller.dataList.value[index]);
+                  return cardDesign(controller.dataList[index]);
                 },
               ),
             ),

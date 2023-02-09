@@ -1,5 +1,4 @@
 import 'package:base_app_flutter/utility/AssetsName.dart';
-import 'package:base_app_flutter/utility/Constrants.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -45,6 +44,16 @@ class ListingSearchPage extends StatelessWidget {
 
   showListOrEmptyView() {
     return Expanded(
+      child: Container(
+          child: !controller.apiCalled.value
+              ? Component.loadingView()
+              : (controller.apiCalled.value && controller.dataList.isNotEmpty)
+                  ? uiDesign()
+                  : Component.emptyView("No Data Found",
+                      "assets/animation/empty_item.json")),
+    );
+
+    return Expanded(
       child: Column(
         children: [
           Visibility(
@@ -73,6 +82,17 @@ class ListingSearchPage extends StatelessWidget {
                   "No Data Found", "assets/animation/empty_item.json")),
         ],
       ),
+    );
+  }
+
+  uiDesign() {
+    return ListView.builder(
+      controller: controller.scrollController,
+      itemCount: controller.dataList.value.length,
+      // shrinkWrap: true,
+      itemBuilder: (BuildContext c, int index) {
+        return cardDesign(index, controller.dataList.value[index]);
+      },
     );
   }
 
@@ -209,8 +229,7 @@ class ListingSearchPage extends StatelessWidget {
                 : SizedBox(),
             Container(
               margin: EdgeInsets.only(bottom: 12),
-              child:
-              RichText(
+              child: RichText(
                 text: TextSpan(
                   children: <TextSpan>[
                     TextSpan(
@@ -271,7 +290,4 @@ class ListingSearchPage extends StatelessWidget {
       ],
     );
   }
-
-
-
 }

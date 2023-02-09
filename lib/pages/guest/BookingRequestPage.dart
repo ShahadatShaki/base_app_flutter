@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../component/Component.dart';
+import '../../component/GuestBottomSheet.dart';
 import '../../model/ListingModel.dart';
 import '../../utility/AppColors.dart';
 import 'PickCalenderPage.dart';
@@ -172,7 +173,7 @@ class BookingRequestPage extends StatelessWidget {
         elevation: 0,
         child: InkWell(
           onTap: ()  {
-            Component.showGuestCountBottomSheet(context, controller.searchOptions);
+            GuestBottomSheet.showGuestCountBottomSheet(context, controller.searchOptions);
           },
           child: Container(
             height: 70,

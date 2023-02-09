@@ -1,5 +1,6 @@
 import 'package:base_app_flutter/pages/ListingDetailsPage.dart';
 import 'package:base_app_flutter/pages/SplashScreen.dart';
+import 'package:base_app_flutter/pages/guest/home/MyBookings.dart';
 import 'package:base_app_flutter/utility/Fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
         fontFamily: Fonts.regularFont,
       ),
       // home: SplashScreen(),
-      home: ListingDetailsPage(listingId: "11",),
+      home: MyBookings(),
     );
   }
 }

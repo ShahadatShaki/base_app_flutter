@@ -42,7 +42,9 @@ class ListingSearchController extends GetxController {
   }
 
   getData() async {
-    print(page);
+    if(callingApi) {
+      return;
+    }
 
     callingApi = true;
     var client = http.Client();
