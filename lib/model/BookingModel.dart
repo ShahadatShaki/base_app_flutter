@@ -1,6 +1,7 @@
 import 'package:base_app_flutter/model/ImageModel.dart';
 import 'package:base_app_flutter/model/ListingModel.dart';
 import 'package:base_app_flutter/model/UserProfileModel.dart';
+import 'package:base_app_flutter/utility/Constrants.dart';
 
 import '../base/Serializable.dart';
 
@@ -28,38 +29,29 @@ class BookingModel implements Serializable {
   String? statusUpdatedAt;
   String? osPlatform;
 
-  BookingModel({
-    this.id,
-    this.formattedId,
-    this.guest,
-    this.host,
-    this.listing,
-    this.images,
-    this.from,
-    this.to,
-    this.totalGuest,
-    this.price,
-    this.commission,
-    this.discount,
-    this.moreNightsDiscount,
-    this.totalPayable,
-    this.extraGuestCharge,
-    this.serviceFee,
-    this.paid,
-    this.status,
-    this.createdAt,
-    // this.reviews,
-    this.statusUpdatedAt,
-    this.osPlatform,
-  });
+  BookingModel();
+
+  DateTime calenderTo() {
+    DateTime date = DateTime.parse(to!);
+    return date;
+  }
+  DateTime calenderFrom() {
+    DateTime date = DateTime.parse(from!);
+    return date;
+  }
 
   BookingModel.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString();
     formattedId = json['formatted_id'].toString();
-    guest = json['guest'] != null ? new UserProfileModel.fromJson(json['guest']) : null;
-    host = json['host'] != null ? new UserProfileModel.fromJson(json['host']) : null;
-    listing =
-        json['listing'] != null ? new ListingModel.fromJson(json['listing']) : null;
+    guest = json['guest'] != null
+        ? new UserProfileModel.fromJson(json['guest'])
+        : null;
+    host = json['host'] != null
+        ? new UserProfileModel.fromJson(json['host'])
+        : null;
+    listing = json['listing'] != null
+        ? new ListingModel.fromJson(json['listing'])
+        : null;
     if (json['images'] != null) {
       images = <ImageModel>[];
       json['images'].forEach((v) {

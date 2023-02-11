@@ -3,6 +3,7 @@ import 'package:base_app_flutter/controller/BookingController.dart';
 import 'package:base_app_flutter/model/BookingModel.dart';
 import 'package:base_app_flutter/pages/ListingDetailsPage.dart';
 import 'package:base_app_flutter/utility/AppColors.dart';
+import 'package:base_app_flutter/utility/Constrants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
@@ -33,7 +34,7 @@ class MyBookings extends StatelessWidget {
   showListOrEmptyView() {
     return Expanded(
       child: Container(
-        color: AppColors.separator,
+          color: AppColors.separator,
           child: !controller.apiCalled.value
               ? Component.loadingView()
               : (controller.apiCalled.value && controller.dataList.isNotEmpty)
@@ -60,13 +61,45 @@ class MyBookings extends StatelessWidget {
         Get.to(() => ListingDetailsPage(listingId: item.id!.toString()));
       },
       child: Container(
-        padding: const EdgeInsets.only(left: 24, right: 24, top: 16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(item.listing!.title!),
-            Text(item.from! + item.to!),
-          ],
+        padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
+        child: Card(
+          child: Padding(
+            padding: EdgeInsets.all(16),
+            child: Row(
+              children: [
+                Component.loadCircleImage(
+                    imageUrl:
+                        item.images!.isNotEmpty ? item.images![0].url! : "",
+                    width: 50,
+                    height: 50),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "#${item.id!}",
+                        style: const TextStyle(
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.darkGray),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        item.listing!.title!,
+                        style: const TextStyle(
+                            fontSize: 16,
+                            color: AppColors.textColorBlack,
+                            fontWeight: FontWeight.w600),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                          "${Constants.calenderToString(item.calenderFrom(), "dd-MMM")} - -${Constants.calenderToString(item.calenderTo(), "dd-MMM")}"),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

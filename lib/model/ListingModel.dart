@@ -56,8 +56,11 @@ class ListingModel implements Serializable {
 
   ScrollController itemScrollController = ScrollController();
 
-
   ListingModel();
+
+  String getCoverImage() {
+    return images!.isNotEmpty ? images![0].url! : "";
+  }
 
   int getCurrentPrice() {
     return averagePrice == 0 ? price! : averagePrice!;
@@ -111,6 +114,8 @@ class ListingModel implements Serializable {
       json['images'].forEach((v) {
         images?.add(ImageModel.fromJson(v));
       });
+    }else {
+      images = [];
     }
     host =
         json['host'] != null ? UserProfileModel.fromJson(json['host']) : null;
