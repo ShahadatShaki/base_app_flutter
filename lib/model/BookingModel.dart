@@ -1,6 +1,7 @@
 import 'package:base_app_flutter/model/ImageModel.dart';
 import 'package:base_app_flutter/model/ListingModel.dart';
 import 'package:base_app_flutter/model/UserProfileModel.dart';
+import 'package:base_app_flutter/utility/Constrants.dart';
 
 import '../base/Serializable.dart';
 
@@ -141,13 +142,27 @@ class BookingModel implements Serializable {
   }
 
   DateTime calenderTo() {
-    DateTime date = DateTime.parse(to!);
-    return date;
+    try {
+      DateTime date = DateTime.parse(to);
+      return date;
+    } catch (e) {
+      return DateTime.now();
+    }
   }
 
   DateTime calenderFrom() {
-    DateTime date = DateTime.parse(from!);
-    return date;
+    try {
+      DateTime date = DateTime.parse(from);
+      return date;
+    } catch (e) {
+      print(e);
+      return DateTime.now();
+    }
+  }
+
+  String fromToStrForShow() {
+    print("cals: "+id+": "+from+" "+to);
+    return "${Constants.calenderToString(calenderFrom(), "dd MMM")} - ${Constants.calenderToString(calenderTo(), "dd MMM")}";
   }
 
   BookingModel.fromJson(Map<String, dynamic> json) {

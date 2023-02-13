@@ -6,6 +6,7 @@ import 'package:base_app_flutter/model/ConversationModel.dart';
 import 'package:base_app_flutter/pages/BookingDetailsPage.dart';
 import 'package:base_app_flutter/utility/AppColors.dart';
 import 'package:base_app_flutter/utility/Constrants.dart';
+import 'package:base_app_flutter/utility/SharedPref.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
@@ -36,7 +37,7 @@ class InboxPage extends StatelessWidget {
   showListOrEmptyView() {
     return Container(
         color: AppColors.separator,
-        child: controller.apiCalled.value
+        child: !controller.apiCalled.value
             ? Component.loadingView()
             : (controller.apiCalled.value && controller.conversationDataList.isNotEmpty)
                 ? uiDesign()
@@ -61,11 +62,44 @@ class InboxPage extends StatelessWidget {
         Get.to(() => BookingDetailsPage(id: item.id.toString()));
       },
       child: Container(
-        padding: const EdgeInsets.only(left: 16, right: 16, top: 8),
+        padding: const EdgeInsets.only(left: 16, right: 16, top: 24),
         child: Row(
           children: [
             Component.loadCircleImage(imageUrl: item.host.image.url, height: 50, width: 50),
-            Text(item.id),
+           const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(item.host.firstName, style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.textColorBlack
+                  ),),
+                  const SizedBox(height: 4),
+                  Text("${item.lastMessage.senderId== SharedPref.userId?"You: ":""}${item.lastMessage.body}", maxLines: 1, style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.textColorBlack
+                  ),),
+                  const SizedBox(height: 4),
+                  Text("${item.booking.fromToStrForShow()} * ${item.booking.listing.title}", maxLines: 1, style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.darkGray
+                  ),),
+                ],
+              ),
+            ),
+            const SizedBox(width: 16),
+            Text(Constants.totalDays(DateTime.now())>Constants.totalDays(Constants.stingToCalender(item.lastMessage.createdAt))?
+            Constants.calenderStingToString(item.lastMessage.createdAt, "MMM dd")
+              :             Constants.calenderStingToString(item.lastMessage.createdAt, "hh:mm a")
+              , style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+                color: AppColors.textColorBlack
+            ),),
           ],
         ),
       ),

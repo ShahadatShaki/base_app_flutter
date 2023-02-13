@@ -3,6 +3,7 @@ import 'package:base_app_flutter/pages/SplashScreen.dart';
 import 'package:base_app_flutter/pages/guest/home/InboxPage.dart';
 import 'package:base_app_flutter/pages/guest/home/MyBookings.dart';
 import 'package:base_app_flutter/utility/Fonts.dart';
+import 'package:base_app_flutter/utility/SharedPref.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -16,6 +17,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
+    SharedPref.initData();
     return GetMaterialApp(
       title: 'Base App',
       theme: ThemeData(

@@ -1,5 +1,6 @@
 import 'package:base_app_flutter/component/Component.dart';
 import 'package:base_app_flutter/pages/guest/home/InboxPage.dart';
+import 'package:base_app_flutter/pages/guest/home/MyBookings.dart';
 import 'package:base_app_flutter/utility/AppColors.dart';
 import 'package:base_app_flutter/utility/AssetsName.dart';
 import 'package:flutter/material.dart';
@@ -90,9 +91,7 @@ class _BottomNavPageState extends State<BottomNavPage> {
 
   static final List<Widget> _widgetOptions = <Widget>[
     ExplorePage(),
-    Text(
-      'Index 1: Business',
-    ),
+    MyBookings(),
     InboxPage(),
     Text(
       'Index 1: Business',

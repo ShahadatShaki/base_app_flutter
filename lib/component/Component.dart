@@ -54,27 +54,26 @@ class Component {
   }
 
   static Widget loadingView() {
-    return Expanded(
-      child: Container(
-        alignment: Alignment.center,
-        child: Lottie.asset('assets/animation/loading_animation.json',
-            height: 200, width: 200),
-      ),
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
+      alignment: Alignment.center,
+      child: Lottie.asset('assets/animation/loading_animation.json',
+          height: 200, width: 200),
     );
   }
 
   static emptyView(var message, var image) {
-    return Expanded(
-      child: Container(
-        width: double.infinity,
-        alignment: Alignment.center,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Lottie.asset(image, height: 200, width: 200),
-            Text(message)
-          ],
-        ),
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
+      alignment: Alignment.center,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Lottie.asset(image, height: 200, width: 200),
+          Text(message)
+        ],
       ),
     );
   }

@@ -19,7 +19,28 @@ class Constants {
   }
 
   static String calenderToString(DateTime dateTime, String format) {
-    return DateFormat(format).format(dateTime);
+     try {
+       return  DateFormat(format).format(dateTime);
+    } catch (e) {
+      print(e);
+      return "";
+    };
+  }
+
+  static String calenderStingToString(String dateTime, String format) {
+     try {
+       return  DateFormat(format).format(stingToCalender(dateTime));
+    } catch (e) {
+      return "";
+    }
+  }
+  static DateTime stingToCalender(String dateTime) {
+     try {
+       DateTime date = DateTime.parse(dateTime);
+       return  date;
+    } catch (e) {
+      return DateTime.now();
+    }
   }
 
   static String capitalizeWords(String text) {

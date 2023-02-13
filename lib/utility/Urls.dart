@@ -1,3 +1,4 @@
+import 'package:base_app_flutter/utility/SharedPref.dart';
 import 'package:dio/dio.dart';
 
 class Urls {
@@ -12,6 +13,7 @@ class Urls {
         "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9hcGkudHJhdmVsYS53b3JsZFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTY3NDAzMjMyNSwiZXhwIjoxNzA1NTY4MzI1LCJuYmYiOjE2NzQwMzIzMjUsImp0aSI6Ik8zZzJWR1Z1S0hLUEN3aHUiLCJzdWIiOjYsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.a8GRkVYisAgPikSGCpirGnAgUfpunhREvUNNh-llFPQ"; //Test token
     // String token = await SharedPref.getString(SharedPref.AUTH_KEY);
     int userId = 6; //Test User ID
+    SharedPref.putString(SharedPref.USER_ID, "6");
     // int userId = await SharedPref.getInt(SharedPref.USER_ID);
 
     Map<String, String> _headers = <String, String>{

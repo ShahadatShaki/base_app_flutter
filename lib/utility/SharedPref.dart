@@ -64,4 +64,9 @@ class SharedPref {
     final prefs = await SharedPreferences.getInstance();
     prefs.setDouble(key, value);
   }
+
+  static var userId;
+  static void initData() async {
+    userId = await getString(USER_ID);
+  }
 }
