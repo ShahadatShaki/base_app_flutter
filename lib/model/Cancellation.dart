@@ -2,18 +2,23 @@ import '../base/Serializable.dart';
 
 class Cancellation implements Serializable {
 
-  String? title;
-  String? body;
-  String? forHost;
-  int? day;
+  String? _title;
+  String? _body;
+  String? _forHost;
+  String? _day;
 
-  Cancellation({this.title, this.body, this.forHost, this.day});
+  Cancellation();
+
+  String get title { _title ??= ""; return _title!;}
+  String get body { _body ??= ""; return _body!;}
+  String get forHost { _forHost ??= ""; return _forHost!;}
+  String get day { _day ??= ""; return _day!;}
 
   Cancellation.fromJson(Map<String, dynamic> json) {
-    title = json['title'];
-    body = json['body'];
-    forHost = json['for_host'];
-    day = json['day'];
+    _title = json['title'];
+    _body = json['body'];
+    _forHost = json['for_host'];
+    _day = json['day'].toString();
   }
 
   Map<String, dynamic> toJson() {

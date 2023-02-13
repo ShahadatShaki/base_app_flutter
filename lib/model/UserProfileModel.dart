@@ -3,49 +3,103 @@ import 'package:base_app_flutter/model/ImageModel.dart';
 import '../base/Serializable.dart';
 
 class UserProfileModel implements Serializable {
-  int? id;
-  String? firstName;
-  String? lastName;
-  String? phone;
-  String? email;
-  String? birthdate;
-  String? referCode;
-  int? totalBooking;
-  int? averageResponse;
-  int? status;
-  int? osPlatform;
-  ImageModel? image;
-  String? hostStatus;
+  String? _id;
+  String? _firstName;
+  String? _lastName;
+  String? _phone;
+  String? _email;
+  String? _birthdate;
+  String? _referCode;
+  String? _totalBooking;
+  String? _averageResponse;
+  String? _status;
+  String? _osPlatform;
+  String? _hostStatus;
+  ImageModel? _image;
 
-  UserProfileModel(
-      {this.id,
-        this.firstName,
-        this.lastName,
-        this.phone,
-        this.email,
-        this.birthdate,
-        this.referCode,
-        this.totalBooking,
-        this.averageResponse,
-        this.status,
-        this.osPlatform,
-        this.image,
-        this.hostStatus});
+  UserProfileModel();
+
+  String get id {
+    _id ??= "";
+    return _id!;
+  }
+
+  String get firstName {
+    _firstName ??= "";
+    return _firstName!;
+  }
+
+  String get lastName {
+    _lastName ??= "";
+    return _lastName!;
+  }
+
+  String get phone {
+    _phone ??= "";
+    return _phone!;
+  }
+
+  String get email {
+    _email ??= "";
+    return _email!;
+  }
+
+  String get birthdate {
+    _birthdate ??= "";
+    return _birthdate!;
+  }
+
+  String get referCode {
+    _referCode ??= "";
+    return _referCode!;
+  }
+
+  String get totalBooking {
+    _totalBooking ??= "";
+    return _totalBooking!;
+  }
+
+  String get averageResponse {
+    _averageResponse ??= "";
+    return _averageResponse!;
+  }
+
+  String get status {
+    _status ??= "";
+    return _status!;
+  }
+
+  String get osPlatform {
+    _osPlatform ??= "";
+    return _osPlatform!;
+  }
+
+  String get hostStatus {
+    _hostStatus ??= "";
+    return _hostStatus!;
+  }
+
+  ImageModel get image {
+    _image ??= ImageModel();
+    return _image!;
+  }
 
   UserProfileModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    firstName = json['first_name'];
-    lastName = json['last_name'];
-    phone = json['phone'];
-    email = json['email'];
-    birthdate = json['birthdate'];
-    referCode = json['refer_code'];
-    totalBooking = json['total_booking'];
-    averageResponse = json['average_response'];
-    status = json['status'];
-    osPlatform = json['os_platform'];
-    image = json['image'] != null ? new ImageModel.fromJson(json['image']) : null;
-    hostStatus = json['host_status'];
+    _id = json['id'].toString();
+    _firstName = json['first_name'].toString();
+    _lastName = json['last_name'].toString();
+    _phone = json['phone'].toString();
+    _email = json['email'].toString();
+    _birthdate = json['birthdate'].toString();
+    _referCode = json['refer_code'].toString();
+    _totalBooking = json['total_booking'].toString();
+    _averageResponse = json['average_response'].toString();
+    _status = json['status'].toString();
+    _osPlatform = json['os_platform'].toString();
+    _image = json['image'] != null
+        ? ImageModel.fromJson(json['image'])
+        : ImageModel();
+    _hostStatus = json['host_status'].toString();
   }
 
   Map<String, dynamic> toJson() {
@@ -61,11 +115,8 @@ class UserProfileModel implements Serializable {
     data['average_response'] = this.averageResponse;
     data['status'] = this.status;
     data['os_platform'] = this.osPlatform;
-    if (this.image != null) {
-      data['image'] = this.image?.toJson();
-    }
-    data['host_status'] = this.hostStatus;
+    data['image'] = image.toJson();
+    data['host_status'] = hostStatus;
     return data;
   }
 }
-

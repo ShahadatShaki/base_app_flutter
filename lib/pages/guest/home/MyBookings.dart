@@ -1,7 +1,7 @@
 import 'package:base_app_flutter/component/Component.dart';
 import 'package:base_app_flutter/controller/BookingController.dart';
 import 'package:base_app_flutter/model/BookingModel.dart';
-import 'package:base_app_flutter/pages/ListingDetailsPage.dart';
+import 'package:base_app_flutter/pages/BookingDetailsPage.dart';
 import 'package:base_app_flutter/utility/AppColors.dart';
 import 'package:base_app_flutter/utility/Constrants.dart';
 import 'package:flutter/material.dart';
@@ -58,14 +58,15 @@ class MyBookings extends StatelessWidget {
   cardDesign(int index, BookingModel item) {
     return InkWell(
       onTap: () {
-        Get.to(() => ListingDetailsPage(listingId: item.id!.toString()));
+        Get.to(() => BookingDetailsPage(id: item.id!.toString()));
       },
       child: Container(
-        padding: const EdgeInsets.only(left: 16, right: 16, top: 16),
+        padding: const EdgeInsets.only(left: 16, right: 16, top: 8),
         child: Card(
           child: Padding(
             padding: EdgeInsets.all(16),
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Component.loadCircleImage(
                     imageUrl:
@@ -94,6 +95,36 @@ class MyBookings extends StatelessWidget {
                       const SizedBox(height: 8),
                       Text(
                           "${Constants.calenderToString(item.calenderFrom(), "dd-MMM")} - -${Constants.calenderToString(item.calenderTo(), "dd-MMM")}"),
+                      const SizedBox(height: 4),
+                      Text(
+                        "Address: ${item.listing!.address!}",
+                        style: const TextStyle(
+                            fontSize: 12, color: AppColors.darkGray),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        "Total: ${item.totalPayable}",
+                        style: const TextStyle(
+                            fontSize: 14, color: AppColors.appColor),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        "Paid: ${item.paid}",
+                        style: const TextStyle(
+                            fontSize: 14, color: AppColors.textColorBlack),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        "Due: ${int.parse(item.totalPayable!) - int.parse(item.paid!)}",
+                        style: const TextStyle(
+                            fontSize: 14, color: AppColors.textColorBlack),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        "Status: ${item.status == "Confirmed" ? "Paid, Enjoy your trip" : item.status}",
+                        style: const TextStyle(
+                            fontSize: 12, color: AppColors.darkGray),
+                      ),
                     ],
                   ),
                 ),

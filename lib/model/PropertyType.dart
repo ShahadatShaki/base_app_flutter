@@ -1,16 +1,20 @@
 import '../base/Serializable.dart';
 
 class PropertyType implements Serializable {
-  int? id;
-  String? name;
-  String? description;
+  String? _id;
+  String? _name;
+  String? _description;
 
-  PropertyType({this.id, this.name, this.description});
+  PropertyType();
+
+  String get id { _id ??= ""; return _id!;}
+  String get name { _name ??= ""; return _name!;}
+  String get description { _description ??= ""; return _description!;}
 
   PropertyType.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    description = json['description'];
+    _id = json['id'].toString();
+    _name = json['name'];
+    _description = json['description'];
   }
 
   Map<String, dynamic> toJson() {

@@ -1,16 +1,31 @@
 import '../base/Serializable.dart';
 
 class ImageModel implements Serializable {
-  int? id;
-  String? url;
-  dynamic priority;
+  String? _id;
+  String? _url;
+  String? _priority;
 
-  ImageModel({this.id, this.url, this.priority});
+  ImageModel();
+
+  String get id {
+    _id ??= "";
+    return _id!;
+  }
+
+  String get url {
+    _url ??= "";
+    return _url!;
+  }
+
+  String get priority {
+    _priority ??= "";
+    return _priority!;
+  }
 
   ImageModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    url = json['url'];
-    priority = json['priority'];
+    _id = json['id'].toString();
+    _url = json['url'] != null ? json['url'].toString() : "";
+    _priority = json['priority'].toString();
   }
 
   Map<String, dynamic> toJson() {

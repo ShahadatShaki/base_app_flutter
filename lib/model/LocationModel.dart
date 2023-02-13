@@ -3,33 +3,56 @@ import 'package:base_app_flutter/utility/Constrants.dart';
 import '../base/Serializable.dart';
 
 class LocationModel implements Serializable {
-  String? name;
-  dynamic lat;
-  dynamic lng;
-  dynamic count;
-  dynamic day;
-  dynamic id;
+  String? _name;
+  String? _lat;
+  String? _lng;
+  String? _count;
+  String? _day;
+  String? _id;
+
+  String get name {
+    _name ??= "";
+    return _name!;
+  }
+
+  String get lat {
+    _lat ??= "";
+    return _lat!;
+  }
+
+  String get lng {
+    _lng ??= "";
+    return _lng!;
+  }
+
+  String get count {
+    _count ??= "";
+    return _count!;
+  }
+
+  String get day {
+    _day ??= "";
+    return _day!;
+  }
+
+  String get id {
+    _id ??= "";
+    return _id!;
+  }
 
   getName() {
     return Constants.capitalizeWords(name!);
   }
 
-  LocationModel({
-    this.name,
-    this.lat,
-    this.lng,
-    this.count,
-    this.day,
-    this.id,
-  });
+  LocationModel();
 
   LocationModel.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    lat = json['lat'];
-    lng = json['lng'];
-    count = json['count'];
-    day = json['new'];
-    id = json['id'];
+    _name = json['name'].toString();
+    _lat = json['lat'].toString();
+    _lng = json['lng'].toString();
+    _count = json['count'].toString();
+    _day = json['new'].toString();
+    _id = json['id'].toString();
   }
 
   Map<String, dynamic> toJson() {

@@ -213,11 +213,11 @@ class ListingSearchPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 12),
-            (item.price! > item.averagePrice!) && item.averagePrice != 0
+            (item.getPrice()! > item.averagePrice!) && item.averagePrice != 0
                 ? Container(
                     margin: EdgeInsets.only(bottom: 8),
                     child: Text(
-                      "BDT ${item.price} ",
+                      "BDT ${item.getPrice()} ",
                       style: const TextStyle(
                         color: AppColors.darkGray,
                         decoration: TextDecoration.lineThrough,
