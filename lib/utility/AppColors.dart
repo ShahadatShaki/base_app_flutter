@@ -10,12 +10,14 @@ class AppColors {
   static const Color lightestLineColor =  Color(0xFFF5F5F5);
   // static const Color separator =  Color(0xFFECEDF0);
   static const Color textColorBlack = Color(0xFF1A1819);
+  static const Color black = Color(0xFF000000);
   static const Color lightestPurple = Color(0xFFEFEAFF);
   static const Color pink = Color(0xFFDC3C5F);
   static const Color dialogBG = Color(0x3CEFEFEF);
   static const Color softShadowColor = Color(0xFFF8F8F8);
   static const Color separator = Color(0xFFF6F8FA);
   static const Color backgroundColor = Color(0xFFF8F8F8);
+
 
 
 

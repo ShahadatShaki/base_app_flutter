@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 import '../base/ApiResponseList.dart';
 import '../utility/Urls.dart';
 
-class MessagingController extends GetxController {
+class InboxController extends GetxController {
   var conversation = ConversationModel().obs;
   var conversationDataList = <ConversationModel>[].obs;
   var messagesDataList = <MessagesModel>[].obs;

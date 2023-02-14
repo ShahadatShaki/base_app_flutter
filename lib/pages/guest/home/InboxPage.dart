@@ -1,6 +1,6 @@
 import 'package:base_app_flutter/component/Component.dart';
 import 'package:base_app_flutter/controller/BookingController.dart';
-import 'package:base_app_flutter/controller/MessagingController.dart';
+import 'package:base_app_flutter/controller/InboxController.dart';
 import 'package:base_app_flutter/model/BookingModel.dart';
 import 'package:base_app_flutter/model/ConversationModel.dart';
 import 'package:base_app_flutter/pages/BookingDetailsPage.dart';
@@ -13,7 +13,7 @@ import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 
 class InboxPage extends StatelessWidget {
-  final MessagingController controller = Get.put(MessagingController());
+  final InboxController controller = Get.put(InboxController());
   late BuildContext context;
 
   InboxPage({Key? key}) : super(key: key);

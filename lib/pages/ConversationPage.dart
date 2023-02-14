@@ -1,17 +1,13 @@
 import 'package:base_app_flutter/component/Component.dart';
-import 'package:base_app_flutter/controller/MessagingController.dart';
-import 'package:base_app_flutter/model/ConversationModel.dart';
+import 'package:base_app_flutter/controller/ConversationController.dart';
 import 'package:base_app_flutter/model/MessagesModel.dart';
-import 'package:base_app_flutter/pages/BookingDetailsPage.dart';
 import 'package:base_app_flutter/utility/AppColors.dart';
-import 'package:base_app_flutter/utility/Constrants.dart';
-import 'package:base_app_flutter/utility/SharedPref.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 
 class ConversationPage extends StatelessWidget {
-  final MessagingController controller = Get.put(MessagingController());
+  final ConversationController controller = Get.put(ConversationController());
   late BuildContext context;
   String id;
 
@@ -24,24 +20,28 @@ class ConversationPage extends StatelessWidget {
     this.context = context;
     return Scaffold(
       appBar: Component.appbar(name: "Chat Page", showBackIcon: false),
-      backgroundColor: AppColors.white,
+      backgroundColor: AppColors.black,
       body: getMainLayout(),
     );
   }
 
   getMainLayout() {
     return SafeArea(
-      child: Obx(() => showListOrEmptyView()),
+      child: Column(
+        children: [
+          Expanded(child: Obx(() => showListOrEmptyView())),
+          bottomView(),
+        ],
+      ),
     );
   }
 
   showListOrEmptyView() {
     return Container(
-        color: AppColors.backgroundColor,
+        color: AppColors.black,
         child: !controller.apiCalled.value
             ? Component.loadingView()
-            : (controller.apiCalled.value &&
-                    controller.messagesDataList.isNotEmpty)
+            : (controller.apiCalled.value && controller.dataList.isNotEmpty)
                 ? uiDesign()
                 : Component.emptyView(
                     "No Data Found", "assets/animation/empty_item.json"));
@@ -49,23 +49,46 @@ class ConversationPage extends StatelessWidget {
 
   uiDesign() {
     return ListView.builder(
-      controller: controller.messagesScrollController,
-      itemCount: controller.messagesDataList.length,
+      controller: controller.scrollController,
+      itemCount: controller.dataList.length,
       reverse: true,
       // shrinkWrap: true,
       itemBuilder: (BuildContext c, int index) {
-        return cardDesign(index, controller.messagesDataList[index]);
+        return cardDesign(index, controller.dataList[index]);
       },
     );
   }
 
   cardDesign(int index, MessagesModel item) {
     return InkWell(
-      onTap: () {
-      },
+      onTap: () {},
       child: Container(
         padding: const EdgeInsets.only(left: 16, right: 16, top: 24),
         child: Text(item.body),
+      ),
+    );
+  }
+
+  bottomView() {
+    return Container(
+      margin: EdgeInsets.all(16),
+      child: Row(
+        children: [
+          Container(
+            margin:
+                const EdgeInsets.only(left: 24, right: 24, top: 8, bottom: 24),
+            decoration: const BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+                color: AppColors.separator),
+            padding: const EdgeInsets.only(left: 16, right: 16),
+            child: TextField(
+              // controller: controller.searchEtController,
+              // onChanged: textChanged,
+              decoration:
+                  InputDecoration(hintText: "Search", border: InputBorder.none),
+            ),
+          )
+        ],
       ),
     );
   }
