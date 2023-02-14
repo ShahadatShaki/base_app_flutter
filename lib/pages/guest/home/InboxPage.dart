@@ -4,6 +4,7 @@ import 'package:base_app_flutter/controller/MessagingController.dart';
 import 'package:base_app_flutter/model/BookingModel.dart';
 import 'package:base_app_flutter/model/ConversationModel.dart';
 import 'package:base_app_flutter/pages/BookingDetailsPage.dart';
+import 'package:base_app_flutter/pages/ConversationPage.dart';
 import 'package:base_app_flutter/utility/AppColors.dart';
 import 'package:base_app_flutter/utility/Constrants.dart';
 import 'package:base_app_flutter/utility/SharedPref.dart';
@@ -22,7 +23,7 @@ class InboxPage extends StatelessWidget {
    controller.getConversationList();
     this.context = context;
     return Scaffold(
-      appBar: Component.appbar(name: "Inbox", showBackIcon: false),
+      appBar: Component.appbar(name: "Inbox", showBackIcon: true),
       backgroundColor: AppColors.white,
       body: getMainLayout(),
     );
@@ -36,7 +37,7 @@ class InboxPage extends StatelessWidget {
 
   showListOrEmptyView() {
     return Container(
-        color: AppColors.separator,
+        color: AppColors.backgroundColor,
         child: !controller.apiCalled.value
             ? Component.loadingView()
             : (controller.apiCalled.value && controller.conversationDataList.isNotEmpty)
@@ -59,7 +60,7 @@ class InboxPage extends StatelessWidget {
   cardDesign(int index, ConversationModel item) {
     return InkWell(
       onTap: () {
-        Get.to(() => BookingDetailsPage(id: item.id.toString()));
+        Get.to(() => ConversationPage(id: item.id.toString()));
       },
       child: Container(
         padding: const EdgeInsets.only(left: 16, right: 16, top: 24),

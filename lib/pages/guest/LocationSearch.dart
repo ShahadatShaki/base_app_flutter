@@ -38,34 +38,26 @@ class LocationSearch extends StatelessWidget {
 
   showListOrEmptyView() {
     return Expanded(
-      child: Column(
-        children: [
-          Visibility(
-              visible: !controller.apiCalled.value,
-              // visible: false,
-              child: Component.loadingView()),
-          Visibility(
-            visible: controller.apiCalled.value &&
-                controller.dataList.isNotEmpty,
-            // visible: false,
-            child: Expanded(
-              child: ListView.builder(
-                controller: controller.scrollController,
-                itemCount: controller.dataList.length,
-                shrinkWrap: true,
-                itemBuilder: (BuildContext c, int index) {
-                  return cardDesign(controller.dataList[index]);
-                },
-              ),
-            ),
-          ),
-          Visibility(
-              visible: controller.dataList.value.isEmpty &&
-                  controller.apiCalled.value,
-              child: Component.emptyView(
-                  "No Data Found", "assets/animation/empty_item.json")),
-        ],
-      ),
+      child:    Container(
+        color: AppColors.backgroundColor,
+        child: !controller.apiCalled.value
+            ? Component.loadingView()
+            : (controller.apiCalled.value && controller.dataList.isNotEmpty)
+            ? uiDesign()
+            : Component.emptyView(
+            "No Data Found", "assets/animation/empty_item.json"))
+
+    );
+  }
+
+  uiDesign() {
+    return ListView.builder(
+      controller: controller.scrollController,
+      itemCount: controller.dataList.length,
+      // shrinkWrap: true,
+      itemBuilder: (BuildContext c, int index) {
+        return cardDesign(controller.dataList[index]);
+      },
     );
   }
 

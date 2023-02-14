@@ -1,13 +1,12 @@
 import 'dart:convert';
 
 import 'package:base_app_flutter/model/LocationModel.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/state_manager.dart';
 import 'package:http/http.dart' as http;
-import 'package:dio/dio.dart';
 
 import '../base/ApiResponseList.dart';
-import '../model/DataModel.dart';
 import '../utility/DioExceptions.dart';
 import '../utility/Urls.dart';
 
@@ -22,7 +21,6 @@ class LocationSearchController extends GetxController {
   bool callingApi = false;
   bool hasMoreData = true;
 
-
   @override
   void onInit() {
     searchEtController = TextEditingController();
@@ -32,7 +30,8 @@ class LocationSearchController extends GetxController {
         double maxScroll = scrollController.position.maxScrollExtent;
         double currentScroll = scrollController.position.pixels;
         double delta = 200.0; // or something else..
-        if (maxScroll - currentScroll <= delta) { // whatever you determine here
+        if (maxScroll - currentScroll <= delta) {
+          // whatever you determine here
           //.. load more
         }
       });
@@ -40,9 +39,6 @@ class LocationSearchController extends GetxController {
   }
 
   getData(String text) async {
-
-
-
     var client = http.Client();
     final queryParameters = {"q": text, "page": page.toString()};
 
@@ -53,19 +49,22 @@ class LocationSearchController extends GetxController {
     var response = await client.get(uri, headers: await Urls.getHeaders());
     print(response.body);
 
-    var res = ApiResponseList<LocationModel>.fromJson(
-        json.decode(response.body), (data) => LocationModel.fromJson(data));
-    if(page==1){
-      dataList.clear();
+    if (response.statusCode == 200) {
+      var res = ApiResponseList<LocationModel>.fromJson(
+          json.decode(response.body), (data) => LocationModel.fromJson(data));
+
+      if (page == 1) {
+        dataList.clear();
+      }
+      dataList.value.addAll(res.data!);
+      dataList.refresh();
     }
-    dataList.value.addAll(res.data!);
-    dataList.refresh();
+
     apiCalled.value = true;
   }
 
   submitBill() async {
     Dio dio = await Urls.getDio();
-
 
     var selfie = "".obs;
     var bill = "".obs;
@@ -87,12 +86,9 @@ class LocationSearchController extends GetxController {
       var response = await dio.post('/api/v1/user/bills/claim', data: formData);
       print(response);
     } catch (e) {
-      print("response: " + DioExceptions
-          .fromDioError(e as DioError)
-          .message);
+      print("response: " + DioExceptions.fromDioError(e as DioError).message);
     }
   }
-
 
   @override
   void dispose() {

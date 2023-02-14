@@ -161,7 +161,6 @@ class BookingModel implements Serializable {
   }
 
   String fromToStrForShow() {
-    print("cals: "+id+": "+from+" "+to);
     return "${Constants.calenderToString(calenderFrom(), "dd MMM")} - ${Constants.calenderToString(calenderTo(), "dd MMM")}";
   }
 

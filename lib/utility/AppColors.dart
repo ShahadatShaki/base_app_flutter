@@ -15,6 +15,7 @@ class AppColors {
   static const Color dialogBG = Color(0x3CEFEFEF);
   static const Color softShadowColor = Color(0xFFF8F8F8);
   static const Color separator = Color(0xFFF6F8FA);
+  static const Color backgroundColor = Color(0xFFF8F8F8);
 
 
 
