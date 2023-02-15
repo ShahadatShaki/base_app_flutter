@@ -11,14 +11,44 @@ class MessagesModel implements Serializable {
 
   MessagesModel();
 
-  String get id { _id ??= ""; return _id!;}
-  String get conversationId { _conversationId ??= ""; return _conversationId!;}
-  String get senderId { _senderId ??= ""; return _senderId!;}
-  String get body { _body ??= ""; return _body!;}
-  String get type { _type ??= ""; return _type!;}
-  String get createdAt { _createdAt ??= ""; return _createdAt!;}
-  String get readAt { _readAt ??= ""; return _readAt!;}
+  String get id {
+    _id ??= "";
+    return _id!;
+  }
 
+  String get conversationId {
+    _conversationId ??= "";
+    return _conversationId!;
+  }
+
+  String get senderId {
+    _senderId ??= "";
+    return _senderId!;
+  }
+
+  String get body {
+    _body ??= "";
+    return _body!;
+  }
+
+  String get type {
+    _type ??= "";
+    return _type!;
+  }
+
+  String get createdAt {
+    _createdAt ??= "";
+    return _createdAt!;
+  }
+
+  String get readAt {
+    _readAt ??= "";
+    return _readAt!;
+  }
+
+  set id(String value) {
+    _id = value;
+  }
 
   MessagesModel.fromJson(Map<String, dynamic> json) {
     _id = json['id'].toString();
@@ -40,5 +70,29 @@ class MessagesModel implements Serializable {
     data['created_at'] = this.createdAt;
     data['read_at'] = this.readAt;
     return data;
+  }
+
+  set conversationId(String value) {
+    _conversationId = value;
+  }
+
+  set senderId(String value) {
+    _senderId = value;
+  }
+
+  set body(String value) {
+    _body = value;
+  }
+
+  set type(String value) {
+    _type = value;
+  }
+
+  set createdAt(String value) {
+    _createdAt = value;
+  }
+
+  set readAt(String value) {
+    _readAt = value;
   }
 }

@@ -15,8 +15,8 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Timer(Duration(seconds: 1), () => checkLoginStatus());
     return Scaffold(
-        body: SvgPicture.asset(
-      "assets/images/splash.svg",
+        body: Image.asset(
+      "assets/images/splash_screen_img.png",
       height: double.infinity,
       width: double.infinity,
     ));

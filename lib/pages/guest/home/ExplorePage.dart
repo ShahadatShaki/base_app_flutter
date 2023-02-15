@@ -28,8 +28,8 @@ class _ExplorePageState extends State<ExplorePage> {
         children: [
           Container(
             height: MediaQuery.of(context).size.height * 0.4,
-            child: SvgPicture.asset(
-              "assets/images/splash.svg",
+            child: Image.asset(
+              "assets/images/splash_screen_img.png",
               fit: BoxFit.cover,
               alignment: Alignment.bottomCenter,
               width: double.infinity,

@@ -122,11 +122,7 @@ class BookingController extends GetxController {
       };
 
       var uri = Uri.https(Urls.ROOT_URL_MAIN, "/api/booking", queryParameters);
-      print(uri);
-
       var response = await client.get(uri, headers: await Urls.getHeaders());
-      print(response.body);
-
       var res = ApiResponseList<BookingModel>.fromJson(
           json.decode(response.body), (data) => BookingModel.fromJson(data));
       if (page == 1) {

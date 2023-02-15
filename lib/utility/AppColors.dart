@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 class AppColors {
 
   static const Color appColor =  Color(0xFFe81478);
+  static const Color chatMessageBg =  Color(0xFF303030);
+  static const Color chatMessageTfBg =  Color(0xFF3C3C3C);
+  static const Color chatMessageTfHintColor =  Color(0xFFBCBCBC);
   static const Color warning =  Color(0xFFFFDD72);
   static const Color white =  Color(0xFFFFFFFF);
   static const Color darkGray =  Color(0xFF666870);

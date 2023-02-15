@@ -154,6 +154,7 @@ class Component {
             child: Component.showIcon(name: AssetsName.back)),
       ): SizedBox(),
       title: Container(
+        height: 50,
         width: double.infinity,
         alignment: Alignment.center,
         margin: const EdgeInsets.only(right: 40),
@@ -161,6 +162,33 @@ class Component {
           name,
           style: const TextStyle(
               color: AppColors.textColorBlack,
+              fontWeight: FontWeight.w600,
+              fontSize: 18),
+        ),
+      ),
+    );
+  }
+
+  static appbarDark({required String name, bool showBackIcon = true}) {
+    return AppBar(
+      backgroundColor: AppColors.black,
+      elevation: 0,
+      leading: showBackIcon?
+      InkWell(
+        onTap: () => {Get.back()},
+        child: Padding(
+            padding: const EdgeInsets.all(14),
+            child: Component.showIcon(name: AssetsName.back, color: AppColors.white)),
+      ): SizedBox(),
+      title: Container(
+        height: 50,
+        width: double.infinity,
+        alignment: Alignment.center,
+        margin: const EdgeInsets.only(right: 40),
+        child: Text(
+          name,
+          style: const TextStyle(
+              color: AppColors.white,
               fontWeight: FontWeight.w600,
               fontSize: 18),
         ),
