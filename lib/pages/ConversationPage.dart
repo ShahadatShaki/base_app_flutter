@@ -1,6 +1,7 @@
 import 'package:base_app_flutter/component/Component.dart';
 import 'package:base_app_flutter/controller/ConversationController.dart';
 import 'package:base_app_flutter/model/MessagesModel.dart';
+import 'package:base_app_flutter/pages/BookingDetailsPage.dart';
 import 'package:base_app_flutter/utility/AppColors.dart';
 import 'package:base_app_flutter/utility/AssetsName.dart';
 import 'package:base_app_flutter/utility/SharedPref.dart';
@@ -154,12 +155,12 @@ class ConversationPage extends StatelessWidget {
       children: [
         Expanded(
           child: Container(
-            margin: const EdgeInsets.all(16),
+            margin: const EdgeInsets.only(left: 16, right: 8, top: 16, bottom: 16),
             child: Container(
               decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(20)),
                   color: AppColors.chatMessageTfBg),
-              padding: const EdgeInsets.only(left: 16, right: 10),
+              padding: const EdgeInsets.only(left: 16, right: 16),
               child: TextField(
                 controller: controller.textEditingController,
                 // onChanged: textChanged,
@@ -176,7 +177,7 @@ class ConversationPage extends StatelessWidget {
             onTap: () {
               controller.sendMessage();
             },
-            child: Component.showIcon(name: AssetsName.guest, size: 30))
+            child: Component.showIcon(name: AssetsName.send, color: AppColors.white, size: 30))
       ],
     );
   }
@@ -201,11 +202,13 @@ class ConversationPage extends StatelessWidget {
               ),
               TextButton(
                 style: Component.textButtonStyle(),
-                onPressed: () {},
+                onPressed: () {
+                  Get.to(()=> BookingDetailsPage(id: "4385"));
+                },
                 child: Container(
                   alignment: Alignment.center,
                   padding: EdgeInsets.only(left: 16, right: 16),
-                  child: Text('Done', style: TextStyle(fontSize: 12)),
+                  child: Text('Details', style: TextStyle(fontSize: 12)),
                 ),
               ),
             ],

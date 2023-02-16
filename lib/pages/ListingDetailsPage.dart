@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:base_app_flutter/component/ListingComponent.dart';
 import 'package:base_app_flutter/controller/ListingDetailsController.dart';
 import 'package:base_app_flutter/utility/AssetsName.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -44,7 +45,7 @@ class ListingDetailsPage extends StatelessWidget {
         child: !controller.apiCalled.value
             ? Component.loadingView()
             : (controller.apiCalled.value &&
-                    controller.listing.value.title != null)
+                    controller.listing.value.title.isNotEmpty)
                 ? uiDesign(controller.listing.value)
                 : Component.emptyView("Something Went Wrong",
                     "assets/animation/error_animation.json"));
@@ -67,8 +68,8 @@ class ListingDetailsPage extends StatelessWidget {
                     Expanded(
                         flex: 4,
                         child: Component.loadImage(
-                            imageUrl: item.images!.length > 1
-                                ? item.images![1].url!
+                            imageUrl: item.images.length > 1
+                                ? item.images[1].url
                                 : "",
                             cornerRadius: 8,
                             height: 100)),
@@ -76,15 +77,15 @@ class ListingDetailsPage extends StatelessWidget {
                     Expanded(
                         flex: 5,
                         child: Component.loadImage(
-                            imageUrl: item.images!.length > 2
-                                ? item.images![2].url!
+                            imageUrl: item.images.length > 2
+                                ? item.images[2].url
                                 : "",
                             cornerRadius: 8,
                             height: 100))
                   ]),
                   const SizedBox(height: 24),
                   Text(
-                    item.title!,
+                    item.title,
                     style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w500,
@@ -95,16 +96,16 @@ class ListingDetailsPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       showKeyInfo(
-                          AssetsName.max_guest, "Max Guest", item.maxGuest!),
+                          AssetsName.max_guest, "Max Guest", item.maxGuest),
                       Container(
                           width: 1, height: 35, color: AppColors.lineColor),
-                      showKeyInfo(AssetsName.bedroom, "Bedroom", item.bedroom!),
+                      showKeyInfo(AssetsName.bedroom, "Bedroom", item.bedroom),
                       Container(
                           width: 1, height: 35, color: AppColors.lineColor),
-                      showKeyInfo(AssetsName.bed, "Bed", item.beds!),
+                      showKeyInfo(AssetsName.bed, "Bed", item.beds),
                       Container(
                           width: 1, height: 35, color: AppColors.lineColor),
-                      showKeyInfo(AssetsName.bathroom, "Bath", item.bathroom!),
+                      showKeyInfo(AssetsName.bathroom, "Bath", item.bathroom),
                     ],
                   ),
                   const SizedBox(height: 18),
@@ -128,7 +129,7 @@ class ListingDetailsPage extends StatelessWidget {
                           size: 20),
                       const SizedBox(width: 10),
                       Text("${item.reviewsAvg} (${item.reviewsCount} Reviews)",
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
                               color: AppColors.textColorBlack)),
@@ -146,10 +147,9 @@ class ListingDetailsPage extends StatelessWidget {
                   const SizedBox(height: 18),
                   contactHostButton(),
                   const SizedBox(height: 24),
-                  titleAndDescription(
-                      "Property Description", item.description!),
+                  titleAndDescription("Property Description", item.description),
                   const SizedBox(height: 32),
-                  titleAndDescription("Property Rules", item.description!),
+                  titleAndDescription("Property Rules", item.description),
                   const SizedBox(height: 32),
                   sectionTitle("Map"),
                   showMap(item),
@@ -223,45 +223,17 @@ class ListingDetailsPage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text("Check In",
-                  style: TextStyle(fontSize: 12, color: AppColors.darkGray)),
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  Component.showIcon(name: AssetsName.clock, size: 14),
-                  const SizedBox(width: 8),
-                  Text(item.checkIn!,
-                      style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.textColorBlack)),
-                ],
-              ),
-            ],
+          child: ListingComponent.titleAndDetails(
+            title: "Check In",
+            details: item.checkIn,
+            iconFront: AssetsName.clock,
           ),
         ),
         Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text("Check Out",
-                  style: TextStyle(fontSize: 12, color: AppColors.darkGray)),
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  Component.showIcon(name: AssetsName.clock, size: 14),
-                  const SizedBox(width: 8),
-                  Text(item.checkOut!,
-                      style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.textColorBlack)),
-                ],
-              ),
-            ],
+          child: ListingComponent.titleAndDetails(
+            title: "Check Out",
+            details: item.checkOut,
+            iconFront: AssetsName.clock,
           ),
         ),
       ],
@@ -272,12 +244,12 @@ class ListingDetailsPage extends StatelessWidget {
     return Row(
       children: [
         Component.loadCircleImage(
-            imageUrl: item.host!.image!.url!, width: 50, height: 50),
+            imageUrl: item.host.image.url, width: 50, height: 50),
         const SizedBox(width: 16),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Hello, I am ${item.host!.firstName!}",
+            Text("Hello, I am ${item.host.firstName}",
                 style: const TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
@@ -453,7 +425,7 @@ class ListingDetailsPage extends StatelessWidget {
       style: Component.textButtonStyle(radius: 4),
       onPressed: () {
         Get.to(() =>
-            BookingRequestPage(listingId: item.id!.toString(), listing: item));
+            BookingRequestPage(listingId: item.id.toString(), listing: item));
       },
       child: Container(
           height: 40,

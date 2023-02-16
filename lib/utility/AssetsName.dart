@@ -9,6 +9,7 @@ class AssetsName{
   static String message = "assets/icon/message.svg";
   static String back = "assets/icon/back.svg";
   static String edit = "assets/icon/edit.svg";
+  static String send = "assets/icon/send.svg";
   static String guest_fill = "assets/icon/guest_fill.svg";
   static String minus = "assets/icon/minus.svg";
   static String bed = "assets/icon/bed.svg";

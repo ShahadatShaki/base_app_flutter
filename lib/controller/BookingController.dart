@@ -49,6 +49,8 @@ class BookingController extends GetxController {
   }
 
   getSingleBooking(String bookingId) async {
+    // apiCalled.value = false;
+
     if (callingApi) {
       return;
     }
@@ -60,7 +62,7 @@ class BookingController extends GetxController {
     var client = http.Client();
     var uri = Uri.https(Urls.ROOT_URL_MAIN, "/api/booking/$bookingId");
     var response = await client.get(uri, headers: await Urls.getHeaders());
-    debugPrint(response.body);
+    print(response.body);
 
     if (response.statusCode == 200) {
       var res = ApiResponse<BookingModel>.fromJson(

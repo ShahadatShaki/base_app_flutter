@@ -5,9 +5,9 @@ import '../model/ListingModel.dart';
 
 class ImageSlider {
   static getImageSlider(ListingModel item) {
-    List<Widget> imageSliders = item.images!
+    List<Widget> imageSliders = item.images
         .map(
-          (item) => Component.loadImage(imageUrl: item.url!, height: 240, cornerRadius: 8),
+          (item) => Component.loadImage(imageUrl: item.url, height: 240, cornerRadius: 8),
         )
         .toList();
 
@@ -22,7 +22,7 @@ class ImageSlider {
       margin: EdgeInsets.only(bottom: 12),
       width: 144,
       child: ListView.builder(
-        itemCount: item.images!.length,
+        itemCount: item.images.length,
         scrollDirection: Axis.horizontal,
         controller: item.itemScrollController,
         shrinkWrap: true,
