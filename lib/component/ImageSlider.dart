@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 
 import '../model/ListingModel.dart';
 
-class ImageSlider {
+class ImageSlider extends Component {
   static getImageSlider(ListingModel item) {
     List<Widget> imageSliders = item.images
         .map(
-          (item) => Component.loadImage(imageUrl: item.url, height: 240, cornerRadius: 8),
+          (item) => Component()
+              .loadImage(imageUrl: item.url, height: 240, cornerRadius: 8),
         )
         .toList();
 
@@ -33,9 +34,8 @@ class ImageSlider {
             margin: EdgeInsets.symmetric(horizontal: 4.0),
             decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: (Colors.white)
-                    .withOpacity(
-                        item.sliderCurrentPosition == index ? 1 : 0.6)),
+                color: (Colors.white).withOpacity(
+                    item.sliderCurrentPosition == index ? 1 : 0.6)),
           );
         },
       ),

@@ -1,3 +1,4 @@
+import 'package:base_app_flutter/base/BaseStatelessWidget.dart';
 import 'package:base_app_flutter/component/Component.dart';
 import 'package:base_app_flutter/controller/BookingController.dart';
 import 'package:base_app_flutter/model/BookingModel.dart';
@@ -8,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 
-class MyBookings extends StatelessWidget {
+class MyBookings extends BaseStatelessWidget {
   final BookingController controller = Get.put(BookingController());
   late BuildContext context;
 
@@ -68,7 +69,7 @@ class MyBookings extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Component.loadCircleImage(
+                loadCircleImage(
                     imageUrl:
                         item.images!.isNotEmpty ? item.images![0].url! : "",
                     width: 50,

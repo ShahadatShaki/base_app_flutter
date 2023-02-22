@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:base_app_flutter/base/BaseStatelessWidget.dart';
 import 'package:base_app_flutter/component/ListingComponent.dart';
 import 'package:base_app_flutter/controller/ListingDetailsController.dart';
 import 'package:base_app_flutter/utility/AssetsName.dart';
@@ -15,7 +16,7 @@ import '../../utility/AppColors.dart';
 import '../component/ImageSlider.dart';
 import 'guest/BookingRequestPage.dart';
 
-class ListingDetailsPage extends StatelessWidget {
+class ListingDetailsPage extends BaseStatelessWidget {
   final ListingController controller = Get.put(ListingController());
   String listingId;
   late BuildContext context;
@@ -67,7 +68,7 @@ class ListingDetailsPage extends StatelessWidget {
                   Row(children: [
                     Expanded(
                         flex: 4,
-                        child: Component.loadImage(
+                        child: loadImage(
                             imageUrl: item.images.length > 1
                                 ? item.images[1].url
                                 : "",
@@ -76,7 +77,7 @@ class ListingDetailsPage extends StatelessWidget {
                     const SizedBox(width: 8),
                     Expanded(
                         flex: 5,
-                        child: Component.loadImage(
+                        child: loadImage(
                             imageUrl: item.images.length > 2
                                 ? item.images[2].url
                                 : "",
@@ -243,7 +244,7 @@ class ListingDetailsPage extends StatelessWidget {
   hostDetails(ListingModel item) {
     return Row(
       children: [
-        Component.loadCircleImage(
+        loadCircleImage(
             imageUrl: item.host.image.url, width: 50, height: 50),
         const SizedBox(width: 16),
         Column(
@@ -298,7 +299,7 @@ class ListingDetailsPage extends StatelessWidget {
       onPressed: () {
         // Get.to(()=> ListingSearchPage(searchOptions: searchOptions));
       },
-      child: Component.textButtonText(buttonTitle: "Contact Host"),
+      child: buttonText(buttonTitle: "Contact Host"),
     );
   }
 

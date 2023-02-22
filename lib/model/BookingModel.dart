@@ -141,6 +141,12 @@ class BookingModel implements Serializable {
     return _images!;
   }
 
+  bool isExpire() {
+    var _expire = false;
+
+    return _expire;
+  }
+
   DateTime calenderTo() {
     try {
       DateTime date = DateTime.parse(to);

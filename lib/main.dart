@@ -2,6 +2,7 @@ import 'package:base_app_flutter/pages/ListingDetailsPage.dart';
 import 'package:base_app_flutter/pages/SplashScreen.dart';
 import 'package:base_app_flutter/pages/guest/home/InboxPage.dart';
 import 'package:base_app_flutter/pages/guest/home/MyBookings.dart';
+import 'package:base_app_flutter/utility/AppColors.dart';
 import 'package:base_app_flutter/utility/Fonts.dart';
 import 'package:base_app_flutter/utility/SharedPref.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Base App',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: AppColors.primary,
         fontFamily: Fonts.regularFont,
       ),
       home: SplashScreen(),

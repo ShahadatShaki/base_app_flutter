@@ -4,7 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
-import '../model/SearchOptions.dart';
 import '../utility/AppColors.dart';
 import '../utility/AssetsName.dart';
 
@@ -70,10 +69,7 @@ class Component {
       alignment: Alignment.center,
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        children: [
-          Lottie.asset(image, height: 200, width: 200),
-          Text(message)
-        ],
+        children: [Lottie.asset(image, height: 200, width: 200), Text(message)],
       ),
     );
   }
@@ -146,13 +142,14 @@ class Component {
     return AppBar(
       backgroundColor: AppColors.white,
       elevation: 0,
-      leading: showBackIcon?
-      InkWell(
-        onTap: () => {Get.back()},
-        child: Padding(
-            padding: const EdgeInsets.all(14),
-            child: Component.showIcon(name: AssetsName.back)),
-      ): SizedBox(),
+      leading: showBackIcon
+          ? InkWell(
+              onTap: () => {Get.back()},
+              child: Padding(
+                  padding: const EdgeInsets.all(14),
+                  child: Component.showIcon(name: AssetsName.back)),
+            )
+          : SizedBox(),
       title: Container(
         height: 50,
         width: double.infinity,
@@ -173,13 +170,15 @@ class Component {
     return AppBar(
       backgroundColor: AppColors.black,
       elevation: 0,
-      leading: showBackIcon?
-      InkWell(
-        onTap: () => {Get.back()},
-        child: Padding(
-            padding: const EdgeInsets.all(14),
-            child: Component.showIcon(name: AssetsName.back, color: AppColors.white)),
-      ): SizedBox(),
+      leading: showBackIcon
+          ? InkWell(
+              onTap: () => {Get.back()},
+              child: Padding(
+                  padding: const EdgeInsets.all(14),
+                  child: Component.showIcon(
+                      name: AssetsName.back, color: AppColors.white)),
+            )
+          : SizedBox(),
       title: Container(
         height: 50,
         width: double.infinity,
@@ -205,15 +204,18 @@ class Component {
     );
   }
 
-  static textButtonText(
-      {required String buttonTitle, double width = double.infinity}) {
+  buttonText(
+      {required String buttonTitle,
+      double width = double.infinity,
+      double fontSize = 14,
+      double height = 40}) {
     return Container(
-        height: 40,
+        height: height,
         width: width,
         alignment: Alignment.center,
         child: Text(
           buttonTitle,
-          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+          style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.w500),
         ));
   }
 
@@ -223,7 +225,7 @@ class Component {
         color: AppColors.separator);
   }
 
-  static Widget loadImage(
+  Widget loadImage(
       {required String imageUrl,
       double width = double.infinity,
       double height = 50,
@@ -245,7 +247,7 @@ class Component {
         ));
   }
 
-  static Widget loadCircleImage(
+  Widget loadCircleImage(
       {required String imageUrl,
       double width = double.infinity,
       double height = 50,
@@ -267,6 +269,21 @@ class Component {
     ));
   }
 
+  lineHorizontal({EdgeInsets? margin}) {
+    return Container(
+      margin: margin,
+      width: double.infinity,
+      height: 1,
+      color: AppColors.lineColor,
+    );
+  }
 
-
+  lineVertical({EdgeInsets? margin}) {
+    return Container(
+      margin: margin,
+      width: 1,
+      height: double.infinity,
+      color: AppColors.lineColor,
+    );
+  }
 }

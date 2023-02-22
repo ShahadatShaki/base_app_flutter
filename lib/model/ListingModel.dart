@@ -72,7 +72,7 @@ class ListingModel implements Serializable {
   String get bedroom { _bedroom ??= ""; return _bedroom!;}
   String get beds { _beds ??= ""; return _beds!;}
   String get bathroom { _bathroom ??= ""; return _bathroom!;}
-  String get price { _price ??= ""; return _price!;}
+  String get price { _price ??= "0"; return _price!;}
   String get weekendPrice { _weekendPrice ??= ""; return _weekendPrice!;}
   String get perGuestAmount { _perGuestAmount ??= ""; return _perGuestAmount!;}
   String get checkIn { _checkIn ??= ""; return _checkIn!;}
@@ -113,7 +113,7 @@ class ListingModel implements Serializable {
   }
 
   int getCurrentPrice() {
-    return averagePrice == "0" ? int.parse(getPrice()) : int.parse(averagePrice);
+    return averagePrice == "0" ? int.parse(price) : int.parse(averagePrice);
   }
 
   ListingModel.fromJson(Map<String, dynamic> json) {

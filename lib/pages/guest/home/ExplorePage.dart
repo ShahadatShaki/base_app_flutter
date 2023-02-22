@@ -3,7 +3,6 @@ import 'package:base_app_flutter/pages/guest/ListingSearchPage.dart';
 import 'package:base_app_flutter/pages/guest/PickCalenderPage.dart';
 import 'package:base_app_flutter/utility/AppColors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../../component/Component.dart';
@@ -19,7 +18,6 @@ class ExplorePage extends StatefulWidget {
 
 class _ExplorePageState extends State<ExplorePage> {
   SearchOptions searchOptions = SearchOptions();
-  String guestCount = "sfjkjkj";
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +115,6 @@ class _ExplorePageState extends State<ExplorePage> {
   }
 
   checkinCheckoutLayout() {
-
     return Container(
       decoration: BoxDecoration(
         boxShadow: [Component.dropShadow()],
@@ -160,16 +157,18 @@ class _ExplorePageState extends State<ExplorePage> {
                       "Check In - Check Out",
                       style: TextStyle(
                           color: AppColors.darkGray,
-                          fontSize:
-                              searchOptions.getCheckinCheckoutShortDate().isEmpty
-                                  ? 16
-                                  : 12),
+                          fontSize: searchOptions
+                                  .getCheckinCheckoutShortDate()
+                                  .isEmpty
+                              ? 16
+                              : 12),
                     ),
                     SizedBox(
-                        height:
-                            searchOptions.getCheckinCheckoutShortDate().isNotEmpty
-                                ? 4
-                                : 0),
+                        height: searchOptions
+                                .getCheckinCheckoutShortDate()
+                                .isNotEmpty
+                            ? 4
+                            : 0),
                     searchOptions.getCheckinCheckoutShortDate().isNotEmpty
                         ? Text(
                             searchOptions.getCheckinCheckoutShortDate(),
@@ -188,8 +187,6 @@ class _ExplorePageState extends State<ExplorePage> {
   }
 
   guestCountLayout() {
-    guestCount = "";
-
     return Container(
       decoration: BoxDecoration(
         boxShadow: [Component.dropShadow()],
@@ -421,7 +418,7 @@ class _ExplorePageState extends State<ExplorePage> {
     return TextButton(
       style: Component.textButtonStyle(),
       onPressed: () {
-        Get.to(()=> ListingSearchPage(searchOptions: searchOptions));
+        Get.to(() => ListingSearchPage(searchOptions: searchOptions));
       },
       child: Container(
           height: 40,

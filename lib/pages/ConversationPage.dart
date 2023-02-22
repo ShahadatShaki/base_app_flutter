@@ -1,3 +1,4 @@
+import 'package:base_app_flutter/base/BaseStatelessWidget.dart';
 import 'package:base_app_flutter/component/Component.dart';
 import 'package:base_app_flutter/controller/ConversationController.dart';
 import 'package:base_app_flutter/model/MessagesModel.dart';
@@ -9,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 
-class ConversationPage extends StatelessWidget {
+class ConversationPage extends BaseStatelessWidget {
   final ConversationController controller = Get.put(ConversationController());
   late BuildContext context;
   String id;
@@ -127,7 +128,7 @@ class ConversationPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         const SizedBox(width: 16),
-        Component.loadCircleImage(
+        loadCircleImage(
             imageUrl: controller.conversation.value.host.image.url,
             width: 25,
             height: 25),
@@ -191,7 +192,7 @@ class ConversationPage extends StatelessWidget {
         children: [
           Row(
             children: [
-              Component.loadImage(
+              loadImage(
                   imageUrl: item.listing.getCoverImage(), height: 30, width: 30),
               const SizedBox(width: 8),
               Expanded(

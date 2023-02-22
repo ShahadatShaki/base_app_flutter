@@ -1,13 +1,10 @@
-import 'dart:async';
-
+import 'package:base_app_flutter/base/BaseStatelessWidget.dart';
 import 'package:base_app_flutter/controller/ListingDetailsController.dart';
 import 'package:base_app_flutter/model/SearchOptions.dart';
 import 'package:base_app_flutter/utility/AssetsName.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../component/Component.dart';
 import '../../component/GuestBottomSheet.dart';
@@ -15,14 +12,14 @@ import '../../model/ListingModel.dart';
 import '../../utility/AppColors.dart';
 import 'PickCalenderPage.dart';
 
-class BookingRequestPage extends StatelessWidget {
-  final ListingController controller =
-      Get.put(ListingController());
+class BookingRequestPage extends BaseStatelessWidget {
+  final ListingController controller = Get.put(ListingController());
   String listingId;
   ListingModel listing;
   late BuildContext context;
 
-  BookingRequestPage({required this.listingId, required this.listing, Key? key}) : super(key: key);
+  BookingRequestPage({required this.listingId, required this.listing, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +48,6 @@ class BookingRequestPage extends StatelessWidget {
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
                       color: AppColors.textColorBlack)),
-
               const SizedBox(height: 24),
               Obx(() => checkinCheckoutLayout(controller.searchOptions.value)),
               const SizedBox(height: 24),
@@ -70,7 +66,7 @@ class BookingRequestPage extends StatelessWidget {
   hostDetails() {
     return Row(
       children: [
-        Component.loadCircleImage(
+        loadCircleImage(
             imageUrl: listing.host!.image!.url!, width: 70, height: 70),
         const SizedBox(width: 16),
         Column(
@@ -94,7 +90,6 @@ class BookingRequestPage extends StatelessWidget {
   }
 
   checkinCheckoutLayout(SearchOptions searchOptions) {
-
     return Container(
       decoration: BoxDecoration(
         boxShadow: [Component.dropShadow()],
@@ -105,7 +100,7 @@ class BookingRequestPage extends StatelessWidget {
         child: InkWell(
           onTap: () async {
             var data = await Get.to(
-                    () => PickCalenderPage(searchOptions: searchOptions));
+                () => PickCalenderPage(searchOptions: searchOptions));
             if (data != null) {
               controller.searchOptions.value = data;
               controller.searchOptions.refresh();
@@ -128,32 +123,34 @@ class BookingRequestPage extends StatelessWidget {
                 ),
                 Expanded(
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Check In - Check Out",
-                          style: TextStyle(
-                              color: AppColors.darkGray,
-                              fontSize:
-                              searchOptions.getCheckinCheckoutShortDate().isEmpty
-                                  ? 16
-                                  : 12),
-                        ),
-                        SizedBox(
-                            height:
-                            searchOptions.getCheckinCheckoutShortDate().isNotEmpty
-                                ? 4
-                                : 0),
-                        searchOptions.getCheckinCheckoutShortDate().isNotEmpty
-                            ? Text(
-                          searchOptions.getCheckinCheckoutShortDate(),
-                          style: const TextStyle(
-                              color: AppColors.textColorBlack, fontSize: 16),
-                        )
-                            : SizedBox(),
-                      ],
-                    )),
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Check In - Check Out",
+                      style: TextStyle(
+                          color: AppColors.darkGray,
+                          fontSize: searchOptions
+                                  .getCheckinCheckoutShortDate()
+                                  .isEmpty
+                              ? 16
+                              : 12),
+                    ),
+                    SizedBox(
+                        height: searchOptions
+                                .getCheckinCheckoutShortDate()
+                                .isNotEmpty
+                            ? 4
+                            : 0),
+                    searchOptions.getCheckinCheckoutShortDate().isNotEmpty
+                        ? Text(
+                            searchOptions.getCheckinCheckoutShortDate(),
+                            style: const TextStyle(
+                                color: AppColors.textColorBlack, fontSize: 16),
+                          )
+                        : SizedBox(),
+                  ],
+                )),
               ],
             ),
           ),
@@ -163,7 +160,6 @@ class BookingRequestPage extends StatelessWidget {
   }
 
   guestCountLayout(SearchOptions searchOptions) {
-
     return Container(
       decoration: BoxDecoration(
         boxShadow: [Component.dropShadow()],
@@ -172,8 +168,9 @@ class BookingRequestPage extends StatelessWidget {
         shape: Component.roundShape(),
         elevation: 0,
         child: InkWell(
-          onTap: ()  {
-            GuestBottomSheet.showGuestCountBottomSheet(context, controller.searchOptions);
+          onTap: () {
+            GuestBottomSheet.showGuestCountBottomSheet(
+                context, controller.searchOptions);
           },
           child: Container(
             height: 70,
@@ -192,27 +189,27 @@ class BookingRequestPage extends StatelessWidget {
                 ),
                 Expanded(
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Guest",
-                          style: TextStyle(
-                              color: AppColors.darkGray,
-                              fontSize:
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Guest",
+                      style: TextStyle(
+                          color: AppColors.darkGray,
+                          fontSize:
                               searchOptions.getGuestCounts().isEmpty ? 16 : 12),
-                        ),
-                        SizedBox(
-                            height: searchOptions.getGuestCounts().isEmpty ? 0 : 4),
-                        searchOptions.getGuestCounts().isNotEmpty
-                            ? Text(
-                          searchOptions.getGuestCounts(),
-                          style: const TextStyle(
-                              color: AppColors.textColorBlack, fontSize: 16),
-                        )
-                            : SizedBox(),
-                      ],
-                    )),
+                    ),
+                    SizedBox(
+                        height: searchOptions.getGuestCounts().isEmpty ? 0 : 4),
+                    searchOptions.getGuestCounts().isNotEmpty
+                        ? Text(
+                            searchOptions.getGuestCounts(),
+                            style: const TextStyle(
+                                color: AppColors.textColorBlack, fontSize: 16),
+                          )
+                        : SizedBox(),
+                  ],
+                )),
               ],
             ),
           ),
@@ -222,7 +219,6 @@ class BookingRequestPage extends StatelessWidget {
   }
 
   messageInputBox(SearchOptions searchOptions) {
-
     return Container(
       decoration: BoxDecoration(
         boxShadow: [Component.dropShadow()],
@@ -249,14 +245,9 @@ class BookingRequestPage extends StatelessWidget {
     return TextButton(
       style: Component.textButtonStyle(radius: 8),
       onPressed: () {
-            controller.bookingRequest();
+        controller.bookingRequest();
       },
-      child: Component.textButtonText(buttonTitle: "Request for book"),
+      child: buttonText(buttonTitle: "Request for book"),
     );
   }
-
-
-
-
-
 }
