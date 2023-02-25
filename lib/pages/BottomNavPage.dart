@@ -1,6 +1,7 @@
 import 'package:base_app_flutter/component/Component.dart';
 import 'package:base_app_flutter/pages/guest/home/InboxPage.dart';
 import 'package:base_app_flutter/pages/guest/home/MyBookings.dart';
+import 'package:base_app_flutter/pages/guest/home/NotificationPage.dart';
 import 'package:base_app_flutter/utility/AppColors.dart';
 import 'package:base_app_flutter/utility/AssetsName.dart';
 import 'package:flutter/material.dart';
@@ -93,9 +94,7 @@ class _BottomNavPageState extends State<BottomNavPage> {
     ExplorePage(),
     MyBookings(),
     InboxPage(),
-    Text(
-      'Index 1: Business',
-    ),
+    NotificationPage(),
     Text(
       'Index 2: School',
     ),

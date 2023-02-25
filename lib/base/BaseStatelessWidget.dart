@@ -11,7 +11,7 @@ abstract class BaseStatelessWidget extends StatelessWidget with Component {
   @override
   Widget build(BuildContext context);
 
-  margin(double margin) {
+  Widget margin(double margin) {
     return SizedBox(
       height: margin,
       width: margin,

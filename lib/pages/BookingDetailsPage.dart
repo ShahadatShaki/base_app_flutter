@@ -2,11 +2,12 @@ import 'package:base_app_flutter/base/BaseStatelessWidget.dart';
 import 'package:base_app_flutter/component/ListingComponent.dart';
 import 'package:base_app_flutter/model/BookingModel.dart';
 import 'package:base_app_flutter/pages/ListingDetailsPage.dart';
+import 'package:base_app_flutter/utility/AppStrings.dart';
 import 'package:base_app_flutter/utility/AssetsName.dart';
 import 'package:base_app_flutter/utility/Constrants.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 
 import '../../component/Component.dart';
@@ -133,7 +134,7 @@ class BookingDetailsPage extends BaseStatelessWidget {
             Expanded(
                 child: ListingComponent.titleAndDetails(
                     title: "Check In",
-                    details: item.listing.checkIn,
+                    details: item.fromShortStrForShow(format: "dd MMM, yyyy"),
                     iconFront: AssetsName.clock,
                     iconBack: AssetsName.edit,
                     iconBackColor: AppColors.darkGray)),
@@ -141,7 +142,7 @@ class BookingDetailsPage extends BaseStatelessWidget {
             Expanded(
                 child: ListingComponent.titleAndDetails(
                     title: "Check Out",
-                    details: item.listing.checkOut,
+                    details: item.toShortStrForShow(format: "dd MMM, yyyy"),
                     iconFront: AssetsName.clock,
                     iconBack: AssetsName.edit,
                     iconBackColor: AppColors.darkGray)),
@@ -199,21 +200,24 @@ class BookingDetailsPage extends BaseStatelessWidget {
       children: [
         sectionTitle("Price Details"),
         margin(16),
-        priceDetailsSection("BDT 1200 taka x 5 nights", "৳1200"),
+        priceDetailsSection(
+            "BDT ${item.listing.price} taka x ${item.getTotalNights()} nights",
+            "৳${int.parse(item.totalPayable) + item.getAllDiscount()}"),
+        // margin(16),
+        // priceDetailsSection("Cleaning fee", "৳1200"),
+        // margin(16),
+        // priceDetailsSection("Service fee", "৳1200"),
+        // margin(16),
+        // priceDetailsSection("Taxes", "৳1200"),
         margin(16),
-        priceDetailsSection("Cleaning fee", "৳1200"),
+        priceDetailsSection("Discount", "৳${item.getAllDiscount()}"),
+        lineHorizontal(margin: const EdgeInsets.only(top: 24, bottom: 24)),
+        duePaidSection("Total Payable", "৳${item.totalPayable}"),
         margin(16),
-        priceDetailsSection("Service fee", "৳1200"),
+        duePaidSection("Paid", "৳${item.paid}"),
         margin(16),
-        priceDetailsSection("Taxes", "৳1200"),
-        margin(16),
-        priceDetailsSection("Discount", "৳1200"),
-        lineHorizontal(margin: EdgeInsets.only(top: 24, bottom: 24)),
-        duePaidSection("Total Payable", "৳1200"),
-        margin(16),
-        duePaidSection("Paid", "৳1200"),
-        margin(16),
-        duePaidSection("Due", "৳1200"),
+        duePaidSection(
+            "Due", "৳${int.parse(item.totalPayable) - int.parse(item.paid)}"),
       ],
     );
   }
@@ -258,50 +262,42 @@ class BookingDetailsPage extends BaseStatelessWidget {
 
   confirmAndPayButton() {
     return item.isExpire()
-        ? TextButton(onPressed: () {}, child: Text("Book Again"))
+        ? ElevatedButton(
+            style: buttonStyle(),
+            onPressed: () {},
+            child: buttonText(buttonTitle: "Book Again", height: 50))
         : Column(
             children: [
               Row(
                 children: [
                   Checkbox(
-                    value: false,
-                    onChanged: (value) {},
+                    value: controller.isTermsChecked.value,
+                    onChanged: (value) {
+                      controller.isTermsChecked.value = value ?? false;
+                    },
                   ),
                   Expanded(
-                    child: RichText(
-                      text:  TextSpan(
-                        children: <TextSpan>[
-                          TextSpan(
-                              text:
-                                  'Upon licking on Confirm And Pay, I agree to The ',
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.textColorBlack)),
-                          TextSpan(
-                              text: 'Terms & Conditions,',
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  print("Terms & Conditions");
-                                },
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  color: AppColors.textColorBlack,
-                                  decoration: TextDecoration.underline)),
-                        ],
-                      ),
-                    ),
+                      child: Html(
+                    data: AppStrings.termsAndCondition,
 
-                    // Text(
-                    //     "Upon licking on Confirm And Pay, I agree to The Terms & Conditions, Privacy Policy and Refund Policy of Travela."),
-                  ),
+                    // style: {
+                    //   "p": Style(
+                    //     border: Border(bottom: BorderSide(color: Colors.grey)),
+                    //     padding: const EdgeInsets.all(16),
+                    //     fontSize: FontSize(30),
+                    //   ),
+                    // },
+                    onLinkTap: (url, context, attributes, element) {
+                      Constants.showToast(url ?? "");
+                    },
+                  )),
                 ],
               ),
               margin(16),
               ElevatedButton(
                   style: buttonStyle(),
                   onPressed: () {},
-                  child: buttonText(buttonTitle: "Book Again", height: 50))
+                  child: buttonText(buttonTitle: "Confirm And Pay", height: 50))
             ],
           );
   }

@@ -67,17 +67,17 @@ class BookingModel implements Serializable {
   }
 
   String get discount {
-    _discount ??= "";
+    _discount ??= "0";
     return _discount!;
   }
 
   String get moreNightsDiscount {
-    _moreNightsDiscount ??= "";
+    _moreNightsDiscount ??= "0";
     return _moreNightsDiscount!;
   }
 
   String get totalPayable {
-    _totalPayable ??= "";
+    _totalPayable ??= "0";
     return _totalPayable!;
   }
 
@@ -92,7 +92,7 @@ class BookingModel implements Serializable {
   }
 
   String get paid {
-    _paid ??= "";
+    _paid ??= "0";
     return _paid!;
   }
 
@@ -141,22 +141,48 @@ class BookingModel implements Serializable {
     return _images!;
   }
 
+  int getAllDiscount() {
+    int dis = int.parse(moreNightsDiscount) + int.parse(discount);
+    return dis;
+  }
+
   bool isExpire() {
     var _expire = false;
+
+    if (status == "Accepted" || status == "Partial") {
+      if (statusUpdatedAt.isEmpty) {
+        var createdAtCalender = Constants.stingToCalender(createdAt);
+        createdAtCalender = createdAtCalender.add(Duration(hours: Constants.GUEST_TIMER_FOR_PAYMENT));
+        DateTime now = DateTime.now();
+        if(now.millisecond>createdAtCalender.millisecond){
+          return true;
+        }
+      } else {
+        var createdAtCalender = Constants.stingToCalender(statusUpdatedAt);
+        createdAtCalender = createdAtCalender.add(Duration(hours: Constants.GUEST_TIMER_FOR_PAYMENT));
+        DateTime now = DateTime.now();
+        if(now.millisecond>createdAtCalender.millisecond){
+          return true;
+        }
+      }
+    } else {
+      return true;
+    }
 
     return _expire;
   }
 
-  DateTime calenderTo() {
+  DateTime calenderCheckout() {
     try {
       DateTime date = DateTime.parse(to);
-      return date;
+
+      return DateTime(date.year, date.month, date.day + 1);
     } catch (e) {
       return DateTime.now();
     }
   }
 
-  DateTime calenderFrom() {
+  DateTime calenderCheckin() {
     try {
       DateTime date = DateTime.parse(from);
       return date;
@@ -167,7 +193,15 @@ class BookingModel implements Serializable {
   }
 
   String fromToStrForShow() {
-    return "${Constants.calenderToString(calenderFrom(), "dd MMM")} - ${Constants.calenderToString(calenderTo(), "dd MMM")}";
+    return "${Constants.calenderToString(calenderCheckin(), "dd MMM")} - ${Constants.calenderToString(calenderCheckout(), "dd MMM")}";
+  }
+
+  String fromShortStrForShow({String format = "dd MMM"}) {
+    return Constants.calenderToString(calenderCheckin(), format);
+  }
+
+  String toShortStrForShow({String format = "dd MMM"}) {
+    return Constants.calenderToString(calenderCheckout(), format);
   }
 
   BookingModel.fromJson(Map<String, dynamic> json) {
@@ -235,4 +269,9 @@ class BookingModel implements Serializable {
         'status_updated_at': statusUpdatedAt,
         'os_platform': osPlatform
       };
+
+  getTotalNights() {
+    return Constants.totalDays(calenderCheckout()) -
+        Constants.totalDays(calenderCheckin());
+  }
 }

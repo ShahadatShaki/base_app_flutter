@@ -28,6 +28,8 @@ class BookingController extends GetxController {
   bool hasMoreData = true;
   var page = 1;
 
+  var isTermsChecked = false.obs;
+
   @override
   void onInit() {
     scrollController = ScrollController()
@@ -61,6 +63,7 @@ class BookingController extends GetxController {
 
     var client = http.Client();
     var uri = Uri.https(Urls.ROOT_URL_MAIN, "/api/booking/$bookingId");
+    print(uri);
     var response = await client.get(uri, headers: await Urls.getHeaders());
     print(response.body);
 

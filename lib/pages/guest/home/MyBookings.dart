@@ -95,7 +95,7 @@ class MyBookings extends BaseStatelessWidget {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                          "${Constants.calenderToString(item.calenderFrom(), "dd-MMM")} - -${Constants.calenderToString(item.calenderTo(), "dd-MMM")}"),
+                          "${Constants.calenderToString(item.calenderCheckin(), "dd-MMM")} - -${Constants.calenderToString(item.calenderCheckout(), "dd-MMM")}"),
                       const SizedBox(height: 4),
                       Text(
                         "Address: ${item.listing!.address!}",
