@@ -57,12 +57,11 @@ class ListingController extends GetxController {
   }
 
   bookingRequest() async {
-
-    if(searchOptions.value.checkinDateCalender == null){
+    if (searchOptions.value.checkinDateCalender == null) {
       Constants.showToast("Select a date");
       return;
     }
-    if(searchOptions.value.guestCount == 0){
+    if (searchOptions.value.guestCount == 0) {
       Constants.showToast("Select guest");
       return;
     }
@@ -72,8 +71,10 @@ class ListingController extends GetxController {
       'listing_id': listingId,
       'guests': searchOptions.value.guestCount,
       'message': messageController.text,
-      'from': Constants.calenderToString(searchOptions.value.checkinDateCalender!,"yyyy-MM-dd"),
-      'to': Constants.calenderToString(searchOptions.value.checkoutDateCalender!,"yyyy-MM-dd"),
+      'from': Constants.calenderToString(
+          searchOptions.value.checkinDateCalender!, "yyyy-MM-dd"),
+      'to': Constants.calenderToString(
+          searchOptions.value.checkoutDateCalender!, "yyyy-MM-dd"),
     });
 
     try {
@@ -92,7 +93,7 @@ class ListingController extends GetxController {
       print(response.data);
     } catch (e) {
       // print("response: " + DioExceptions.fromDioError(e as DioError).message);
-      print("response: "+e.toString());
+      print("response: " + e.toString());
     }
   }
 

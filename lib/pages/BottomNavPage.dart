@@ -1,4 +1,5 @@
 import 'package:base_app_flutter/component/Component.dart';
+import 'package:base_app_flutter/pages/UserProfilePage.dart';
 import 'package:base_app_flutter/pages/guest/home/InboxPage.dart';
 import 'package:base_app_flutter/pages/guest/home/MyBookings.dart';
 import 'package:base_app_flutter/pages/guest/home/NotificationPage.dart';
@@ -95,8 +96,6 @@ class _BottomNavPageState extends State<BottomNavPage> {
     MyBookings(),
     InboxPage(),
     NotificationPage(),
-    Text(
-      'Index 2: School',
-    ),
+    UserProfilePage()
   ];
 }

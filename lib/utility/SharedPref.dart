@@ -53,6 +53,7 @@ class SharedPref {
   static putInt(String key, int value) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setInt(key, value);
+
   }
 
   static getDouble(String key) async {
