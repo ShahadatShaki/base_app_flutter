@@ -35,7 +35,7 @@ class MyBookings extends BaseStatelessWidget {
   showListOrEmptyView() {
     return Expanded(
       child: Container(
-          color: AppColors.separator,
+          color: AppColors.backgroundColor,
           child: !controller.apiCalled.value
               ? Component.loadingView()
               : (controller.apiCalled.value && controller.dataList.isNotEmpty)

@@ -57,7 +57,7 @@ class NotificationPage extends BaseStatelessWidget {
   cardDesign(int index, NotificationModel item) {
     return InkWell(
       onTap: () {
-        Get.to(() => ConversationPage(id: item.id.toString()));
+        // Get.to(() => ConversationPage(id: item.id.toString()));
       },
       child: Container(
         color: AppColors.backgroundColor,
