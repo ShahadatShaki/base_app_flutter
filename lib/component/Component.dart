@@ -24,6 +24,10 @@ class Component {
     return TextStyle(color: color, fontSize: 14, fontWeight: FontWeight.w500);
   }
 
+  static TextStyle ts16Gray500({Color color = AppColors.darkGray}) {
+    return TextStyle(color: color, fontSize: 16, fontWeight: FontWeight.w500);
+  }
+
   static TextStyle textStyle12bkw500({Color color = AppColors.textColorBlack}) {
     return TextStyle(color: color, fontSize: 12, fontWeight: FontWeight.w500);
   }
@@ -195,12 +199,16 @@ class Component {
     );
   }
 
-  static textButtonStyle({double radius = 8}) {
+  static textButtonStyle(
+      {double radius = 8,
+      Color backgroundColor = AppColors.appColor,
+      Color foregroundColor = Colors.white,
+      double fontSize = 16}) {
     return TextButton.styleFrom(
       shape: Component.roundShape(radius: radius),
-      foregroundColor: Colors.white,
-      backgroundColor: AppColors.appColor,
-      textStyle: const TextStyle(fontSize: 16),
+      foregroundColor: foregroundColor,
+      backgroundColor: backgroundColor,
+      textStyle: TextStyle(fontSize: fontSize),
     );
   }
 
@@ -238,6 +246,12 @@ class Component {
           height: height,
           imageUrl: imageUrl,
           fadeInCurve: Curves.easeIn,
+          placeholder: (context, url) {
+            return Image.asset(
+              AssetsName.generic_placeholder,
+              fit: BoxFit.cover,
+            );
+          },
           errorWidget: (context, url, error) {
             return Image.asset(
               AssetsName.generic_placeholder,
@@ -260,6 +274,12 @@ class Component {
       height: height,
       imageUrl: imageUrl,
       fadeInCurve: Curves.easeIn,
+      placeholder: (context, url) {
+        return Image.asset(
+          AssetsName.generic_placeholder,
+          fit: BoxFit.cover,
+        );
+      },
       errorWidget: (context, url, error) {
         return Image.asset(
           AssetsName.generic_placeholder,
@@ -269,12 +289,15 @@ class Component {
     ));
   }
 
-  lineHorizontal({EdgeInsets? margin}) {
+  lineHorizontal({
+    EdgeInsets? margin,
+    Color color = AppColors.lineColor,
+  }) {
     return Container(
       margin: margin,
       width: double.infinity,
       height: 1,
-      color: AppColors.lineColor,
+      color: color,
     );
   }
 

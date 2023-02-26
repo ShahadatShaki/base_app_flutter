@@ -44,6 +44,7 @@ dev_dependencies:
   google_maps_flutter: ^2.2.3
 #  pusher_channels_flutter: ^2.1.0
   pusher_client: ^2.0.0
+  json_store: ^2.0.1
 
 
 flutter:

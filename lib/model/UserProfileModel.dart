@@ -29,6 +29,10 @@ class UserProfileModel implements Serializable {
     return _firstName!;
   }
 
+  String get fullName{
+   return "$firstName $lastName";
+  }
+
   String get lastName {
     _lastName ??= "";
     return _lastName!;

@@ -39,6 +39,22 @@ class AppColors {
     },
   );
 
+  static const MaterialColor gray = MaterialColor(
+    0xFFF5F5F5,
+    <int, Color>{
+      // 50: Color(0xffe81d7f),
+      100: Color(0xFFF5F5F5),
+      200: Color(0xFFC3C6D3),
+      // 300: Color(0xFFe81478),
+      // 400: Color(0xFFe81478),
+      500: Color(0xFF666870),
+      // 600: Color(0xFFe81478),
+      // 700: Color(0xFFe81478),
+      // 800: Color(0xFFe81478),
+      // 900: Color(0xFFe81478),
+    },
+  );
+
 // <color name="colorPrimary">@color/appColor</color>
 // <color name="colorPrimaryDark">#CC136A</color>
 // <!--    <color name="colorPrimaryDark">#FFE65155</color>-->
