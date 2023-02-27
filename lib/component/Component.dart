@@ -227,10 +227,24 @@ class Component {
         ));
   }
 
-  static containerRoundShape({double size = 8}) {
+  static containerRoundShape({
+    double size = 8,
+    Color color = AppColors.separator,
+  }) {
     return BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(size)), color: color);
+  }
+
+  static containerRoundShapeWithBorder({
+    double size = 8,
+    Color color = AppColors.separator,
+    double borderWidth = 0,
+    Color borderColor = AppColors.separator,
+  }) {
+    return BoxDecoration(
+        border: Border.all(width: borderWidth, color: borderColor),
         borderRadius: BorderRadius.all(Radius.circular(size)),
-        color: AppColors.separator);
+        color: color);
   }
 
   Widget loadImage(

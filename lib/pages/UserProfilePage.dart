@@ -2,6 +2,8 @@ import 'package:base_app_flutter/base/BaseStatelessWidget.dart';
 import 'package:base_app_flutter/component/Component.dart';
 import 'package:base_app_flutter/controller/UserController.dart';
 import 'package:base_app_flutter/model/UserProfileModel.dart';
+import 'package:base_app_flutter/pages/Webview.dart';
+import 'package:base_app_flutter/pages/auth/EditProfilePage.dart';
 import 'package:base_app_flutter/pages/guest/home/MyBookings.dart';
 import 'package:base_app_flutter/utility/AssetsName.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +23,7 @@ class UserProfilePage extends BaseStatelessWidget {
     controller.getUserProfile();
     return Scaffold(
       backgroundColor: AppColors.white,
-      appBar: Component.appbar(name: "Profile"),
+      appBar: Component.appbar(name: "Profile", showBackIcon: false),
       body: Obx(() => getMainLayout()),
     );
   }
@@ -54,7 +56,9 @@ class UserProfilePage extends BaseStatelessWidget {
             ),
             margin(16),
             TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Get.to(()=> EditProfilePage());
+                },
                 style: Component.textButtonStyle(
                     backgroundColor: AppColors.gray.shade100,
                     foregroundColor: AppColors.appColor),
@@ -72,8 +76,8 @@ class UserProfilePage extends BaseStatelessWidget {
             section(
                 AssetsName.payment_history, "Payment History", MyBookings()),
             section(AssetsName.terms_and_condition, "Terms & Conditions",
-                MyBookings()),
-            section(AssetsName.about_us, "About Us", MyBookings()),
+                WebviewPage(title: "Terms & Conditions", url: "https://travela.xyz/terms-conditions")),
+            section(AssetsName.about_us, "About Us", WebviewPage(url: "https://travela.xyz/about", title: "About Us")),
             section(AssetsName.call, "Contact with us", MyBookings()),
             section("", "Log Out", MyBookings()),
           ],

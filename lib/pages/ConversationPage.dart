@@ -82,7 +82,7 @@ class ConversationPage extends BaseStatelessWidget {
       decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(50)),
           color: AppColors.chatMessageBg),
-      margin: const EdgeInsets.only(top: 16, left: 16, right: 16),
+      margin: const EdgeInsets.only(top: 8, left: 16, right: 16),
       padding: const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
       child: Row(
         children: [
@@ -110,7 +110,7 @@ class ConversationPage extends BaseStatelessWidget {
             decoration: const BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(20)),
                 color: AppColors.chatMessageBg),
-            margin: const EdgeInsets.only(top: 16, left: 100, right: 16),
+            margin: const EdgeInsets.only(top: 8, left: 100, right: 16),
             padding:
                 const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
             child: Text(
@@ -138,7 +138,7 @@ class ConversationPage extends BaseStatelessWidget {
             decoration: const BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(20)),
                 color: AppColors.chatMessageBg),
-            margin: const EdgeInsets.only(top: 16, right: 100),
+            margin: const EdgeInsets.only(top: 8, right: 100),
             padding:
                 const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
             child: Text(
@@ -156,7 +156,8 @@ class ConversationPage extends BaseStatelessWidget {
       children: [
         Expanded(
           child: Container(
-            margin: const EdgeInsets.only(left: 16, right: 8, top: 16, bottom: 16),
+            margin:
+                const EdgeInsets.only(left: 16, right: 8, top: 16, bottom: 16),
             child: Container(
               decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -178,7 +179,8 @@ class ConversationPage extends BaseStatelessWidget {
             onTap: () {
               controller.sendMessage();
             },
-            child: Component.showIcon(name: AssetsName.send, color: AppColors.white, size: 30))
+            child: Component.showIcon(
+                name: AssetsName.send, color: AppColors.white, size: 30))
       ],
     );
   }
@@ -193,7 +195,9 @@ class ConversationPage extends BaseStatelessWidget {
           Row(
             children: [
               loadImage(
-                  imageUrl: item.listing.getCoverImage(), height: 30, width: 30),
+                  imageUrl: item.listing.getCoverImage(),
+                  height: 30,
+                  width: 30),
               const SizedBox(width: 8),
               Expanded(
                 child: Text(
@@ -204,7 +208,7 @@ class ConversationPage extends BaseStatelessWidget {
               TextButton(
                 style: Component.textButtonStyle(),
                 onPressed: () {
-                  Get.to(()=> BookingDetailsPage(id: "4385"));
+                  Get.to(() => BookingDetailsPage(id: "4385"));
                 },
                 child: Container(
                   alignment: Alignment.center,

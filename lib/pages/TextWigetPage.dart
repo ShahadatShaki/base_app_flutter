@@ -10,6 +10,10 @@ import 'LoginPage.dart';
 class TextWigetPage extends StatelessWidget {
   TextWigetPage({Key? key}) : super(key: key);
 
+  initState(){
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
