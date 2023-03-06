@@ -95,7 +95,7 @@ class ListingModel implements Serializable {
   String get advance { _advance ??= ""; return _advance!;}
   String get commission { _commission ??= ""; return _commission!;}
   String get beforeDiscount { _beforeDiscount ??= ""; return _beforeDiscount!;}
-  String get averagePrice { _averagePrice ??= ""; return _averagePrice!;}
+  String get averagePrice { _averagePrice ??= "0"; return _averagePrice!;}
   String get status { _status ??= ""; return _status!;}
   Location get location { _location ??= Location(); return _location!;}
   PropertyType get propertyType { _propertyType ??= PropertyType(); return _propertyType!;}

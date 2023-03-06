@@ -213,7 +213,7 @@ class ListingSearchPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 12),
-            (item.getPrice()! > item.averagePrice!) && item.averagePrice != 0
+            (item.getPrice()! > int.parse(item.averagePrice)) && item.averagePrice != "0"
                 ? Container(
                     margin: EdgeInsets.only(bottom: 8),
                     child: Text(
