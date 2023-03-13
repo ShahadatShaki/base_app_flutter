@@ -1,4 +1,5 @@
 import 'package:base_app_flutter/model/ImageModel.dart';
+import 'package:base_app_flutter/utility/Constrants.dart';
 
 import '../base/Serializable.dart';
 
@@ -51,6 +52,10 @@ class UserProfileModel implements Serializable {
   String get birthdate {
     _birthdate ??= "";
     return _birthdate!;
+  }
+
+  DateTime get birthdateCalendar {
+    return Constants.stingToCalender(birthdate);
   }
 
   String get referCode {

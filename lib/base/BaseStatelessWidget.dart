@@ -22,12 +22,7 @@ abstract class BaseStatelessWidget extends StatelessWidget with Component {
     );
   }
 
-  Widget margin(double margin) {
-    return SizedBox(
-      height: margin,
-      width: margin,
-    );
-  }
+
 
   buttonStyle(
       {MaterialColor backgroundColor = AppColors.primary,

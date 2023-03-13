@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:base_app_flutter/base/ApiResponse.dart';
 import 'package:base_app_flutter/model/UserProfileModel.dart';
+import 'package:base_app_flutter/utility/Constrants.dart';
 import 'package:base_app_flutter/utility/OfflineCache.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart' hide FormData;
 import 'package:get/state_manager.dart';
 import 'package:http/http.dart' as http;
@@ -16,8 +18,10 @@ class UserController extends GetxController {
   bool callingApi = false;
   String errorMessage = "";
 
+
   @override
   void onInit() {
+
     getProfileDataOffline();
     super.onInit();
   }
@@ -27,7 +31,6 @@ class UserController extends GetxController {
       return;
     }
     callingApi = true;
-
 
     var client = http.Client();
     var uri = Uri.https(Urls.ROOT_URL_MAIN, "/api/auth/profile");
@@ -40,7 +43,8 @@ class UserController extends GetxController {
           json.decode(response.body),
           (data) => UserProfileModel.fromJson(data));
 
-      OfflineCache.saveOfflineJson(OfflineCache.USER_PROFILE, res.data?.toJson());
+      OfflineCache.saveOfflineJson(
+          OfflineCache.USER_PROFILE, res.data?.toJson());
       profile.value = res.data!;
     } else {
       // errorMessage = response.
@@ -49,13 +53,14 @@ class UserController extends GetxController {
     callingApi = false;
   }
 
+
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
   }
 
-  void getProfileDataOffline() async{
+  void getProfileDataOffline() async {
     var offRes = await OfflineCache.getOffline(OfflineCache.USER_PROFILE);
     if (offRes != null) {
       profile.value = UserProfileModel.fromJson(offRes);

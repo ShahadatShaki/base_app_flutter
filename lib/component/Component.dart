@@ -1,11 +1,16 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 import '../utility/AppColors.dart';
 import '../utility/AssetsName.dart';
+
+typedef DatePickerCallBack = void Function(DateTime dateTime);
 
 class Component {
   static TextStyle textStyle16bkw500({Color color = AppColors.textColorBlack}) {
@@ -98,6 +103,70 @@ class Component {
             ),
           );
         });
+  }
+
+  pickDate({required BuildContext context, DatePickerCallBack? onDatePick}) {
+    DateTime dateTime = DateTime.now();
+
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            // title: Text("Test Title"),
+            content: Container(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    height: 300,
+                    width: 300,
+                    child: SfDateRangePicker(
+                      onSelectionChanged: (args) {
+                        if (args.value is DateTime) {
+                          dateTime = args.value;
+                        }
+                        int i = 0;
+                      },
+                      selectionMode: DateRangePickerSelectionMode.single,
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextButton(
+                          style: Component.textButtonStyle(
+                              radius: 8, backgroundColor: AppColors.darkGray),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: buttonText(buttonTitle: "Cancel", height: 30),
+                        ),
+                      ),
+                      margin(16),
+                      Expanded(
+                        child: TextButton(
+                          style: Component.textButtonStyle(radius: 8),
+                          onPressed: () {
+                            if (onDatePick != null) onDatePick(dateTime);
+                            Navigator.pop(context);
+                          },
+                          child: buttonText(buttonTitle: "Done", height: 30),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  Widget margin(double margin) {
+    return SizedBox(
+      height: margin,
+      width: margin,
+    );
   }
 
   static showBottommsheetDialog(BuildContext context) {
@@ -237,7 +306,7 @@ class Component {
 
   static containerRoundShapeWithBorder({
     double size = 8,
-    Color color = AppColors.separator,
+    Color color = AppColors.transparent,
     double borderWidth = 0,
     Color borderColor = AppColors.separator,
   }) {
@@ -300,6 +369,21 @@ class Component {
           fit: BoxFit.cover,
         );
       },
+    ));
+  }
+
+  Widget loadCircleImageFromFile(
+      {required File imageUrl,
+      double width = double.infinity,
+      double height = 50,
+      double cornerRadius = 0}) {
+    return ClipOval(
+        // borderRadius: BorderRadius.all(Radius.circular(cornerRadius)),
+        child: Image.file(
+      imageUrl,
+      fit: BoxFit.cover,
+      width: width,
+      height: height,
     ));
   }
 
