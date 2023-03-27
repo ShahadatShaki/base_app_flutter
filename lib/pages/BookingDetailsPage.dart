@@ -1,5 +1,6 @@
 import 'package:base_app_flutter/base/BaseStatelessWidget.dart';
 import 'package:base_app_flutter/component/ListingComponent.dart';
+import 'package:base_app_flutter/controller/BookingDetailsController.dart';
 import 'package:base_app_flutter/model/BookingModel.dart';
 import 'package:base_app_flutter/pages/ListingDetailsPage.dart';
 import 'package:base_app_flutter/utility/AppStrings.dart';
@@ -14,8 +15,8 @@ import '../../component/Component.dart';
 import '../../utility/AppColors.dart';
 import '../controller/BookingController.dart';
 
-class BookingDetailsPage extends BaseStatelessWidget {
-  final BookingController controller = Get.put(BookingController());
+class BookingDetailsPage extends StatelessWidget with Component {
+  final BookingDetailsController controller = Get.put(BookingDetailsController());
   String id;
   late BuildContext context;
   late BookingModel item;
@@ -32,6 +33,8 @@ class BookingDetailsPage extends BaseStatelessWidget {
       body: getMainLayout(),
     );
   }
+
+
 
   getMainLayout() {
     return SafeArea(

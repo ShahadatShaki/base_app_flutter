@@ -407,4 +407,29 @@ class Component {
       color: AppColors.lineColor,
     );
   }
+
+  buttonStyle(
+      {MaterialColor backgroundColor = AppColors.primary,
+        Color? borderColor,
+        double? borderWidth,
+        double borderRadius = 8}) {
+    return ButtonStyle(
+      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+        RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(borderRadius),
+          // side: borderWidth==null?BorderSide(
+          //   width: 0
+          // ): BorderSide(
+          //   color: borderColor!,
+          //   width:  borderWidth!,
+          // )
+        ),
+      ),
+      backgroundColor: MaterialStateProperty.resolveWith<Color?>(
+            (Set<MaterialState> states) {
+          return backgroundColor;
+        },
+      ),
+    );
+  }
 }
