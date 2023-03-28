@@ -22,6 +22,7 @@ class BookingModel implements Serializable {
   String? _amount;
   String? _status;
   String? _createdAt;
+  String? _paymentUrl;
   String? _statusUpdatedAt;
   String? _osPlatform;
   bool? _is_expire;
@@ -46,6 +47,10 @@ class BookingModel implements Serializable {
   String get from {
     _from ??= "";
     return _from!;
+  }
+  String get paymentUrl {
+    _paymentUrl ??= "";
+    return _paymentUrl!;
   }
 
   String get to {
@@ -233,6 +238,7 @@ class BookingModel implements Serializable {
     }
     _from = json['from'].toString();
     _to = json['to'].toString();
+    _paymentUrl = json['payment_url'].toString();
     _amount = json['amount'].toString();
     _totalGuest = json['total_guest'].toString();
     _price = json['price'].toString();

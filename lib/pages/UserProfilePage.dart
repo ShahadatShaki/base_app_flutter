@@ -90,7 +90,7 @@ class UserProfilePage extends BaseStatelessWidget {
     return Column(
       children: [
         Ink(
-          decoration: Component.containerRoundShape(),
+          decoration: containerRoundShape(),
           child: InkWell(
             onTap: () {
               Get.to(page);

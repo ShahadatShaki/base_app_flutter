@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:base_app_flutter/base/ApiResponse.dart';
 import 'package:base_app_flutter/model/BookingModel.dart';
+import 'package:base_app_flutter/pages/Webview.dart';
 import 'package:get/get.dart' hide FormData;
 import 'package:get/state_manager.dart';
 import 'package:http/http.dart' as http;
@@ -12,6 +13,8 @@ class BookingDetailsController extends GetxController {
   var booking = BookingModel().obs;
   var dataList = <BookingModel>[].obs;
   var id = "";
+  var paymentGateway = "".obs;
+  var paymentAmount = 0.obs;
   var apiCalled = false.obs;
   bool callingApi = false;
   String errorMessage = "";
@@ -33,7 +36,6 @@ class BookingDetailsController extends GetxController {
     }
 
     this.id = bookingId;
-
     callingApi = true;
 
     var client = http.Client();
@@ -46,6 +48,9 @@ class BookingDetailsController extends GetxController {
       var res = ApiResponse<BookingModel>.fromJson(
           json.decode(response.body), (data) => BookingModel.fromJson(data));
       booking.value = res.data!;
+
+      paymentAmount.value =
+          int.parse(booking.value.totalPayable) - int.parse(booking.value.paid);
     } else {
       // errorMessage = response.
     }
@@ -55,10 +60,10 @@ class BookingDetailsController extends GetxController {
 
   var provider = "";
 
-  void getPaymentUrl(String amount, bool getUrl) async {
+  void getPaymentUrl(bool getUrl) async {
     var client = http.Client();
     final queryParameters = {
-      "amount": amount,
+      "amount": paymentAmount.toString(),
       "provider": provider,
       "agreement": "true",
       "url": getUrl.toString(),
@@ -69,9 +74,12 @@ class BookingDetailsController extends GetxController {
     var response = await client.get(uri, headers: await Urls.getHeaders());
     var res = ApiResponse<BookingModel>.fromJson(
         json.decode(response.body), (data) => BookingModel.fromJson(data));
-
-    booking.value.amount = res.data?.amount;
-    booking.refresh();
+    if (getUrl) {
+      Get.to(()=> WebviewPage(url: res.data!.paymentUrl, title: "Payment"));
+    } else {
+      booking.value.amount = res.data?.amount;
+      booking.refresh();
+    }
   }
 
   @override

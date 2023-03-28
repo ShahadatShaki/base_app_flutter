@@ -1,3 +1,4 @@
+import 'package:base_app_flutter/base/BaseStatelessWidget.dart';
 import 'package:base_app_flutter/utility/AssetsName.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,7 @@ import '../../model/SearchOptions.dart';
 import '../../utility/AppColors.dart';
 import '../ListingDetailsPage.dart';
 
-class ListingSearchPage extends StatelessWidget {
+class ListingSearchPage extends BaseStatelessWidget {
   final ListingSearchController controller = Get.put(ListingSearchController());
   SearchOptions searchOptions;
   late BuildContext context;
@@ -99,7 +100,7 @@ class ListingSearchPage extends StatelessWidget {
   searchOptionsLayout() {
     return Container(
         margin: const EdgeInsets.only(left: 24, right: 24, top: 24, bottom: 24),
-        decoration: Component.containerRoundShape(),
+        decoration: containerRoundShape(),
         padding:
             const EdgeInsets.only(left: 18, right: 18, top: 12, bottom: 12),
         child: Row(

@@ -296,7 +296,7 @@ class Component {
         ));
   }
 
-  static containerRoundShape({
+   containerRoundShape({
     double size = 8,
     Color color = AppColors.separator,
   }) {
@@ -304,7 +304,7 @@ class Component {
         borderRadius: BorderRadius.all(Radius.circular(size)), color: color);
   }
 
-  static containerRoundShapeWithBorder({
+   containerRoundShapeWithBorder({
     double size = 8,
     Color color = AppColors.transparent,
     double borderWidth = 0,

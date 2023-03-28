@@ -66,7 +66,7 @@ class EditProfilePage extends BaseStatelessWidget {
                           child: Container(
                               padding: EdgeInsets.all(6),
                               decoration:
-                                  Component.containerRoundShapeWithBorder(
+                                  containerRoundShapeWithBorder(
                                       color: AppColors.appColor,
                                       size: 50,
                                       borderColor: AppColors.white,
@@ -85,7 +85,7 @@ class EditProfilePage extends BaseStatelessWidget {
                   Expanded(
                     flex: 1,
                     child: Container(
-                      decoration: Component.containerRoundShapeWithBorder(
+                      decoration: containerRoundShapeWithBorder(
                           borderWidth: 1.5, borderColor: AppColors.darkGray),
                       child: TextField(
                           controller: controller.firstNameController,
@@ -105,7 +105,7 @@ class EditProfilePage extends BaseStatelessWidget {
                   Expanded(
                     flex: 1,
                     child: Container(
-                      decoration: Component.containerRoundShapeWithBorder(
+                      decoration: containerRoundShapeWithBorder(
                           borderWidth: 1.5, borderColor: AppColors.darkGray),
                       child: TextField(
                           controller: controller.lastNameController,
@@ -129,7 +129,7 @@ class EditProfilePage extends BaseStatelessWidget {
                   controller.pickDob(context);
                 },
                 child: Container(
-                  decoration: Component.containerRoundShapeWithBorder(
+                  decoration: containerRoundShapeWithBorder(
                       borderWidth: 1.5, borderColor: AppColors.darkGray),
                   child: TextField(
                       enabled: false,
