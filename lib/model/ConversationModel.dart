@@ -50,6 +50,10 @@ class ConversationModel implements Serializable {
     return _booking!;
   }
 
+  set booking(booking){
+    _booking = booking;
+  }
+
   bool get bookingReviews {
     _bookingReviews ??= false;
     return _bookingReviews!;

@@ -50,33 +50,6 @@ class BookingController extends GetxController {
     super.onInit();
   }
 
-  getSingleBooking(String bookingId) async {
-    // apiCalled.value = false;
-
-    if (callingApi) {
-      return;
-    }
-
-    this.id = bookingId;
-
-    callingApi = true;
-
-    var client = http.Client();
-    var uri = Uri.https(Urls.ROOT_URL_MAIN, "/api/booking/$bookingId");
-    print(uri);
-    var response = await client.get(uri, headers: await Urls.getHeaders());
-    print(response.body);
-
-    if (response.statusCode == 200) {
-      var res = ApiResponse<BookingModel>.fromJson(
-          json.decode(response.body), (data) => BookingModel.fromJson(data));
-      booking.value = res.data!;
-    } else {
-      // errorMessage = response.
-    }
-    apiCalled.value = true;
-    callingApi = false;
-  }
 
   bookingRequest() async {
     if (searchOptions.value.checkinDateCalender == null) {

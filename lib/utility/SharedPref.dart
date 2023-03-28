@@ -5,6 +5,7 @@ class SharedPref {
   static String AUTH_KEY = "AUTH_KEY";
   static String USER_ID = "USER_ID";
   static String IS_LOGIN = "IS_LOGIN";
+  static String CURRENT_ROLL_HOST = "CURRENT_ROLL_HOST";
 
   static getString(String key) async {
     final prefs = await SharedPreferences.getInstance();
@@ -67,7 +68,9 @@ class SharedPref {
   }
 
   static var userId;
+  static var isHost;
   static void initData() async {
     userId = await getString(USER_ID);
+    isHost = await getBool(CURRENT_ROLL_HOST);
   }
 }

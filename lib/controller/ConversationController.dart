@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:base_app_flutter/base/ApiResponse.dart';
+import 'package:base_app_flutter/model/BookingModel.dart';
 import 'package:base_app_flutter/model/ConversationModel.dart';
 import 'package:base_app_flutter/model/MessagesModel.dart';
 import 'package:base_app_flutter/utility/DioExceptions.dart';
@@ -96,8 +97,10 @@ class ConversationController extends GetxController {
     if (response.statusCode == 200) {
       var res = ApiResponse<ConversationModel>.fromJson(
           json.decode(response.body),
-          (data) => ConversationModel.fromJson(data));
+              (data) => ConversationModel.fromJson(data));
       conversation.value = res.data!;
+
+      getBooking();
     } else {
       // errorMessage = response.
     }
@@ -112,13 +115,14 @@ class ConversationController extends GetxController {
         encrypted: false);
 
     PusherClient pusher =
-        PusherClient(Urls.PUSHER_APP_KEY, options, autoConnect: false);
+    PusherClient(Urls.PUSHER_APP_KEY, options, autoConnect: false);
 
     await pusher.connect();
 
     pusher.onConnectionStateChange((state) {
       print(
-          "previousState: ${state?.previousState}, currentState: ${state?.currentState}");
+          "previousState: ${state?.previousState}, currentState: ${state
+              ?.currentState}");
     });
 
     pusher.onConnectionError((error) {
@@ -127,7 +131,8 @@ class ConversationController extends GetxController {
 
     Channel channel = pusher.subscribe("user.${SharedPref.userId}");
     channel.bind("message.received", (event) {
-      var message = MessagesModel.fromJson(json.decode(event!.data!)["message"]);
+      var message = MessagesModel.fromJson(
+          json.decode(event!.data!)["message"]);
       dataList.insert(0, message);
       dataList.refresh();
     });
@@ -135,10 +140,8 @@ class ConversationController extends GetxController {
     // channel.e
   }
 
-  void sendMessage() async{
-
-
-    if(textEditingController.text.isEmpty) {
+  void sendMessage() async {
+    if (textEditingController.text.isEmpty) {
       return;
     }
 
@@ -159,8 +162,29 @@ class ConversationController extends GetxController {
       var response = await dio.post('api/message', data: formData);
       print(response.data);
     } catch (e) {
-      print("response: " + DioExceptions.fromDioError(e as DioError).message);
+      print("response: " + DioExceptions
+          .fromDioError(e as DioError)
+          .message);
     }
+  }
 
+  void getBooking() async {
+    var client = http.Client();
+
+
+    final queryParameters = {
+      "page": page.toString(),
+      "guest": conversation.value.guest.id,
+      "host": conversation.value.host.id,
+      "limit": "1"
+    };
+
+    var uri = Uri.https(Urls.ROOT_URL_MAIN, "/api/booking", queryParameters);
+    var response = await client.get(uri, headers: await Urls.getHeaders());
+    var res = ApiResponseList<BookingModel>.fromJson(
+        json.decode(response.body), (data) => BookingModel.fromJson(data));
+
+    conversation.value.booking = res.data?[0];
+    conversation.refresh();
   }
 }

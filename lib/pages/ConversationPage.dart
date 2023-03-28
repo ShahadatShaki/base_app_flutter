@@ -40,7 +40,7 @@ class ConversationPage extends BaseStatelessWidget {
         children: [
           Obx(() => bookingView()),
           Expanded(child: Obx(() => showListOrEmptyView())),
-          bottomView(),
+          messageFieldAndSendButton(),
         ],
       ),
     );
@@ -151,7 +151,7 @@ class ConversationPage extends BaseStatelessWidget {
     );
   }
 
-  bottomView() {
+  messageFieldAndSendButton() {
     return Row(
       children: [
         Expanded(
@@ -180,51 +180,57 @@ class ConversationPage extends BaseStatelessWidget {
               controller.sendMessage();
             },
             child: Component.showIcon(
-                name: AssetsName.send, color: AppColors.white, size: 30))
+                name: AssetsName.send, color: AppColors.white, size: 30)),
+        margin(16),
       ],
     );
   }
 
   bookingView() {
     var item = controller.conversation.value.booking;
-    return Container(
-      margin: EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              loadImage(
-                  imageUrl: item.listing.getCoverImage(),
-                  height: 30,
-                  width: 30),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  "${item.listing.title}",
+
+    return item.id.isEmpty
+        ? margin(0)
+        : Container(
+            margin:
+                const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    loadImage(
+                        imageUrl:
+                            item.images.length > 0 ? item.images[0].url : "",
+                        height: 30,
+                        width: 30),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        "${item.listing.title}",
+                        style: const TextStyle(color: AppColors.white),
+                      ),
+                    ),
+                    TextButton(
+                      style: Component.textButtonStyle(),
+                      onPressed: () {
+                        Get.to(() => BookingDetailsPage(id: item.id));
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.only(left: 16, right: 16),
+                        child: Text('Details', style: TextStyle(fontSize: 12)),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  "${item.status} * ${item.fromToStrForShow()} * ${item.totalGuest} Adults * ${item.totalPayable}",
                   style: const TextStyle(color: AppColors.white),
                 ),
-              ),
-              TextButton(
-                style: Component.textButtonStyle(),
-                onPressed: () {
-                  Get.to(() => BookingDetailsPage(id: "4385"));
-                },
-                child: Container(
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.only(left: 16, right: 16),
-                  child: Text('Details', style: TextStyle(fontSize: 12)),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Text(
-            "${item.status} * ${item.fromToStrForShow()} * ${item.totalGuest} Adults * ${item.totalPayable}",
-            style: const TextStyle(color: AppColors.white),
-          ),
-        ],
-      ),
-    );
+              ],
+            ),
+          );
   }
 }
