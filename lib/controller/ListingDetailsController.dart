@@ -2,20 +2,20 @@ import 'dart:convert';
 
 import 'package:base_app_flutter/base/ApiResponse.dart';
 import 'package:base_app_flutter/model/BookingModel.dart';
+import 'package:base_app_flutter/model/ConversationModel.dart';
 import 'package:base_app_flutter/model/ListingModel.dart';
 import 'package:base_app_flutter/model/SearchOptions.dart';
-import 'package:base_app_flutter/pages/guest/home/ExplorePage.dart';
+import 'package:base_app_flutter/pages/ConversationPage.dart';
 import 'package:base_app_flutter/utility/Constrants.dart';
+import 'package:base_app_flutter/utility/SharedPref.dart';
 import 'package:dio/dio.dart';
 import 'package:dio/src/form_data.dart';
-import 'package:get/get.dart' hide FormData;
 import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart' hide FormData;
 import 'package:get/state_manager.dart';
 import 'package:http/http.dart' as http;
 
-import '../base/ApiResponseList.dart';
 import '../pages/BookingDetailsPage.dart';
-import '../utility/DioExceptions.dart';
 import '../utility/Urls.dart';
 
 class ListingController extends GetxController {
@@ -79,20 +79,16 @@ class ListingController extends GetxController {
 
     try {
       var response = await dio.post('api/booking', data: formData);
+      BookingModel m = BookingModel.fromJson(response.data["data"]);
 
-      var responseBody = response.data;
-      BookingModel m = BookingModel.fromJson(responseBody["data"]);
-      print(responseBody);
-
-      // var res = ApiResponse<BookingModel>.fromJson(
-      //     json.decode(response.data.toString()), (data) => BookingModel.fromJson(data));
-      //
-      // BookingModel bookingModel = res.data!;
-      // Get.to(()=> BookingDetailsPage(id: bookingModel.id!,));
-
-      print(response.data);
+      if (m.status.toLowerCase() == "accepted") {
+        Get.off(() => BookingDetailsPage(
+              id: m.id,
+            ));
+      } else {
+        findConversation(m);
+      }
     } catch (e) {
-      // print("response: " + DioExceptions.fromDioError(e as DioError).message);
       print("response: " + e.toString());
     }
   }
@@ -102,5 +98,28 @@ class ListingController extends GetxController {
     // TODO: implement dispose
     messageController.dispose();
     super.dispose();
+  }
+
+  void findConversation(BookingModel m) async {
+    var client = http.Client();
+
+    final queryParameters = {
+      "host": listing.value.host.id,
+      "guest": SharedPref.userId,
+    };
+
+    var uri = Uri.https(
+        Urls.ROOT_URL_MAIN, "/api/conversation/find", queryParameters);
+    var response = await client.get(uri, headers: await Urls.getHeaders());
+
+    if (response.statusCode == 200) {
+      var res = ApiResponse<ConversationModel>.fromJson(
+          json.decode(response.body), (data) => ConversationModel.fromJson(data));
+
+      Get.off(()=> ConversationPage(id: res.data!.id,));
+
+    } else {
+      // errorMessage = response.
+    }
   }
 }

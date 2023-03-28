@@ -23,6 +23,7 @@ class BookingModel implements Serializable {
   String? _createdAt;
   String? _statusUpdatedAt;
   String? _osPlatform;
+  bool? _is_expire;
   List<Null>? _reviews;
   UserProfileModel? _guest;
   UserProfileModel? _host;
@@ -111,6 +112,13 @@ class BookingModel implements Serializable {
     return _statusUpdatedAt!;
   }
 
+  bool get isExpire {
+    _is_expire ??= false;
+    var isCheckinDateExpired = Constants.totalDays(calenderCheckin()) <=
+        Constants.totalDays(DateTime.now());
+    return _is_expire! || isCheckinDateExpired;
+  }
+
   String get osPlatform {
     _osPlatform ??= "";
     return _osPlatform!;
@@ -146,31 +154,6 @@ class BookingModel implements Serializable {
     return dis;
   }
 
-  bool isExpire() {
-    var _expire = false;
-
-    if (status == "Accepted" || status == "Partial") {
-      if (statusUpdatedAt.isEmpty) {
-        var createdAtCalender = Constants.stingToCalender(createdAt);
-        createdAtCalender = createdAtCalender.add(Duration(hours: Constants.GUEST_TIMER_FOR_PAYMENT));
-        DateTime now = DateTime.now();
-        if(now.millisecond>createdAtCalender.millisecond){
-          return true;
-        }
-      } else {
-        var createdAtCalender = Constants.stingToCalender(statusUpdatedAt);
-        createdAtCalender = createdAtCalender.add(Duration(hours: Constants.GUEST_TIMER_FOR_PAYMENT));
-        DateTime now = DateTime.now();
-        if(now.millisecond>createdAtCalender.millisecond){
-          return true;
-        }
-      }
-    } else {
-      return true;
-    }
-
-    return _expire;
-  }
 
   DateTime calenderCheckout() {
     try {
@@ -180,6 +163,22 @@ class BookingModel implements Serializable {
     } catch (e) {
       return DateTime.now();
     }
+  }
+
+   bool isRequested() {
+    return status.toLowerCase()=="requested";
+  }
+
+  bool isConfirmed() {
+    return status.toLowerCase()=="confirmed";
+  }
+
+  bool isAccepted() {
+    return status.toLowerCase()=="accepted";
+  }
+
+  bool isPartial() {
+    return status.toLowerCase()=="partial";
   }
 
   DateTime calenderCheckin() {
@@ -234,6 +233,7 @@ class BookingModel implements Serializable {
     _serviceFee = json['service_fee'].toString();
     _paid = json['paid'].toString();
     _status = json['status'].toString();
+    _is_expire = json['is_expire'];
     _createdAt = json['created_at'].toString();
     // if (json['reviews'] != null) {
     //   reviews = <Null>[];

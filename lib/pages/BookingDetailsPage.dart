@@ -3,9 +3,11 @@ import 'package:base_app_flutter/component/ListingComponent.dart';
 import 'package:base_app_flutter/controller/BookingDetailsController.dart';
 import 'package:base_app_flutter/model/BookingModel.dart';
 import 'package:base_app_flutter/pages/ListingDetailsPage.dart';
+import 'package:base_app_flutter/pages/PaymentOverviewPage.dart';
 import 'package:base_app_flutter/utility/AppStrings.dart';
 import 'package:base_app_flutter/utility/AssetsName.dart';
 import 'package:base_app_flutter/utility/Constrants.dart';
+import 'package:base_app_flutter/utility/SharedPref.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -70,7 +72,7 @@ class BookingDetailsPage extends StatelessWidget with Component {
             lineHorizontal(margin: EdgeInsets.only(top: 24, bottom: 24)),
             priceDetails(),
             lineHorizontal(margin: EdgeInsets.only(top: 24, bottom: 24)),
-            confirmAndPayButton()
+            actionButton()
           ],
         ),
       ),
@@ -263,45 +265,86 @@ class BookingDetailsPage extends StatelessWidget with Component {
     );
   }
 
-  confirmAndPayButton() {
-    return item.isExpire()
-        ? ElevatedButton(
-            style: buttonStyle(),
-            onPressed: () {},
-            child: buttonText(buttonTitle: "Book Again", height: 50))
-        : Column(
-            children: [
-              Row(
-                children: [
-                  Checkbox(
-                    value: controller.isTermsChecked.value,
-                    onChanged: (value) {
-                      controller.isTermsChecked.value = value ?? false;
-                    },
-                  ),
-                  Expanded(
-                      child: Html(
-                    data: AppStrings.termsAndCondition,
+  // confirmAndPayButton() {
+  //   return item.isExpire
+  //       ? ElevatedButton(
+  //           style: buttonStyle(),
+  //           onPressed: () {},
+  //           child: buttonText(buttonTitle: "Book Again", height: 50))
+  //       :
+  //   Column(
+  //           children: [
+  //             Row(
+  //               children: [
+  //                 Checkbox(
+  //                   value: controller.isTermsChecked.value,
+  //                   onChanged: (value) {
+  //                     controller.isTermsChecked.value = value ?? false;
+  //                   },
+  //                 ),
+  //                 Expanded(
+  //                     child: Html(
+  //                   data: AppStrings.termsAndCondition,
+  //
+  //                   // style: {
+  //                   //   "p": Style(
+  //                   //     border: Border(bottom: BorderSide(color: Colors.grey)),
+  //                   //     padding: const EdgeInsets.all(16),
+  //                   //     fontSize: FontSize(30),
+  //                   //   ),
+  //                   // },
+  //                   onLinkTap: (url, context, attributes, element) {
+  //                     Constants.showToast(url ?? "");
+  //                   },
+  //                 )),
+  //               ],
+  //             ),
+  //             margin(16),
+  //             ElevatedButton(
+  //                 style: buttonStyle(),
+  //                 onPressed: () {},
+  //                 child: buttonText(buttonTitle: "Confirm And Pay", height: 50))
+  //           ],
+  //         );
+  // }
 
-                    // style: {
-                    //   "p": Style(
-                    //     border: Border(bottom: BorderSide(color: Colors.grey)),
-                    //     padding: const EdgeInsets.all(16),
-                    //     fontSize: FontSize(30),
-                    //   ),
-                    // },
-                    onLinkTap: (url, context, attributes, element) {
-                      Constants.showToast(url ?? "");
-                    },
-                  )),
-                ],
-              ),
-              margin(16),
-              ElevatedButton(
-                  style: buttonStyle(),
-                  onPressed: () {},
-                  child: buttonText(buttonTitle: "Confirm And Pay", height: 50))
-            ],
-          );
+  actionButton() {
+    var booking = item;
+    return SharedPref.userId == booking.guest.id
+        ?
+    //Guest View
+    //<editor-fold desc="Book Again">
+    booking.isConfirmed()
+        ? Constants.totalDays(booking.calenderCheckout()) <=
+        Constants.totalDays(DateTime.now())
+        ? bookAgain()
+        : margin(0)
+    //</editor-fold>
+        : booking.isPartial()
+        ? confirmAndPayButton()
+        : booking.isAccepted() && !booking.isExpire
+        ? confirmAndPayButton()
+        : booking.isRequested() && !booking.isExpire
+        ? margin(0)
+        : bookAgain()
+        :
+    //Host View
+    margin(0);
+  }
+
+  bookAgain() {
+    return ElevatedButton(
+        style: buttonStyle(),
+        onPressed: () {},
+        child: buttonText(buttonTitle: "Book Again", height: 50));
+  }
+
+  confirmAndPayButton() {
+    return ElevatedButton(
+        style: buttonStyle(),
+        onPressed: () {
+          Get.to(()=> PaymentOverviewPage(id: item.id));
+        },
+        child: buttonText(buttonTitle: "Confirm And Pay", height: 50));
   }
 }

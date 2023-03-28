@@ -3,8 +3,10 @@ import 'package:base_app_flutter/component/Component.dart';
 import 'package:base_app_flutter/controller/ConversationController.dart';
 import 'package:base_app_flutter/model/MessagesModel.dart';
 import 'package:base_app_flutter/pages/BookingDetailsPage.dart';
+import 'package:base_app_flutter/pages/ListingDetailsPage.dart';
 import 'package:base_app_flutter/utility/AppColors.dart';
 import 'package:base_app_flutter/utility/AssetsName.dart';
+import 'package:base_app_flutter/utility/Constrants.dart';
 import 'package:base_app_flutter/utility/SharedPref.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -41,6 +43,10 @@ class ConversationPage extends BaseStatelessWidget {
           Obx(() => bookingView()),
           Expanded(child: Obx(() => showListOrEmptyView())),
           messageFieldAndSendButton(),
+          Padding(
+            padding: EdgeInsets.only(left: 16, right: 16, bottom: 16),
+            child: Obx(() => actionButton()),
+          )
         ],
       ),
     );
@@ -165,7 +171,7 @@ class ConversationPage extends BaseStatelessWidget {
               padding: const EdgeInsets.only(left: 16, right: 16),
               child: TextField(
                 controller: controller.textEditingController,
-                // onChanged: textChanged,
+                style: TextStyle(color: AppColors.white),
                 decoration: const InputDecoration(
                     hintText: "Write message",
                     hintStyle:
@@ -204,11 +210,19 @@ class ConversationPage extends BaseStatelessWidget {
                             item.images.length > 0 ? item.images[0].url : "",
                         height: 30,
                         width: 30),
-                    const SizedBox(width: 8),
                     Expanded(
-                      child: Text(
-                        "${item.listing.title}",
-                        style: const TextStyle(color: AppColors.white),
+                      child: InkWell(
+                        onTap: () {
+                          Get.to(() =>
+                              ListingDetailsPage(listingId: item.listing.id));
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            item.listing.title,
+                            style: const TextStyle(color: AppColors.white),
+                          ),
+                        ),
                       ),
                     ),
                     TextButton(
@@ -218,19 +232,60 @@ class ConversationPage extends BaseStatelessWidget {
                       },
                       child: Container(
                         alignment: Alignment.center,
-                        padding: EdgeInsets.only(left: 16, right: 16),
-                        child: Text('Details', style: TextStyle(fontSize: 12)),
+                        padding: const EdgeInsets.only(left: 16, right: 16),
+                        child: const Text('Details',
+                            style: TextStyle(fontSize: 12)),
                       ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  "${item.status} * ${item.fromToStrForShow()} * ${item.totalGuest} Adults * ${item.totalPayable}",
+                  "${item.status} • ${item.fromToStrForShow()} • ${item.totalGuest} Adults • ${item.totalPayable}",
                   style: const TextStyle(color: AppColors.white),
                 ),
               ],
             ),
           );
+  }
+
+  actionButton() {
+    var booking = controller.conversation.value.booking;
+    return SharedPref.userId == booking.guest.id
+        ?
+        //Guest View
+        //<editor-fold desc="Book Again">
+        booking.isConfirmed()
+            ? Constants.totalDays(booking.calenderCheckout()) <=
+                    Constants.totalDays(DateTime.now())
+                ? bookAgain()
+                : margin(0)
+            //</editor-fold>
+            : booking.isPartial()
+                ? confirmAndPayButton()
+                : booking.isAccepted() && !booking.isExpire
+                    ? confirmAndPayButton()
+                    : booking.isRequested() && !booking.isExpire
+                        ? margin(0)
+                        : bookAgain()
+        :
+        //Host View
+        margin(0);
+  }
+
+  bookAgain() {
+    return ElevatedButton(
+        style: buttonStyle(),
+        onPressed: () {},
+        child: buttonText(buttonTitle: "Book Again", height: 50));
+  }
+
+  confirmAndPayButton() {
+    return ElevatedButton(
+        style: buttonStyle(),
+        onPressed: () {
+          Get.to(()=> BookingDetailsPage(id: controller.conversation.value.booking.id));
+        },
+        child: buttonText(buttonTitle: "Confirm And Pay", height: 50));
   }
 }
