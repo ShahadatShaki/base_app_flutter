@@ -19,6 +19,7 @@ class BookingModel implements Serializable {
   String? _extraGuestCharge;
   String? _serviceFee;
   String? _paid;
+  String? _amount;
   String? _status;
   String? _createdAt;
   String? _statusUpdatedAt;
@@ -60,6 +61,16 @@ class BookingModel implements Serializable {
   String get price {
     _price ??= "";
     return _price!;
+  }
+
+  int get amount {
+    _amount ??= "0";
+    if (_amount == "null") _amount = "0";
+    return int.parse(_amount!);
+  }
+
+  set amount(amount) {
+    _amount = amount.toString();
   }
 
   String get commission {
@@ -154,7 +165,6 @@ class BookingModel implements Serializable {
     return dis;
   }
 
-
   DateTime calenderCheckout() {
     try {
       DateTime date = DateTime.parse(to);
@@ -165,20 +175,20 @@ class BookingModel implements Serializable {
     }
   }
 
-   bool isRequested() {
-    return status.toLowerCase()=="requested";
+  bool isRequested() {
+    return status.toLowerCase() == "requested";
   }
 
   bool isConfirmed() {
-    return status.toLowerCase()=="confirmed";
+    return status.toLowerCase() == "confirmed";
   }
 
   bool isAccepted() {
-    return status.toLowerCase()=="accepted";
+    return status.toLowerCase() == "accepted";
   }
 
   bool isPartial() {
-    return status.toLowerCase()=="partial";
+    return status.toLowerCase() == "partial";
   }
 
   DateTime calenderCheckin() {
@@ -223,6 +233,7 @@ class BookingModel implements Serializable {
     }
     _from = json['from'].toString();
     _to = json['to'].toString();
+    _amount = json['amount'].toString();
     _totalGuest = json['total_guest'].toString();
     _price = json['price'].toString();
     _commission = json['commission'].toString();

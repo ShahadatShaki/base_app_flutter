@@ -2,18 +2,10 @@ import 'dart:convert';
 
 import 'package:base_app_flutter/base/ApiResponse.dart';
 import 'package:base_app_flutter/model/BookingModel.dart';
-import 'package:base_app_flutter/model/SearchOptions.dart';
-import 'package:base_app_flutter/pages/guest/home/ExplorePage.dart';
-import 'package:base_app_flutter/utility/Constrants.dart';
-import 'package:dio/dio.dart';
-import 'package:dio/src/form_data.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart' hide FormData;
 import 'package:get/state_manager.dart';
 import 'package:http/http.dart' as http;
 
-import '../base/ApiResponseList.dart';
-import '../utility/DioExceptions.dart';
 import '../utility/Urls.dart';
 
 class BookingDetailsController extends GetxController {
@@ -30,7 +22,6 @@ class BookingDetailsController extends GetxController {
 
   @override
   void onInit() {
-
     super.onInit();
   }
 
@@ -62,10 +53,29 @@ class BookingDetailsController extends GetxController {
     callingApi = false;
   }
 
+  var provider = "";
+
+  void getPaymentUrl(String amount, bool getUrl) async {
+    var client = http.Client();
+    final queryParameters = {
+      "amount": amount,
+      "provider": provider,
+      "agreement": "true",
+      "url": getUrl.toString(),
+    };
+
+    var uri = Uri.https(
+        Urls.ROOT_URL_MAIN, "/api/booking/$id/payment", queryParameters);
+    var response = await client.get(uri, headers: await Urls.getHeaders());
+    var res = ApiResponse<BookingModel>.fromJson(
+        json.decode(response.body), (data) => BookingModel.fromJson(data));
+
+    booking.value.amount = res.data?.amount;
+    booking.refresh();
+  }
 
   @override
   void dispose() {
     super.dispose();
   }
-
 }

@@ -171,7 +171,6 @@ class ConversationController extends GetxController {
   void getBooking() async {
     var client = http.Client();
 
-
     final queryParameters = {
       "page": page.toString(),
       "guest": conversation.value.guest.id,
