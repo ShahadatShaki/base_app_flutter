@@ -207,7 +207,7 @@ class BookingDetailsPage extends StatelessWidget with Component {
         margin(16),
         priceDetailsSection(
             "BDT ${item.listing.price} taka x ${item.getTotalNights()} nights",
-            "৳${int.parse(item.totalPayable) + item.getAllDiscount()}"),
+            "৳${item.totalPayable + item.getAllDiscount()}"),
         // margin(16),
         // priceDetailsSection("Cleaning fee", "৳1200"),
         // margin(16),
@@ -222,7 +222,7 @@ class BookingDetailsPage extends StatelessWidget with Component {
         duePaidSection("Paid", "৳${item.paid}"),
         margin(16),
         duePaidSection(
-            "Due", "৳${int.parse(item.totalPayable) - int.parse(item.paid)}"),
+            "Due", "৳${item.totalPayable - item.paid}"),
       ],
     );
   }

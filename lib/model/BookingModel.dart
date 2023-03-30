@@ -68,13 +68,13 @@ class BookingModel implements Serializable {
     return _price!;
   }
 
-  int get amount {
+  int get minimumPayableAmount {
     _amount ??= "0";
     if (_amount == "null") _amount = "0";
     return int.parse(_amount!);
   }
 
-  set amount(amount) {
+  set minimumPayableAmount(amount) {
     _amount = amount.toString();
   }
 
@@ -93,9 +93,9 @@ class BookingModel implements Serializable {
     return _moreNightsDiscount!;
   }
 
-  String get totalPayable {
+  int get totalPayable {
     _totalPayable ??= "0";
-    return _totalPayable!;
+    return int.parse(_totalPayable!);
   }
 
   String get extraGuestCharge {
@@ -108,9 +108,9 @@ class BookingModel implements Serializable {
     return _serviceFee!;
   }
 
-  String get paid {
+  int get paid {
     _paid ??= "0";
-    return _paid!;
+    return int.parse(_paid!);
   }
 
   String get status {

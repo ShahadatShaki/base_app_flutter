@@ -116,7 +116,7 @@ class MyBookings extends BaseStatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        "Due: ${int.parse(item.totalPayable!) - int.parse(item.paid!)}",
+                        "Due: ${item.totalPayable - item.paid}",
                         style: const TextStyle(
                             fontSize: 14, color: AppColors.textColorBlack),
                       ),
