@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
+    damidata();
     SharedPref.initData();
     return GetMaterialApp(
       title: 'Base App',
@@ -29,5 +29,9 @@ class MyApp extends StatelessWidget {
       home: SplashScreen(),
       // home: InboxPage(),
     );
+  }
+
+  void damidata() {
+    SharedPref.putBool(SharedPref.IS_LOGIN, true);
   }
 }

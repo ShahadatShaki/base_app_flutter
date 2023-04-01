@@ -3,7 +3,7 @@ import 'package:base_app_flutter/component/ListingComponent.dart';
 import 'package:base_app_flutter/controller/BookingDetailsController.dart';
 import 'package:base_app_flutter/model/BookingModel.dart';
 import 'package:base_app_flutter/pages/ListingDetailsPage.dart';
-import 'package:base_app_flutter/pages/PaymentOverviewPage.dart';
+import 'package:base_app_flutter/pages/guest/PaymentOverviewPage.dart';
 import 'package:base_app_flutter/utility/AppStrings.dart';
 import 'package:base_app_flutter/utility/AssetsName.dart';
 import 'package:base_app_flutter/utility/Constrants.dart';

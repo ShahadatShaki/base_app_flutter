@@ -1,24 +1,25 @@
 import 'package:base_app_flutter/component/Component.dart';
 import 'package:base_app_flutter/pages/UserProfilePage.dart';
+import 'package:base_app_flutter/pages/guest/home/ExplorePage.dart';
 import 'package:base_app_flutter/pages/guest/home/InboxPage.dart';
 import 'package:base_app_flutter/pages/guest/home/MyBookings.dart';
 import 'package:base_app_flutter/pages/guest/home/NotificationPage.dart';
+import 'package:base_app_flutter/pages/host/home/MyReservation.dart';
 import 'package:base_app_flutter/utility/AppColors.dart';
 import 'package:base_app_flutter/utility/AssetsName.dart';
 import 'package:flutter/material.dart';
 
-import 'guest/home/ExplorePage.dart';
 
-class BottomNavPage extends StatefulWidget {
-  const BottomNavPage({
+class HostHomePage extends StatefulWidget {
+  const HostHomePage({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<BottomNavPage> createState() => _BottomNavPageState();
+  State<HostHomePage> createState() => _HostHomePageState();
 }
 
-class _BottomNavPageState extends State<BottomNavPage> {
+class _HostHomePageState extends State<HostHomePage> {
   int _selectedIndex = 0;
 
   @override
@@ -33,21 +34,11 @@ class _BottomNavPageState extends State<BottomNavPage> {
             icon: Container(
                 margin: EdgeInsets.only(bottom: 4),
                 child: Component.showIcon(
-                    name: AssetsName.search,
+                    name: AssetsName.calender,
                     color: _selectedIndex == 0
                         ? AppColors.appColor
                         : AppColors.darkGray)),
-            label: 'Explore',
-          ),
-          BottomNavigationBarItem(
-            icon: Container(
-                margin: EdgeInsets.only(bottom: 4),
-                child: Component.showIcon(
-                    name: AssetsName.bookings,
-                    color: _selectedIndex == 1
-                        ? AppColors.appColor
-                        : AppColors.darkGray)),
-            label: 'Bookings',
+            label: 'Reservation',
           ),
           BottomNavigationBarItem(
             icon: Container(
@@ -60,8 +51,18 @@ class _BottomNavPageState extends State<BottomNavPage> {
             label: 'Inbox',
           ),
           BottomNavigationBarItem(
+            icon: Container(
+                margin: EdgeInsets.only(bottom: 4),
+                child: Component.showIcon(
+                    name: AssetsName.bookings,
+                    color: _selectedIndex == 1
+                        ? AppColors.appColor
+                        : AppColors.darkGray)),
+            label: 'Listing',
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.business),
-            label: 'Notification',
+            label: 'Calender',
           ),
           BottomNavigationBarItem(
             icon: Container(
@@ -92,7 +93,7 @@ class _BottomNavPageState extends State<BottomNavPage> {
   }
 
   static final List<Widget> _widgetOptions = <Widget>[
-    ExplorePage(),
+    MyReservation(),
     MyBookings(),
     InboxPage(),
     NotificationPage(),

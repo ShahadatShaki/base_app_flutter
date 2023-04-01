@@ -4,16 +4,18 @@ import 'package:base_app_flutter/controller/UserController.dart';
 import 'package:base_app_flutter/model/UserProfileModel.dart';
 import 'package:base_app_flutter/pages/Webview.dart';
 import 'package:base_app_flutter/pages/auth/EditProfilePage.dart';
+import 'package:base_app_flutter/pages/guest/UserHomePage.dart';
 import 'package:base_app_flutter/pages/guest/home/MyBookings.dart';
+import 'package:base_app_flutter/pages/host/HostHomePage.dart';
 import 'package:base_app_flutter/utility/AssetsName.dart';
+import 'package:base_app_flutter/utility/SharedPref.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../utility/AppColors.dart';
 
 class UserProfilePage extends BaseStatelessWidget {
-  final UserController controller =
-      Get.put(UserController());
+  final UserController controller = Get.put(UserController());
   late UserProfileModel profile;
 
   UserProfilePage({Key? key}) : super(key: key);
@@ -57,7 +59,7 @@ class UserProfilePage extends BaseStatelessWidget {
             margin(16),
             TextButton(
                 onPressed: () {
-                  Get.to(()=> EditProfilePage());
+                  Get.to(() => EditProfilePage());
                 },
                 style: Component.textButtonStyle(
                     backgroundColor: AppColors.gray.shade100,
@@ -70,40 +72,70 @@ class UserProfilePage extends BaseStatelessWidget {
             lineHorizontal(
                 margin: EdgeInsets.only(top: 24, bottom: 24),
                 color: AppColors.gray.shade100),
-            section(AssetsName.discount, "Get Discount", MyBookings()),
+
             section(
-                AssetsName.switch_to_host, "Switch to hosting", MyBookings()),
+                icon: AssetsName.discount,
+                title: "Get Discount",
+                page: MyBookings()),
             section(
-                AssetsName.payment_history, "Payment History", MyBookings()),
-            section(AssetsName.terms_and_condition, "Terms & Conditions",
-                WebviewPage(title: "Terms & Conditions", url: "https://travela.xyz/terms-conditions")),
-            section(AssetsName.about_us, "About Us", WebviewPage(url: "https://travela.xyz/about", title: "About Us")),
-            section(AssetsName.call, "Contact with us", MyBookings()),
-            section("", "Log Out", MyBookings()),
+                icon: AssetsName.switch_to_host,
+                title: SharedPref.isHost?"Switch to guest":"Switch to hosting",
+                page: SharedPref.isHost?UserHomePage():HostHomePage(),
+                type: "switch"),
+            section(
+                icon: AssetsName.payment_history,
+                title: "Payment History",
+                page: MyBookings()),
+            section(
+                icon: AssetsName.terms_and_condition,
+                title: "Terms & Conditions",
+                page: WebviewPage(
+                    title: "Terms & Conditions",
+                    url: "https://travela.xyz/terms-conditions")),
+            section(
+                icon: AssetsName.about_us,
+                title: "About Us",
+                page: WebviewPage(
+                    url: "https://travela.xyz/about", title: "About Us")),
+            section(
+                icon: AssetsName.call,
+                title: "Contact with us",
+                page: MyBookings()),
+            section(title: "Log Out", page: MyBookings()),
           ],
         ),
       ),
     );
   }
 
-  section(String icon, String s, dynamic page) {
+  section(
+      {String icon = "", String title = "", dynamic page, String type = ""}) {
     return Column(
       children: [
         Ink(
           decoration: containerRoundShape(),
           child: InkWell(
             onTap: () {
-              Get.to(page);
+              if (type == "switch") {
+                SharedPref.putBool(
+                    SharedPref.CURRENT_ROLL_HOST, !SharedPref.isHost);
+                SharedPref.initData();
+                Get.off(page);
+              }else{
+                Get.to(page);
+              }
             },
             child: Container(
               padding: const EdgeInsets.all(24),
               child: Row(
                 children: [
-                  icon.isEmpty ? const SizedBox() : Component.showIcon(name: icon),
+                  icon.isEmpty
+                      ? const SizedBox()
+                      : Component.showIcon(name: icon),
                   icon.isEmpty ? const SizedBox() : margin(12),
                   Expanded(
                       child: Text(
-                    s,
+                    title,
                     style: Component.ts16Gray500(),
                   )),
                   Component.showIcon(name: AssetsName.arrow_right, size: 16),

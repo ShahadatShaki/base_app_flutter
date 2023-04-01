@@ -9,8 +9,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 
-import '../../component/Component.dart';
-import '../../utility/AppColors.dart';
+import '../../../component/Component.dart';
+import '../../../utility/AppColors.dart';
 
 class PaymentOverviewPage extends BaseStatelessWidget {
   final BookingDetailsController controller =

@@ -1,4 +1,4 @@
-import 'package:base_app_flutter/pages/BottomNavPage.dart';
+import 'package:base_app_flutter/pages/guest/UserHomePage.dart';
 import 'package:base_app_flutter/pages/ListItemPage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

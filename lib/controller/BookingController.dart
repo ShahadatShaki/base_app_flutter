@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-import 'package:base_app_flutter/base/ApiResponse.dart';
 import 'package:base_app_flutter/model/BookingModel.dart';
 import 'package:base_app_flutter/model/SearchOptions.dart';
 import 'package:base_app_flutter/pages/guest/home/ExplorePage.dart';
 import 'package:base_app_flutter/utility/Constrants.dart';
+import 'package:base_app_flutter/utility/SharedPref.dart';
 import 'package:dio/dio.dart';
 import 'package:dio/src/form_data.dart';
 import 'package:flutter/cupertino.dart';
@@ -50,7 +50,6 @@ class BookingController extends GetxController {
     super.onInit();
   }
 
-
   bookingRequest() async {
     if (searchOptions.value.checkinDateCalender == null) {
       Constants.showToast("Select a date");
@@ -94,9 +93,13 @@ class BookingController extends GetxController {
 
       callingApi = true;
       var client = http.Client();
+      var key = "guest";
+      if (SharedPref.isHost) {
+        key = "host";
+      }
       final queryParameters = {
         "page": page.toString(),
-        "guest": "6",
+        key: SharedPref.userId,
       };
 
       var uri = Uri.https(Urls.ROOT_URL_MAIN, "/api/booking", queryParameters);
