@@ -4,6 +4,7 @@ import 'package:base_app_flutter/controller/InboxController.dart';
 import 'package:base_app_flutter/model/ConversationModel.dart';
 import 'package:base_app_flutter/pages/ConversationPage.dart';
 import 'package:base_app_flutter/utility/AppColors.dart';
+import 'package:base_app_flutter/utility/AssetsName.dart';
 import 'package:base_app_flutter/utility/Constrants.dart';
 import 'package:base_app_flutter/utility/SharedPref.dart';
 import 'package:flutter/material.dart';
@@ -35,14 +36,20 @@ class InboxPage extends BaseStatelessWidget {
 
   showListOrEmptyView() {
     return Container(
-        color: AppColors.backgroundColor,
-        child: !controller.apiCalled.value
-            ? Component.loadingView()
-            : (controller.apiCalled.value &&
-                    controller.conversationDataList.isNotEmpty)
-                ? uiDesign()
-                : Component.emptyView(
-                    "No Data Found", "assets/animation/empty_item.json"));
+      color: AppColors.backgroundColor,
+      child: !controller.apiCalled.value
+          ? Component.loadingView()
+          : (controller.apiCalled.value &&
+                  controller.conversationDataList.isNotEmpty)
+              ? uiDesign()
+              : controller.error.value
+                  ? Component.emptyView(
+                      controller.errorMessage, AssetsName.errorAnimation)
+                  : Component.emptyView(
+                      "No Data Found",
+                      "assets/animation/empty_item.json",
+                    ),
+    );
   }
 
   uiDesign() {
@@ -73,8 +80,10 @@ class InboxPage extends BaseStatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    item.host.firstName,
-                    style: TextStyle(
+                    SharedPref.isHost
+                        ? item.guest.firstName
+                        : item.host.firstName,
+                    style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w400,
                         color: AppColors.textColorBlack),
@@ -83,7 +92,7 @@ class InboxPage extends BaseStatelessWidget {
                   Text(
                     "${item.lastMessage.senderId == SharedPref.userId ? "You: " : ""}${item.lastMessage.body}",
                     maxLines: 1,
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w400,
                         color: AppColors.textColorBlack),
@@ -92,7 +101,7 @@ class InboxPage extends BaseStatelessWidget {
                   Text(
                     "${item.booking.fromToStrForShow()} * ${item.booking.listing.title}",
                     maxLines: 1,
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
                         color: AppColors.darkGray),
@@ -109,7 +118,7 @@ class InboxPage extends BaseStatelessWidget {
                       item.lastMessage.createdAt, "MMM dd")
                   : Constants.calenderStingToString(
                       item.lastMessage.createdAt, "hh:mm a"),
-              style: TextStyle(
+              style: const TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w400,
                   color: AppColors.textColorBlack),

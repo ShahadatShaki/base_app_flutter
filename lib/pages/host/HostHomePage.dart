@@ -9,7 +9,6 @@ import 'package:base_app_flutter/utility/AppColors.dart';
 import 'package:base_app_flutter/utility/AssetsName.dart';
 import 'package:flutter/material.dart';
 
-
 class HostHomePage extends StatefulWidget {
   const HostHomePage({
     Key? key,
@@ -45,7 +44,7 @@ class _HostHomePageState extends State<HostHomePage> {
                 margin: EdgeInsets.only(bottom: 4),
                 child: Component.showIcon(
                     name: AssetsName.message,
-                    color: _selectedIndex == 2
+                    color: _selectedIndex == 1
                         ? AppColors.appColor
                         : AppColors.darkGray)),
             label: 'Inbox',
@@ -55,7 +54,7 @@ class _HostHomePageState extends State<HostHomePage> {
                 margin: EdgeInsets.only(bottom: 4),
                 child: Component.showIcon(
                     name: AssetsName.bookings,
-                    color: _selectedIndex == 1
+                    color: _selectedIndex == 2
                         ? AppColors.appColor
                         : AppColors.darkGray)),
             label: 'Listing',
@@ -94,8 +93,8 @@ class _HostHomePageState extends State<HostHomePage> {
 
   static final List<Widget> _widgetOptions = <Widget>[
     MyReservation(),
-    MyBookings(),
     InboxPage(),
+    MyBookings(),
     NotificationPage(),
     UserProfilePage()
   ];

@@ -3,20 +3,14 @@ import 'dart:convert';
 import 'package:base_app_flutter/base/BaseController.dart';
 import 'package:base_app_flutter/model/BookingModel.dart';
 import 'package:base_app_flutter/model/SearchOptions.dart';
-import 'package:base_app_flutter/pages/guest/home/ExplorePage.dart';
-import 'package:base_app_flutter/utility/Constrants.dart';
 import 'package:base_app_flutter/utility/SharedPref.dart';
-import 'package:dio/dio.dart';
-import 'package:dio/src/form_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart' hide FormData;
 import 'package:get/state_manager.dart';
 import 'package:http/http.dart' as http;
 
 import '../base/ApiResponseList.dart';
-import '../utility/DioExceptions.dart';
 import '../utility/Urls.dart';
-import 'dart:async';
 
 class BookingController extends BaseController {
   var booking = BookingModel().obs;
@@ -47,7 +41,6 @@ class BookingController extends BaseController {
       });
     super.onInit();
   }
-
 
   @override
   void dispose() {
@@ -91,6 +84,4 @@ class BookingController extends BaseController {
       print(e);
     }
   }
-
-
 }

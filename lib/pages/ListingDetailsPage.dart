@@ -334,7 +334,7 @@ class ListingDetailsPage extends BaseStatelessWidget {
       width: double.infinity,
       child: GoogleMap(
         mapType: MapType.hybrid,
-        initialCameraPosition: CameraPosition(
+        initialCameraPosition: const CameraPosition(
           target: LatLng(37.42796133580664, -122.085749655962),
           zoom: 14.4746,
         ),
@@ -356,12 +356,12 @@ class ListingDetailsPage extends BaseStatelessWidget {
             const SizedBox(width: 4),
             Expanded(
               child: Text("${item.reviewsAvg} (${item.reviewsCount} Reviews)",
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
                       color: AppColors.darkGray)),
             ),
-            Text("View Reviews",
+            const Text("View Reviews",
                 style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
@@ -376,7 +376,7 @@ class ListingDetailsPage extends BaseStatelessWidget {
     return InkWell(
       // onTap: ,
       child: Container(
-        margin: EdgeInsets.only(top: 16, bottom: 16),
+        margin: const EdgeInsets.only(top: 16, bottom: 16),
         child: Row(
           children: [
             sectionTitle("Cancellation Policy"),
@@ -424,13 +424,13 @@ class ListingDetailsPage extends BaseStatelessWidget {
       },
       child: Container(
           height: 40,
-          margin: EdgeInsets.only(left: 24, right: 24),
+          margin: const EdgeInsets.only(left: 24, right: 24),
           alignment: Alignment.center,
           child: Text(
             item.isInstantBookingEnableNow()
                 ? "Book  Now"
                 : "Request For Booking",
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
           )),
     );
   }

@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:base_app_flutter/base/BaseController.dart';
 import 'package:base_app_flutter/model/ConversationModel.dart';
 import 'package:base_app_flutter/model/MessagesModel.dart';
+import 'package:base_app_flutter/utility/SharedPref.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart' hide FormData;
 import 'package:get/state_manager.dart';
@@ -10,17 +12,13 @@ import 'package:http/http.dart' as http;
 import '../base/ApiResponseList.dart';
 import '../utility/Urls.dart';
 
-class InboxController extends GetxController {
+class InboxController extends BaseController {
   var conversation = ConversationModel().obs;
   var conversationDataList = <ConversationModel>[].obs;
   var messagesDataList = <MessagesModel>[].obs;
   var id = "";
-  var apiCalled = false.obs;
-  bool callingApi = false;
-  String errorMessage = "";
   late ScrollController scrollController;
   late ScrollController messagesScrollController;
-  bool hasMoreData = true;
   var inboxPage = 1;
   var conversationPage = 1;
 
@@ -67,25 +65,32 @@ class InboxController extends GetxController {
       }
 
       callingApi = true;
-      var client = http.Client();
+
+      var key = "guest";
+      if (SharedPref.isHost) {
+        key = "host";
+      }
       final queryParameters = {
         "page": inboxPage.toString(),
-        "guest": "6",
+        key: SharedPref.userId,
       };
 
-      var uri =
-          Uri.https(Urls.ROOT_URL_MAIN, "/api/conversation", queryParameters);
-      print(uri);
-      var response = await client.get(uri, headers: await Urls.getHeaders());
-      var res = ApiResponseList<ConversationModel>.fromJson(
-          json.decode(response.body),
-          (data) => ConversationModel.fromJson(data));
-      if (inboxPage == 1) {
-        conversationDataList.clear();
+      try {
+        var uri =
+            Uri.https(Urls.ROOT_URL_MAIN, "/api/conversation", queryParameters);
+        var response = await get(uri);
+        var res = ApiResponseList<ConversationModel>.fromJson(
+            json.decode(response.body),
+            (data) => ConversationModel.fromJson(data));
+        if (inboxPage == 1) {
+          conversationDataList.clear();
+        }
+        conversationDataList.value.addAll(res.data!);
+        conversationDataList.refresh();
+        hasMoreData = res.data!.isNotEmpty;
+      } catch (e) {
+        print(e);
       }
-      conversationDataList.value.addAll(res.data!);
-      conversationDataList.refresh();
-      hasMoreData = res.data!.isNotEmpty;
       apiCalled.value = true;
       callingApi = false;
     } catch (e) {
