@@ -34,4 +34,6 @@ class AssetsName {
   static String semiBoldFont = "assets/fonts/Inter-SemiBold.ttf";
   static String regularFont = "assets/fonts/Inter-Regular.ttf";
   static String mediumFont = "assets/fonts/Inter-Medium.ttf";
+
+  static var errorAnimation = "assets/animation/error_animation.json";
 }

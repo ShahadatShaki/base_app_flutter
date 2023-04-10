@@ -4,6 +4,7 @@ import 'package:base_app_flutter/controller/BookingController.dart';
 import 'package:base_app_flutter/model/BookingModel.dart';
 import 'package:base_app_flutter/pages/BookingDetailsPage.dart';
 import 'package:base_app_flutter/utility/AppColors.dart';
+import 'package:base_app_flutter/utility/AssetsName.dart';
 import 'package:base_app_flutter/utility/Constrants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -40,8 +41,11 @@ class MyBookings extends BaseStatelessWidget {
               ? Component.loadingView()
               : (controller.apiCalled.value && controller.dataList.isNotEmpty)
                   ? uiDesign()
-                  : Component.emptyView(
-                      "No Data Found", "assets/animation/empty_item.json")),
+                  : controller.error.value
+                      ? Component.emptyView(
+                          controller.errorMessage, AssetsName.errorAnimation)
+                      : Component.emptyView(
+                          "No Data Found", "assets/animation/empty_item.json")),
     );
   }
 
@@ -59,7 +63,10 @@ class MyBookings extends BaseStatelessWidget {
   cardDesign(int index, BookingModel item) {
     return InkWell(
       onTap: () {
-        Get.to(() => BookingDetailsPage(id: item.id!.toString()));
+
+        Component.dialog(context);
+        // Get.to(() => BookingDetailsPage(id: item.id.toString()));
+
       },
       child: Container(
         padding: const EdgeInsets.only(left: 16, right: 16, top: 8),

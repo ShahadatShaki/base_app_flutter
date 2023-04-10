@@ -1,6 +1,6 @@
 void main() {
 
-  var v = " String? _id; String? _name; String? _description;";
+  var v = "  bool? _status;String? _message;  T? _data;";
   var variabls = v.split(';');
 //   print(variabls.length);
 //   print(variabls);

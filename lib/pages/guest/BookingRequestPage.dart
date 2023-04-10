@@ -26,6 +26,7 @@ class BookingRequestPage extends BaseStatelessWidget {
     controller.listingId = listingId;
     controller.getData();
     this.context = context;
+    controller.context = context;
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: Component.appbar(name: "Booking Request"),
@@ -53,8 +54,10 @@ class BookingRequestPage extends BaseStatelessWidget {
               const SizedBox(height: 24),
               Obx(() => guestCountLayout(controller.searchOptions.value)),
               const SizedBox(height: 24),
-              messageInputBox(controller.searchOptions.value),
-              const SizedBox(height: 24),
+              listing.isInstantBookingEnableNow()
+                  ? margin(0)
+                  : messageInputBox(controller.searchOptions.value),
+              SizedBox(height: listing.isInstantBookingEnableNow() ? 0 : 24),
               bookNowButton()
             ],
           ),
@@ -250,4 +253,10 @@ class BookingRequestPage extends BaseStatelessWidget {
       child: buttonText(buttonTitle: "Request for book"),
     );
   }
+
+// showProgressDialog() {
+//   if (controller.showProgressBar.value) {
+//     Component.dialog(context);
+//   }
+// }
 }

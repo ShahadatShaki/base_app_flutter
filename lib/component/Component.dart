@@ -296,7 +296,7 @@ class Component {
         ));
   }
 
-   containerRoundShape({
+  containerRoundShape({
     double size = 8,
     Color color = AppColors.separator,
   }) {
@@ -304,7 +304,7 @@ class Component {
         borderRadius: BorderRadius.all(Radius.circular(size)), color: color);
   }
 
-   containerRoundShapeWithBorder({
+  containerRoundShapeWithBorder({
     double size = 8,
     Color color = AppColors.transparent,
     double borderWidth = 0,
@@ -410,9 +410,9 @@ class Component {
 
   buttonStyle(
       {MaterialColor backgroundColor = AppColors.primary,
-        Color? borderColor,
-        double? borderWidth,
-        double borderRadius = 8}) {
+      Color? borderColor,
+      double? borderWidth,
+      double borderRadius = 8}) {
     return ButtonStyle(
       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
         RoundedRectangleBorder(
@@ -426,10 +426,33 @@ class Component {
         ),
       ),
       backgroundColor: MaterialStateProperty.resolveWith<Color?>(
-            (Set<MaterialState> states) {
+        (Set<MaterialState> states) {
           return backgroundColor;
         },
       ),
     );
+  }
+
+  static progressDialog(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: const [
+                CircularProgressIndicator(),
+                SizedBox(
+                  width: 16,
+                ),
+                Text("Please Wait..."),
+              ],
+            ),
+          );
+        });
+  }
+
+  static dismissDialog(BuildContext context) {
+    Navigator.pop(context);
   }
 }

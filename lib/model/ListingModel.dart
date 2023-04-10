@@ -1,5 +1,6 @@
 import 'package:base_app_flutter/model/ImageModel.dart';
 import 'package:base_app_flutter/model/UserProfileModel.dart';
+import 'package:base_app_flutter/utility/Constrants.dart';
 import 'package:flutter/material.dart';
 
 import '../base/Serializable.dart';
@@ -53,67 +54,259 @@ class ListingModel implements Serializable {
   Cancellation? _cancellation;
   dynamic hotel;
 
-
   int sliderCurrentPosition = 0;
 
   ScrollController itemScrollController = ScrollController();
 
   ListingModel();
 
-  String get id { _id ??= ""; return _id!;}
-  String get title { _title ??= ""; return _title!;}
-  String get placeType { _placeType ??= ""; return _placeType!;}
-  String get address { _address ??= ""; return _address!;}
-  String get maxGuest { _maxGuest ??= ""; return _maxGuest!;}
-  String get maxChild { _maxChild ??= ""; return _maxChild!;}
-  String get maxInfant { _maxInfant ??= ""; return _maxInfant!;}
-  String get minNights { _minNights ??= ""; return _minNights!;}
-  String get freeGuest { _freeGuest ??= ""; return _freeGuest!;}
-  String get bedroom { _bedroom ??= ""; return _bedroom!;}
-  String get beds { _beds ??= ""; return _beds!;}
-  String get bathroom { _bathroom ??= ""; return _bathroom!;}
-  String get price { _price ??= "0"; return _price!;}
-  String get weekendPrice { _weekendPrice ??= ""; return _weekendPrice!;}
-  String get perGuestAmount { _perGuestAmount ??= ""; return _perGuestAmount!;}
-  String get checkIn { _checkIn ??= ""; return _checkIn!;}
-  String get checkOut { _checkOut ??= ""; return _checkOut!;}
-  String get description { _description ??= ""; return _description!;}
-  String get createdAt { _createdAt ??= ""; return _createdAt!;}
-  String get averageRating { _averageRating ??= ""; return _averageRating!;}
-  String get averageResponse { _averageResponse ??= ""; return _averageResponse!;}
-  String get totalAverage { _totalAverage ??= ""; return _totalAverage!;}
-  String get commissionRate { _commissionRate ??= ""; return _commissionRate!;}
-  String get commissionExpiredDate { _commissionExpiredDate ??= ""; return _commissionExpiredDate!;}
-  String get customCommission { _customCommission ??= ""; return _customCommission!;}
-  String get instantBookingType { _instantBookingType ??= ""; return _instantBookingType!;}
-  String get instantBookingFrom { _instantBookingFrom ??= ""; return _instantBookingFrom!;}
-  String get instantBookingTo { _instantBookingTo ??= ""; return _instantBookingTo!;}
-  String get instantBookingMessage { _instantBookingMessage ??= ""; return _instantBookingMessage!;}
-  String get totalCount { _totalCount ??= ""; return _totalCount!;}
-  String get showablePrice { _showablePrice ??= ""; return _showablePrice!;}
-  String get type { _type ??= ""; return _type!;}
-  String get advance { _advance ??= ""; return _advance!;}
-  String get commission { _commission ??= ""; return _commission!;}
-  String get beforeDiscount { _beforeDiscount ??= ""; return _beforeDiscount!;}
-  String get averagePrice { _averagePrice ??= "0"; return _averagePrice!;}
-  String get status { _status ??= ""; return _status!;}
-  Location get location { _location ??= Location(); return _location!;}
-  PropertyType get propertyType { _propertyType ??= PropertyType(); return _propertyType!;}
-  List<ImageModel> get images { _images ??= []; return _images!;}
-  UserProfileModel get host { _host ??= UserProfileModel(); return _host!;}
-  String get reviewsCount { _reviewsCount ??= ""; return _reviewsCount!;}
-  String get reviewsAvg { _reviewsAvg ??= ""; return _reviewsAvg!;}
-  Cancellation get cancellation { _cancellation ??= Cancellation(); return _cancellation!;}
+  String get id {
+    _id ??= "";
+    return _id!;
+  }
 
-  getPrice(){
+  String get title {
+    _title ??= "";
+    return _title!;
+  }
+
+  String get placeType {
+    _placeType ??= "";
+    return _placeType!;
+  }
+
+  String get address {
+    _address ??= "";
+    return _address!;
+  }
+
+  String get maxGuest {
+    _maxGuest ??= "";
+    return _maxGuest!;
+  }
+
+  String get maxChild {
+    _maxChild ??= "";
+    return _maxChild!;
+  }
+
+  String get maxInfant {
+    _maxInfant ??= "";
+    return _maxInfant!;
+  }
+
+  String get minNights {
+    _minNights ??= "";
+    return _minNights!;
+  }
+
+  String get freeGuest {
+    _freeGuest ??= "";
+    return _freeGuest!;
+  }
+
+  String get bedroom {
+    _bedroom ??= "";
+    return _bedroom!;
+  }
+
+  String get beds {
+    _beds ??= "";
+    return _beds!;
+  }
+
+  String get bathroom {
+    _bathroom ??= "";
+    return _bathroom!;
+  }
+
+  String get price {
+    _price ??= "0";
+    return _price!;
+  }
+
+  String get weekendPrice {
+    _weekendPrice ??= "";
+    return _weekendPrice!;
+  }
+
+  String get perGuestAmount {
+    _perGuestAmount ??= "";
+    return _perGuestAmount!;
+  }
+
+  String get checkIn {
+    _checkIn ??= "";
+    return _checkIn!;
+  }
+
+  String get checkOut {
+    _checkOut ??= "";
+    return _checkOut!;
+  }
+
+  String get description {
+    _description ??= "";
+    return _description!;
+  }
+
+  String get createdAt {
+    _createdAt ??= "";
+    return _createdAt!;
+  }
+
+  String get averageRating {
+    _averageRating ??= "";
+    return _averageRating!;
+  }
+
+  String get averageResponse {
+    _averageResponse ??= "";
+    return _averageResponse!;
+  }
+
+  String get totalAverage {
+    _totalAverage ??= "";
+    return _totalAverage!;
+  }
+
+  String get commissionRate {
+    _commissionRate ??= "";
+    return _commissionRate!;
+  }
+
+  String get commissionExpiredDate {
+    _commissionExpiredDate ??= "";
+    return _commissionExpiredDate!;
+  }
+
+  String get customCommission {
+    _customCommission ??= "";
+    return _customCommission!;
+  }
+
+  String get instantBookingType {
+    _instantBookingType ??= "";
+    return _instantBookingType!;
+  }
+
+  String get instantBookingFrom {
+    _instantBookingFrom ??= "";
+    return _instantBookingFrom!;
+  }
+
+  String get instantBookingTo {
+    _instantBookingTo ??= "";
+    return _instantBookingTo!;
+  }
+
+  String get instantBookingMessage {
+    _instantBookingMessage ??= "";
+    return _instantBookingMessage!;
+  }
+
+  String get totalCount {
+    _totalCount ??= "";
+    return _totalCount!;
+  }
+
+  String get showablePrice {
+    _showablePrice ??= "";
+    return _showablePrice!;
+  }
+
+  String get type {
+    _type ??= "";
+    return _type!;
+  }
+
+  String get advance {
+    _advance ??= "";
+    return _advance!;
+  }
+
+  String get commission {
+    _commission ??= "";
+    return _commission!;
+  }
+
+  String get beforeDiscount {
+    _beforeDiscount ??= "";
+    return _beforeDiscount!;
+  }
+
+  String get averagePrice {
+    _averagePrice ??= "0";
+    return _averagePrice!;
+  }
+
+  String get status {
+    _status ??= "";
+    return _status!;
+  }
+
+  Location get location {
+    _location ??= Location();
+    return _location!;
+  }
+
+  PropertyType get propertyType {
+    _propertyType ??= PropertyType();
+    return _propertyType!;
+  }
+
+  List<ImageModel> get images {
+    _images ??= [];
+    return _images!;
+  }
+
+  UserProfileModel get host {
+    _host ??= UserProfileModel();
+    return _host!;
+  }
+
+  String get reviewsCount {
+    _reviewsCount ??= "";
+    return _reviewsCount!;
+  }
+
+  String get reviewsAvg {
+    _reviewsAvg ??= "";
+    return _reviewsAvg!;
+  }
+
+  Cancellation get cancellation {
+    _cancellation ??= Cancellation();
+    return _cancellation!;
+  }
+
+  getPrice() {
     return int.parse(_price!);
   }
+
   String getCoverImage() {
     return images.isNotEmpty ? images[0].url : "";
   }
 
   int getCurrentPrice() {
     return averagePrice == "0" ? int.parse(price) : int.parse(averagePrice);
+  }
+
+  bool isInstantBookingEnableNow() {
+    if (instantBookingType == "ALWAYS") {
+      return true;
+    } else if (instantBookingType == "CUSTOM") {
+      DateTime calendar = DateTime.now();
+      DateTime startTime = Constants.stingToCalender(instantBookingFrom);
+      DateTime endTime = Constants.stingToCalender(instantBookingTo);
+
+      int start = (startTime.hour * 60) + startTime.minute;
+      int end = (endTime.hour * 60) + endTime.minute;
+      int now = (calendar.hour * 60) + calendar.minute;
+      return now > start && now < end;
+    } else {
+      return false;
+    }
   }
 
   ListingModel.fromJson(Map<String, dynamic> json) {
@@ -164,7 +357,7 @@ class ListingModel implements Serializable {
       json['images'].forEach((v) {
         _images!.add(ImageModel.fromJson(v));
       });
-    }else {
+    } else {
       _images = [];
     }
     _host =

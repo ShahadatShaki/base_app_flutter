@@ -251,26 +251,30 @@ class ConversationPage extends BaseStatelessWidget {
 
   actionButton() {
     var booking = controller.conversation.value.booking;
-    return SharedPref.userId == booking.guest.id
-        ?
-        //Guest View
-        //<editor-fold desc="Book Again">
-        booking.isConfirmed()
-            ? Constants.totalDays(booking.calenderCheckout()) <=
-                    Constants.totalDays(DateTime.now())
-                ? bookAgain()
-                : margin(0)
-            //</editor-fold>
-            : booking.isPartial()
-                ? confirmAndPayButton()
-                : booking.isAccepted() && !booking.isExpire
-                    ? confirmAndPayButton()
-                    : booking.isRequested() && !booking.isExpire
-                        ? margin(0)
-                        : bookAgain()
-        :
-        //Host View
-        margin(0);
+    if (booking.id.isNotEmpty) {
+      return SharedPref.userId == booking.guest.id
+          ?
+          //Guest View
+          //<editor-fold desc="Book Again">
+          booking.isConfirmed()
+              ? Constants.totalDays(booking.calenderCheckout()) <=
+                      Constants.totalDays(DateTime.now())
+                  ? bookAgain()
+                  : margin(0)
+              //</editor-fold>
+              : booking.isPartial()
+                  ? confirmAndPayButton()
+                  : booking.isAccepted() && !booking.isExpire
+                      ? confirmAndPayButton()
+                      : booking.isRequested() && !booking.isExpire
+                          ? margin(0)
+                          : bookAgain()
+          :
+          //Host View
+          margin(0);
+    }else{
+      return margin(0);
+    }
   }
 
   bookAgain() {
@@ -284,7 +288,8 @@ class ConversationPage extends BaseStatelessWidget {
     return ElevatedButton(
         style: buttonStyle(),
         onPressed: () {
-          Get.to(()=> BookingDetailsPage(id: controller.conversation.value.booking.id));
+          Get.to(() =>
+              BookingDetailsPage(id: controller.conversation.value.booking.id));
         },
         child: buttonText(buttonTitle: "Confirm And Pay", height: 50));
   }
