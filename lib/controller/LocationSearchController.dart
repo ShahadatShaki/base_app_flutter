@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:base_app_flutter/base/BaseController.dart';
 import 'package:base_app_flutter/model/LocationModel.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,16 +11,12 @@ import '../base/ApiResponseList.dart';
 import '../utility/DioExceptions.dart';
 import '../utility/Urls.dart';
 
-class LocationSearchController extends GetxController {
+class LocationSearchController extends BaseController {
   var dataList = <LocationModel>[].obs;
-  var apiCalled = false.obs;
   late ScrollController scrollController;
   late TextEditingController searchEtController;
   var isSearching = false;
-
   var page = 1;
-  bool callingApi = false;
-  bool hasMoreData = true;
 
   @override
   void onInit() {
@@ -39,17 +36,16 @@ class LocationSearchController extends GetxController {
   }
 
   getData(String text) async {
+    error.value = false;
+
     var client = http.Client();
     final queryParameters = {"q": text, "page": page.toString()};
 
     var uri = Uri.https(
         Urls.ROOT_URL_MAIN, "/api/popular-locations", queryParameters);
-    print(uri);
-
     var response = await client.get(uri, headers: await Urls.getHeaders());
-    print(response.body);
 
-    if (response.statusCode == 200) {
+    try {
       var res = ApiResponseList<LocationModel>.fromJson(
           json.decode(response.body), (data) => LocationModel.fromJson(data));
 
@@ -58,6 +54,9 @@ class LocationSearchController extends GetxController {
       }
       dataList.value.addAll(res.data!);
       dataList.refresh();
+    } catch (e) {
+      error.value = true;
+      print(e);
     }
 
     apiCalled.value = true;

@@ -244,8 +244,7 @@ class ListingDetailsPage extends BaseStatelessWidget {
   hostDetails(ListingModel item) {
     return Row(
       children: [
-        loadCircleImage(
-            imageUrl: item.host.image.url, width: 50, height: 50),
+        loadCircleImage(imageUrl: item.host.image.url, width: 50, height: 50),
         const SizedBox(width: 16),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -393,26 +392,21 @@ class ListingDetailsPage extends BaseStatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                RichText(
-                  text: TextSpan(
-                    children: <TextSpan>[
-                      TextSpan(
-                          text: 'BDT ${item.getCurrentPrice()}',
-                          style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.textColorBlack)),
-                      const TextSpan(
-                          text: ' /day',
-                          style: TextStyle(
-                              fontSize: 14, color: AppColors.darkGray)),
-                    ],
-                  ),
-                ),
-              ],
+            child: RichText(
+              text: TextSpan(
+                children: <TextSpan>[
+                  TextSpan(
+                      text: 'BDT ${item.getCurrentPrice()}',
+                      style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.textColorBlack)),
+                  const TextSpan(
+                      text: ' /day',
+                      style:
+                          TextStyle(fontSize: 14, color: AppColors.darkGray)),
+                ],
+              ),
             ),
           ),
           bookNowButton(item)
@@ -430,10 +424,12 @@ class ListingDetailsPage extends BaseStatelessWidget {
       },
       child: Container(
           height: 40,
-          margin: EdgeInsets.only(left: 50, right: 50),
+          margin: EdgeInsets.only(left: 24, right: 24),
           alignment: Alignment.center,
           child: Text(
-            "Book  Now",
+            item.isInstantBookingEnableNow()
+                ? "Book  Now"
+                : "Request For Booking",
             style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
           )),
     );

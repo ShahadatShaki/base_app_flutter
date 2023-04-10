@@ -46,12 +46,18 @@ class ListingSearchPage extends BaseStatelessWidget {
   showListOrEmptyView() {
     return Expanded(
       child: Container(
-          child: !controller.apiCalled.value
-              ? Component.loadingView()
-              : (controller.apiCalled.value && controller.dataList.isNotEmpty)
-                  ? uiDesign()
-                  : Component.emptyView("No Data Found",
-                      "assets/animation/empty_item.json")),
+        child: !controller.apiCalled.value
+            ? Component.loadingView()
+            : (controller.apiCalled.value && controller.dataList.isNotEmpty)
+                ? uiDesign()
+                : controller.error.value
+                    ? Component.emptyView(
+                        controller.errorMessage, AssetsName.errorAnimation)
+                    : Component.emptyView(
+                        "No Data Found",
+                        "assets/animation/empty_item.json",
+                      ),
+      ),
     );
 
     return Expanded(
@@ -214,7 +220,8 @@ class ListingSearchPage extends BaseStatelessWidget {
               ),
             ),
             const SizedBox(height: 12),
-            (item.getPrice()! > int.parse(item.averagePrice)) && item.averagePrice != "0"
+            (item.getPrice()! > int.parse(item.averagePrice)) &&
+                    item.averagePrice != "0"
                 ? Container(
                     margin: EdgeInsets.only(bottom: 8),
                     child: Text(

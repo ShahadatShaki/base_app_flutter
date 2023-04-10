@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:base_app_flutter/base/BaseController.dart';
 import 'package:base_app_flutter/model/ListingModel.dart';
 import 'package:base_app_flutter/model/SearchOptions.dart';
 import 'package:base_app_flutter/utility/Constrants.dart';
@@ -10,19 +11,15 @@ import 'package:http/http.dart' as http;
 import '../base/ApiResponseList.dart';
 import '../utility/Urls.dart';
 
-class ListingSearchController extends GetxController {
+class ListingSearchController extends BaseController {
   var dataList = <ListingModel>[].obs;
   late SearchOptions searchOptions;
-  var apiCalled = false.obs;
   late ScrollController scrollController;
   var isSearching = false;
   var page = 1;
-  bool callingApi = false;
-  bool hasMoreData = true;
 
   @override
   void onInit() {
-
     scrollController = ScrollController()
       ..addListener(() {
         double maxScroll = scrollController.position.maxScrollExtent;
@@ -42,9 +39,10 @@ class ListingSearchController extends GetxController {
   }
 
   getData() async {
-    if(callingApi) {
+    if (callingApi) {
       return;
     }
+    error.value = false;
 
     callingApi = true;
     var client = http.Client();
@@ -71,17 +69,24 @@ class ListingSearchController extends GetxController {
     var uri = Uri.https(Urls.ROOT_URL_MAIN, "/api/listing", queryParameters);
     print(uri);
 
-    var response = await client.get(uri, headers: await Urls.getHeaders());
-    debugPrint(response.body);
+    // var response = await client.get(uri, headers: await Urls.getHeaders());
 
-    var res = ApiResponseList<ListingModel>.fromJson(
-        json.decode(response.body), (data) => ListingModel.fromJson(data));
-    if (page == 1) {
-      dataList.clear();
+
+    try {
+      var response = await get(uri);
+      var res = ApiResponseList<ListingModel>.fromJson(
+          json.decode(response.body), (data) => ListingModel.fromJson(data));
+      if (page == 1) {
+        dataList.clear();
+      }
+      dataList.value.addAll(res.data!);
+      dataList.refresh();
+      hasMoreData = res.data!.isNotEmpty;
+    } catch (e) {
+      error.value = true;
+      errorMessage = e.toString();
+      print(e);
     }
-    dataList.value.addAll(res.data!);
-    dataList.refresh();
-    hasMoreData = res.data!.isNotEmpty;
     apiCalled.value = true;
     callingApi = false;
   }
