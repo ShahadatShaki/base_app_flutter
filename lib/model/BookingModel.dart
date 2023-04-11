@@ -103,9 +103,9 @@ class BookingModel implements Serializable {
     return _extraGuestCharge!;
   }
 
-  String get serviceFee {
-    _serviceFee ??= "";
-    return _serviceFee!;
+  int get serviceFee {
+    _serviceFee ??= "0";
+    return int.parse(_serviceFee!);
   }
 
   int get paid {

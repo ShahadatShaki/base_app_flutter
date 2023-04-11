@@ -25,8 +25,10 @@ class Component {
     return TextStyle(color: color, fontSize: 14, fontWeight: FontWeight.w700);
   }
 
-  static TextStyle textStyle14bkw400({Color color = AppColors.textColorBlack}) {
-    return TextStyle(color: color, fontSize: 14, fontWeight: FontWeight.w400);
+  static TextStyle textStyle14bkw400(
+      {Color color = AppColors.textColorBlack,
+      FontWeight fontWeight = FontWeight.w400}) {
+    return TextStyle(color: color, fontSize: 14, fontWeight: fontWeight);
   }
 
   static TextStyle ts16Gray500({Color color = AppColors.darkGray}) {
@@ -292,7 +294,7 @@ class Component {
         alignment: Alignment.center,
         child: Text(
           buttonTitle,
-          style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.w500),
+          style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.w500,),
         ));
   }
 
