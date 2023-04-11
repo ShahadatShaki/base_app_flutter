@@ -73,7 +73,11 @@ class InboxPage extends BaseStatelessWidget {
         child: Row(
           children: [
             loadCircleImage(
-                imageUrl: item.host.image.url, height: 50, width: 50),
+                imageUrl:
+                SharedPref.isHost?
+                item.guest.image.url
+                :item.host.image.url
+                , height: 50, width: 50),
             const SizedBox(width: 16),
             Expanded(
               child: Column(

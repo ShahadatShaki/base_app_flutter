@@ -1,30 +1,27 @@
 import 'dart:convert';
 
 import 'package:base_app_flutter/base/ApiResponse.dart';
+import 'package:base_app_flutter/base/BaseController.dart';
 import 'package:base_app_flutter/model/BookingModel.dart';
 import 'package:base_app_flutter/model/ConversationModel.dart';
 import 'package:base_app_flutter/model/MessagesModel.dart';
 import 'package:base_app_flutter/utility/DioExceptions.dart';
 import 'package:base_app_flutter/utility/SharedPref.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart' hide FormData;
 import 'package:get/state_manager.dart';
-import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import 'package:pusher_client/pusher_client.dart';
 
 import '../base/ApiResponseList.dart';
 import '../utility/Urls.dart';
 
-class ConversationController extends GetxController {
+class ConversationController extends BaseController {
   var conversation = ConversationModel().obs;
   var dataList = <MessagesModel>[].obs;
   var id = "";
-  var apiCalled = false.obs;
-  bool callingApi = false;
-  String errorMessage = "";
   late ScrollController scrollController;
-  bool hasMoreData = true;
   var page = 1;
   late TextEditingController textEditingController;
 
@@ -68,8 +65,7 @@ class ConversationController extends GetxController {
 
       var uri = Uri.https(Urls.ROOT_URL_MAIN, "/api/conversation/$id/messages",
           queryParameters);
-      print(uri);
-      var response = await client.get(uri, headers: await Urls.getHeaders());
+      var response = await get(uri);
       if (response.statusCode == 200) {
         var res = ApiResponseList<MessagesModel>.fromJson(
             json.decode(response.body), (data) => MessagesModel.fromJson(data));
@@ -97,7 +93,7 @@ class ConversationController extends GetxController {
     if (response.statusCode == 200) {
       var res = ApiResponse<ConversationModel>.fromJson(
           json.decode(response.body),
-              (data) => ConversationModel.fromJson(data));
+          (data) => ConversationModel.fromJson(data));
       conversation.value = res.data!;
 
       getBooking();
@@ -115,14 +111,13 @@ class ConversationController extends GetxController {
         encrypted: false);
 
     PusherClient pusher =
-    PusherClient(Urls.PUSHER_APP_KEY, options, autoConnect: false);
+        PusherClient(Urls.PUSHER_APP_KEY, options, autoConnect: false);
 
     await pusher.connect();
 
     pusher.onConnectionStateChange((state) {
       print(
-          "previousState: ${state?.previousState}, currentState: ${state
-              ?.currentState}");
+          "previousState: ${state?.previousState}, currentState: ${state?.currentState}");
     });
 
     pusher.onConnectionError((error) {
@@ -131,10 +126,25 @@ class ConversationController extends GetxController {
 
     Channel channel = pusher.subscribe("user.${SharedPref.userId}");
     channel.bind("message.received", (event) {
-      var message = MessagesModel.fromJson(
-          json.decode(event!.data!)["message"]);
-      dataList.insert(0, message);
-      dataList.refresh();
+      // var inbox = ConversationModel.fromJson(json.decode(event!.data!));
+      var message =
+          MessagesModel.fromJson(json.decode(event!.data!)["message"]);
+
+      // if (chat.guest.isBlocked || chat.host.isBlocked)
+      //   finish()
+      //
+      //
+      if (message.senderId == conversation.value.guest.id ||
+          message.senderId == conversation.value.host.id) {
+        dataList.insert(0, message);
+        dataList.refresh();
+
+        if (message.type == "0") {
+          getBooking();
+          // page = 1;
+          // getMessagesList();
+        }
+      }
     });
 
     // channel.e
@@ -162,9 +172,7 @@ class ConversationController extends GetxController {
       var response = await dio.post('api/message', data: formData);
       print(response.data);
     } catch (e) {
-      print("response: " + DioExceptions
-          .fromDioError(e as DioError)
-          .message);
+      print("response: " + DioExceptions.fromDioError(e as DioError).message);
     }
   }
 

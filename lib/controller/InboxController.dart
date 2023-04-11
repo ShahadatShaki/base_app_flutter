@@ -59,43 +59,39 @@ class InboxController extends BaseController {
   }
 
   void getConversationList() async {
+    if (callingApi) {
+      return;
+    }
+
+    callingApi = true;
+
+    var key = "guest";
+    if (SharedPref.isHost) {
+      key = "host";
+    }
+    final queryParameters = {
+      "page": inboxPage.toString(),
+      key: SharedPref.userId,
+    };
+
     try {
-      if (callingApi) {
-        return;
+      var uri =
+          Uri.https(Urls.ROOT_URL_MAIN, "/api/conversation", queryParameters);
+      var response = await get(uri);
+      var res = ApiResponseList<ConversationModel>.fromJson(
+          json.decode(response.body),
+          (data) => ConversationModel.fromJson(data));
+      if (inboxPage == 1) {
+        conversationDataList.clear();
       }
-
-      callingApi = true;
-
-      var key = "guest";
-      if (SharedPref.isHost) {
-        key = "host";
-      }
-      final queryParameters = {
-        "page": inboxPage.toString(),
-        key: SharedPref.userId,
-      };
-
-      try {
-        var uri =
-            Uri.https(Urls.ROOT_URL_MAIN, "/api/conversation", queryParameters);
-        var response = await get(uri);
-        var res = ApiResponseList<ConversationModel>.fromJson(
-            json.decode(response.body),
-            (data) => ConversationModel.fromJson(data));
-        if (inboxPage == 1) {
-          conversationDataList.clear();
-        }
-        conversationDataList.value.addAll(res.data!);
-        conversationDataList.refresh();
-        hasMoreData = res.data!.isNotEmpty;
-      } catch (e) {
-        print(e);
-      }
-      apiCalled.value = true;
-      callingApi = false;
+      conversationDataList.value.addAll(res.data!);
+      conversationDataList.refresh();
+      hasMoreData = res.data!.isNotEmpty;
     } catch (e) {
       print(e);
     }
+    apiCalled.value = true;
+    callingApi = false;
   }
 
   void getMessagesList() async {
@@ -113,18 +109,15 @@ class InboxController extends BaseController {
       var uri = Uri.https(Urls.ROOT_URL_MAIN, "/api/conversation/$id/messages",
           queryParameters);
       print(uri);
-      var response = await client.get(uri, headers: await Urls.getHeaders());
-      if (response.statusCode == 200) {
-        var res = ApiResponseList<MessagesModel>.fromJson(
-            json.decode(response.body), (data) => MessagesModel.fromJson(data));
-        if (conversationPage == 1) {
-          messagesDataList.clear();
-        }
-        messagesDataList.value.addAll(res.data!);
-        messagesDataList.refresh();
-        hasMoreData = res.data!.isNotEmpty;
+      var response = await get(uri);
+      var res = ApiResponseList<MessagesModel>.fromJson(
+          json.decode(response.body), (data) => MessagesModel.fromJson(data));
+      if (conversationPage == 1) {
+        messagesDataList.clear();
       }
-
+      messagesDataList.value.addAll(res.data!);
+      messagesDataList.refresh();
+      hasMoreData = res.data!.isNotEmpty;
       apiCalled.value = true;
       callingApi = false;
     } catch (e) {

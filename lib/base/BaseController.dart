@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:base_app_flutter/utility/Urls.dart';
@@ -26,17 +27,36 @@ class BaseController extends GetxController {
   dynamic _returnResponse(http.Response response) {
     switch (response.statusCode) {
       case 200:
-        return response;
+        var res = json.decode(response.body);
+        if (res["success"]) {
+          return response;
+        } else {
+          error.value = true;
+          errorMessage = res["message"];
+          throw BadRequestException(errorMessage);
+        }
       case 400:
-        throw BadRequestException(response.body.toString());
+        error.value = true;
+        errorMessage = response.body.toString();
+        throw BadRequestException(errorMessage);
       case 401:
+        error.value = true;
+        errorMessage =
+            "Unauthorized, You do not have permission for this operation or Login again to continue";
+        throw BadRequestException(errorMessage);
       case 403:
-        throw BadRequestException(response.body.toString());
+        error.value = true;
+        errorMessage = response.body.toString();
+        throw BadRequestException(errorMessage);
       case 500:
-        throw BadRequestException("Internal Server Error");
+        error.value = true;
+        errorMessage = "Internal Server Error";
+        throw BadRequestException(errorMessage);
       default:
-        throw BadRequestException(
-            'Error occured while Communication with Server with StatusCode : ${response.statusCode}');
+        error.value = true;
+        errorMessage =
+            "Error occurred while Communication with Server with StatusCode : ${response.statusCode}";
+        throw BadRequestException(errorMessage);
     }
   }
 }
