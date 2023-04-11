@@ -1,17 +1,21 @@
 import 'dart:convert';
 
 import 'package:base_app_flutter/base/ApiResponse.dart';
+import 'package:base_app_flutter/base/BaseController.dart';
+import 'package:base_app_flutter/component/Component.dart';
 import 'package:base_app_flutter/model/BookingModel.dart';
 import 'package:base_app_flutter/pages/Webview.dart';
 import 'package:base_app_flutter/utility/Constrants.dart';
+import 'package:base_app_flutter/utility/DioExceptions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide FormData;
 import 'package:get/state_manager.dart';
+import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 
 import '../utility/Urls.dart';
 
-class BookingDetailsController extends GetxController {
+class BookingDetailsController extends BaseController {
   var booking = BookingModel().obs;
   var bookingPayment = BookingModel().obs;
   var dataList = <BookingModel>[].obs;
@@ -19,10 +23,6 @@ class BookingDetailsController extends GetxController {
   var paymentGateway = "bkash".obs;
   var paymentOption = "full".obs;
   var paymentAmount = 0.obs;
-  var apiCalled = false.obs;
-  bool callingApi = false;
-  String errorMessage = "";
-  bool hasMoreData = true;
   var page = 1;
 
   late TextEditingController partialPaymentController;
@@ -144,5 +144,32 @@ class BookingDetailsController extends GetxController {
 
   void amountChanged(String value) {
     setPartialOrFullAmount();
+  }
+
+  updateBooking({String bookingId = "", String status = ""}) async {
+
+    Component.progressDialog(context!);
+    var body = jsonEncode(<String, String>{
+      'status': status,
+    });
+
+    Dio dio = await Urls.getDio();
+    var formData = FormData.fromMap({
+      'status': status,
+      '_method': "patch",
+    });
+
+    try {
+      var response = await dio.post('api/booking/${bookingId}', data: formData);
+      print(response.data);
+
+      Component.dismissDialog(context!);
+      getSingleBooking(bookingId);
+    } catch (e) {
+      Component.dismissDialog(context!);
+      print("response: " + DioExceptions.fromDioError(e as DioError).message);
+    }
+
+
   }
 }

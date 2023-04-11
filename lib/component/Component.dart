@@ -25,8 +25,8 @@ class Component {
     return TextStyle(color: color, fontSize: 14, fontWeight: FontWeight.w700);
   }
 
-  static TextStyle textStyle14bkw500({Color color = AppColors.textColorBlack}) {
-    return TextStyle(color: color, fontSize: 14, fontWeight: FontWeight.w500);
+  static TextStyle textStyle14bkw400({Color color = AppColors.textColorBlack}) {
+    return TextStyle(color: color, fontSize: 14, fontWeight: FontWeight.w400);
   }
 
   static TextStyle ts16Gray500({Color color = AppColors.darkGray}) {

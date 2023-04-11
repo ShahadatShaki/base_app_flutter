@@ -192,6 +192,10 @@ class BookingModel implements Serializable {
     return status.toLowerCase() == "accepted";
   }
 
+  bool isRejected() {
+    return status.toLowerCase() == "rejected";
+  }
+
   bool isPartial() {
     return status.toLowerCase() == "partial";
   }

@@ -26,7 +26,6 @@ class ListingController extends BaseController {
   var searchOptions = SearchOptions().obs;
   late TextEditingController messageController;
 
-  late BuildContext context;
 
   @override
   void onInit() {
@@ -67,7 +66,7 @@ class ListingController extends BaseController {
       return;
     }
 
-    Component.progressDialog(context);
+    Component.progressDialog(context!);
     Dio dio = await Urls.getDio();
     var formData = FormData.fromMap({
       'listing_id': listingId,
@@ -82,7 +81,7 @@ class ListingController extends BaseController {
     try {
       var response = await dio.post('api/booking', data: formData);
 
-      Component.dismissDialog(context);
+      Component.dismissDialog(context!);
       if (response.data["success"]) {
         BookingModel m = BookingModel.fromJson(response.data["data"]);
         if (m.status.toLowerCase() == "accepted") {

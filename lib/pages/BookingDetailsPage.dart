@@ -1,27 +1,24 @@
-import 'package:base_app_flutter/base/BaseStatelessWidget.dart';
 import 'package:base_app_flutter/component/ListingComponent.dart';
 import 'package:base_app_flutter/controller/BookingDetailsController.dart';
 import 'package:base_app_flutter/model/BookingModel.dart';
 import 'package:base_app_flutter/pages/ListingDetailsPage.dart';
 import 'package:base_app_flutter/pages/guest/PaymentOverviewPage.dart';
-import 'package:base_app_flutter/utility/AppStrings.dart';
 import 'package:base_app_flutter/utility/AssetsName.dart';
 import 'package:base_app_flutter/utility/Constrants.dart';
 import 'package:base_app_flutter/utility/SharedPref.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 
 import '../../component/Component.dart';
 import '../../utility/AppColors.dart';
-import '../controller/BookingController.dart';
 
 class BookingDetailsPage extends StatelessWidget with Component {
-  final BookingDetailsController controller = Get.put(BookingDetailsController());
+  final BookingDetailsController controller =
+      Get.put(BookingDetailsController());
   String id;
   late BuildContext context;
-  late BookingModel item;
+  late BookingModel booking;
 
   BookingDetailsPage({required this.id, Key? key}) : super(key: key);
 
@@ -29,14 +26,13 @@ class BookingDetailsPage extends StatelessWidget with Component {
   Widget build(BuildContext context) {
     controller.getSingleBooking(id);
     this.context = context;
+    controller.context = context;
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: Component.appbar(name: "Booking Details"),
       body: getMainLayout(),
     );
   }
-
-
 
   getMainLayout() {
     return SafeArea(
@@ -56,7 +52,7 @@ class BookingDetailsPage extends StatelessWidget with Component {
   }
 
   uiDesign(BookingModel value) {
-    item = value;
+    booking = value;
 
     return SingleChildScrollView(
       child: Container(
@@ -83,14 +79,14 @@ class BookingDetailsPage extends StatelessWidget with Component {
     return InkWell(
       onTap: () {
         Get.to(() => ListingDetailsPage(
-              listingId: item.listing.id,
+              listingId: booking.listing.id,
             ));
       },
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           loadImage(
-              imageUrl: item.listing.getCoverImage(),
+              imageUrl: booking.listing.getCoverImage(),
               height: 80,
               width: 80,
               cornerRadius: 8),
@@ -103,16 +99,16 @@ class BookingDetailsPage extends StatelessWidget with Component {
                 Row(children: [
                   Expanded(
                     child: Text(
-                      item.listing.title,
+                      booking.listing.title,
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                     ),
                   ),
-                  ListingComponent.ratingView(item.listing)
+                  ListingComponent.ratingView(booking.listing)
                 ]),
                 const SizedBox(height: 4),
                 Text(
-                  item.listing.address,
+                  booking.listing.address,
                   maxLines: 1,
                   style: const TextStyle(
                       fontSize: 14,
@@ -139,7 +135,8 @@ class BookingDetailsPage extends StatelessWidget with Component {
             Expanded(
                 child: ListingComponent.titleAndDetails(
                     title: "Check In",
-                    details: item.fromShortStrForShow(format: "dd MMM, yyyy"),
+                    details:
+                        booking.fromShortStrForShow(format: "dd MMM, yyyy"),
                     iconFront: AssetsName.clock,
                     iconBack: AssetsName.edit,
                     iconBackColor: AppColors.darkGray)),
@@ -147,7 +144,7 @@ class BookingDetailsPage extends StatelessWidget with Component {
             Expanded(
                 child: ListingComponent.titleAndDetails(
                     title: "Check Out",
-                    details: item.toShortStrForShow(format: "dd MMM, yyyy"),
+                    details: booking.toShortStrForShow(format: "dd MMM, yyyy"),
                     iconFront: AssetsName.clock,
                     iconBack: AssetsName.edit,
                     iconBackColor: AppColors.darkGray)),
@@ -160,7 +157,7 @@ class BookingDetailsPage extends StatelessWidget with Component {
             Expanded(
                 child: ListingComponent.titleAndDetails(
                     title: "Status",
-                    details: item.status,
+                    details: booking.status,
                     iconFront: AssetsName.clock)),
             const SizedBox(width: 18),
             Expanded(
@@ -188,9 +185,9 @@ class BookingDetailsPage extends StatelessWidget with Component {
       children: [
         sectionTitle("Contact Details"),
         const SizedBox(height: 12),
-        Text(
+        const Text(
           "Contact Number & Location will be provided once you \nConfirm &Pay",
-          style: const TextStyle(
+          style: TextStyle(
               fontSize: 14,
               color: AppColors.darkGray,
               fontWeight: FontWeight.w400),
@@ -206,8 +203,8 @@ class BookingDetailsPage extends StatelessWidget with Component {
         sectionTitle("Price Details"),
         margin(16),
         priceDetailsSection(
-            "BDT ${item.listing.price} taka x ${item.getTotalNights()} nights",
-            "৳${item.totalPayable + item.getAllDiscount()}"),
+            "BDT ${booking.listing.price} taka x ${booking.getTotalNights()} nights",
+            "৳${booking.totalPayable + booking.getAllDiscount()}"),
         // margin(16),
         // priceDetailsSection("Cleaning fee", "৳1200"),
         // margin(16),
@@ -215,14 +212,13 @@ class BookingDetailsPage extends StatelessWidget with Component {
         // margin(16),
         // priceDetailsSection("Taxes", "৳1200"),
         margin(16),
-        priceDetailsSection("Discount", "৳${item.getAllDiscount()}"),
+        priceDetailsSection("Discount", "৳${booking.getAllDiscount()}"),
         lineHorizontal(margin: const EdgeInsets.only(top: 24, bottom: 24)),
-        duePaidSection("Total Payable", "৳${item.totalPayable}"),
+        duePaidSection("Total Payable", "৳${booking.totalPayable}"),
         margin(16),
-        duePaidSection("Paid", "৳${item.paid}"),
+        duePaidSection("Paid", "৳${booking.paid}"),
         margin(16),
-        duePaidSection(
-            "Due", "৳${item.totalPayable - item.paid}"),
+        duePaidSection("Due", "৳${booking.totalPayable - booking.paid}"),
       ],
     );
   }
@@ -309,27 +305,31 @@ class BookingDetailsPage extends StatelessWidget with Component {
   // }
 
   actionButton() {
-    var booking = item;
     return SharedPref.userId == booking.guest.id
         ?
-    //Guest View
-    //<editor-fold desc="Book Again">
-    booking.isConfirmed()
-        ? Constants.totalDays(booking.calenderCheckout()) <=
-        Constants.totalDays(DateTime.now())
-        ? bookAgain()
-        : margin(0)
-    //</editor-fold>
-        : booking.isPartial()
-        ? confirmAndPayButton()
-        : booking.isAccepted() && !booking.isExpire
-        ? confirmAndPayButton()
-        : booking.isRequested() && !booking.isExpire
-        ? margin(0)
-        : bookAgain()
+        //Guest View
+        //<editor-fold desc="Book Again">
+        booking.isConfirmed()
+            ? Constants.totalDays(booking.calenderCheckout()) <=
+                    Constants.totalDays(DateTime.now())
+                ? bookAgain()
+                : margin(0)
+            //</editor-fold>
+            : booking.isPartial()
+                ? confirmAndPayButton()
+                : booking.isAccepted() && !booking.isExpire
+                    ? confirmAndPayButton()
+                    : booking.isRequested() && !booking.isExpire
+                        ? margin(0)
+                        : bookAgain()
         :
-    //Host View
-    margin(0);
+        //Host View
+        (booking.isRequested() ||
+                    booking.isAccepted() ||
+                    booking.isRejected()) &&
+                !booking.isExpire
+            ? approveRejectButton()
+            : margin(0);
   }
 
   bookAgain() {
@@ -343,8 +343,78 @@ class BookingDetailsPage extends StatelessWidget with Component {
     return ElevatedButton(
         style: buttonStyle(),
         onPressed: () {
-          Get.to(()=> PaymentOverviewPage(id: item.id));
+          Get.to(() => PaymentOverviewPage(id: booking.id));
         },
         child: buttonText(buttonTitle: "Confirm And Pay", height: 50));
+  }
+
+  approveRejectButton() {
+    return ElevatedButton(
+        style: buttonStyle(),
+        onPressed: () {
+          acceptRejectDialog();
+        },
+        child: buttonText(
+            buttonTitle:
+                booking.isRequested() ? "Approve or Reject" : "Update Status",
+            height: 50));
+  }
+
+  void acceptRejectDialog() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  booking.listing.title,
+                  style: Component.textStyle16bkw500(),
+                ),
+                margin(8),
+                Text(
+                  "${booking.status} • ${booking.fromToStrForShow()} • ${booking.totalGuest} Adults • ${booking.totalPayable}",
+                  style: Component.textStyle14bkw400(),
+                ),
+                margin(16),
+                Row(
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        Component.dismissDialog(context!);
+
+                        controller.updateBooking(bookingId: booking.id, status: "rejected");
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          "REJECT",
+                          style: Component.textStyle14bkw400(color: AppColors.darkGray),
+                        ),
+                      ),
+                    ),
+                    Spacer(
+                      flex: 1,
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Component.dismissDialog(context);
+                        controller.updateBooking(bookingId: booking.id, status: "accepted");
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          "ACCEPT",
+                          style: Component.textStyle14bkw400(color: AppColors.appColor),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          );
+        });
   }
 }
