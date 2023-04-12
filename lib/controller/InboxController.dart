@@ -88,6 +88,7 @@ class InboxController extends BaseController {
       conversationDataList.refresh();
       hasMoreData = res.data!.isNotEmpty;
     } catch (e) {
+      error.value = true;
       print(e);
     }
     apiCalled.value = true;

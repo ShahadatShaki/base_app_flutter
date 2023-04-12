@@ -1,5 +1,5 @@
+import 'package:base_app_flutter/model/ListingModel.dart';
 import 'package:base_app_flutter/utility/Constrants.dart';
-import 'package:intl/intl.dart';
 
 class SearchOptions {
   String name = "";
@@ -10,6 +10,8 @@ class SearchOptions {
   int guestCount = 0;
   int childCount = 0;
   int infantCount = 0;
+
+  ListingModel? listingModel;
 
   SearchOptions();
 

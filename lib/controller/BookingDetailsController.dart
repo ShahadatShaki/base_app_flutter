@@ -7,10 +7,10 @@ import 'package:base_app_flutter/model/BookingModel.dart';
 import 'package:base_app_flutter/pages/Webview.dart';
 import 'package:base_app_flutter/utility/Constrants.dart';
 import 'package:base_app_flutter/utility/DioExceptions.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide FormData;
 import 'package:get/state_manager.dart';
-import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 
 import '../utility/Urls.dart';
@@ -45,18 +45,15 @@ class BookingDetailsController extends BaseController {
     this.id = bookingId;
     callingApi = true;
 
-    var client = http.Client();
     var uri = Uri.https(Urls.ROOT_URL_MAIN, "/api/booking/$bookingId");
-    print(uri);
-    var response = await client.get(uri, headers: await Urls.getHeaders());
-    print(response.body);
-
-    if (response.statusCode == 200) {
+    try {
+      var response = await get(uri);
       var res = ApiResponse<BookingModel>.fromJson(
           json.decode(response.body), (data) => BookingModel.fromJson(data));
       booking.value = res.data!;
-    } else {
-      // errorMessage = response.
+    } catch (e) {
+      error.value = true;
+      print(e);
     }
     apiCalled.value = true;
     callingApi = false;
@@ -146,30 +143,34 @@ class BookingDetailsController extends BaseController {
     setPartialOrFullAmount();
   }
 
-  updateBooking({String bookingId = "", String status = ""}) async {
-
+  updateBooking({
+    String bookingId = "",
+    String status = "",
+    String total_payable = "",
+    String from = "",
+    String listing_id = "",
+    String to = "",
+  }) async {
     Component.progressDialog(context!);
-    var body = jsonEncode(<String, String>{
-      'status': status,
-    });
 
     Dio dio = await Urls.getDio();
     var formData = FormData.fromMap({
       'status': status,
+      'total_payable': total_payable,
+      'from': from,
+      'listing_id': listing_id,
+      'to': to,
       '_method': "patch",
     });
 
     try {
       var response = await dio.post('api/booking/${bookingId}', data: formData);
       print(response.data);
-
       Component.dismissDialog(context!);
       getSingleBooking(bookingId);
     } catch (e) {
       Component.dismissDialog(context!);
       print("response: " + DioExceptions.fromDioError(e as DioError).message);
     }
-
-
   }
 }

@@ -1,26 +1,22 @@
 import 'dart:convert';
 
 import 'package:base_app_flutter/base/BaseController.dart';
-import 'package:base_app_flutter/model/BookingModel.dart';
+import 'package:base_app_flutter/model/ListingModel.dart';
 import 'package:base_app_flutter/model/SearchOptions.dart';
 import 'package:base_app_flutter/utility/SharedPref.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:get/get.dart' hide FormData;
 import 'package:get/state_manager.dart';
 import 'package:http/http.dart' as http;
 
 import '../base/ApiResponseList.dart';
 import '../utility/Urls.dart';
 
-class BookingController extends BaseController {
-  var booking = BookingModel().obs;
-  var dataList = <BookingModel>[].obs;
-  var id = "";
-  var searchOptions = SearchOptions().obs;
+class MyListingController extends BaseController {
+  var dataList = <ListingModel>[].obs;
+  late SearchOptions searchOptions;
   late ScrollController scrollController;
+  var isSearching = false;
   var page = 1;
-
-  var isTermsChecked = false.obs;
 
   @override
   void onInit() {
@@ -35,39 +31,33 @@ class BookingController extends BaseController {
 
           if (hasMoreData && !callingApi) {
             page++;
-            getMyBookingList();
+            getData();
           }
         }
       });
     super.onInit();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  void getMyBookingList() async {
+  getData() async {
     if (callingApi) {
       return;
     }
+    error.value = false;
 
     callingApi = true;
     var client = http.Client();
-    var key = "guest";
-    if (SharedPref.isHost) {
-      key = "host";
-    }
     final queryParameters = {
       "page": page.toString(),
-      key: SharedPref.userId,
+      "host": SharedPref.userId,
+      "limit": "20",
     };
 
-    var uri = Uri.https(Urls.ROOT_URL_MAIN, "/api/booking", queryParameters);
+    var uri = Uri.https(Urls.ROOT_URL_MAIN, "/api/listing", queryParameters);
+
     try {
       var response = await get(uri);
-      var res = ApiResponseList<BookingModel>.fromJson(
-          json.decode(response.body), (data) => BookingModel.fromJson(data));
+      var res = ApiResponseList<ListingModel>.fromJson(
+          json.decode(response.body), (data) => ListingModel.fromJson(data));
       if (page == 1) {
         dataList.clear();
       }
@@ -76,11 +66,16 @@ class BookingController extends BaseController {
       hasMoreData = res.data!.isNotEmpty;
     } catch (e) {
       error.value = true;
-      errorMessage = "Something went wrong";
+      errorMessage = e.toString();
       print(e);
     }
-
     apiCalled.value = true;
     callingApi = false;
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
   }
 }

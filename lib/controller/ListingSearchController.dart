@@ -71,7 +71,6 @@ class ListingSearchController extends BaseController {
 
     // var response = await client.get(uri, headers: await Urls.getHeaders());
 
-
     try {
       var response = await get(uri);
       var res = ApiResponseList<ListingModel>.fromJson(

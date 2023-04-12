@@ -28,7 +28,7 @@ class GuestBottomSheet {
       ),
       builder: (BuildContext context) {
         return StatefulBuilder(builder: (BuildContext context,
-            StateSetter setModelState /*You can rename this!*/) {
+            StateSetter setModelState ) {
           bottomSheet = setModelState;
 
           return Container(

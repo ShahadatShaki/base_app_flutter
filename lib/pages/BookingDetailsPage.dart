@@ -1,13 +1,17 @@
 import 'package:base_app_flutter/component/ListingComponent.dart';
 import 'package:base_app_flutter/controller/BookingDetailsController.dart';
 import 'package:base_app_flutter/model/BookingModel.dart';
+import 'package:base_app_flutter/model/SearchOptions.dart';
 import 'package:base_app_flutter/pages/ListingDetailsPage.dart';
 import 'package:base_app_flutter/pages/guest/PaymentOverviewPage.dart';
+import 'package:base_app_flutter/pages/guest/PickCalenderPage.dart';
+import 'package:base_app_flutter/pages/host/MyListingPage.dart';
 import 'package:base_app_flutter/utility/AssetsName.dart';
 import 'package:base_app_flutter/utility/Constrants.dart';
 import 'package:base_app_flutter/utility/SharedPref.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import '../../component/Component.dart';
@@ -69,8 +73,6 @@ class BookingDetailsPage extends StatelessWidget with Component {
             priceDetails(),
             lineHorizontal(margin: const EdgeInsets.only(top: 24, bottom: 24)),
             actionButton(),
-            margin(16),
-            if (SharedPref.isHost) spatialOfferButton()
           ],
         ),
       ),
@@ -296,7 +298,7 @@ class BookingDetailsPage extends StatelessWidget with Component {
                     booking.isRejected()) &&
                 !booking.isExpire
             ? approveRejectButton()
-            : margin(0);
+            : createBookingForGuest();
   }
 
   bookAgain() {
@@ -326,6 +328,19 @@ class BookingDetailsPage extends StatelessWidget with Component {
   }
 
   void spatialOfferBottomSheet() {
+    SearchOptions searchOptions = new SearchOptions();
+    searchOptions.checkoutDateCalender = booking.calenderCheckout();
+    searchOptions.checkinDateCalender = booking.calenderCheckout();
+    searchOptions.listingModel = booking.listing;
+    var bottomSheetState;
+    TextEditingController amountController = TextEditingController();
+    TextEditingController calenderController = TextEditingController();
+    TextEditingController listingController = TextEditingController();
+
+    amountController.text = booking.totalPayable.toString();
+    calenderController.text = searchOptions.getCheckinCheckoutShortDate();
+    listingController.text = searchOptions.listingModel!.title;
+
     showModalBottomSheet<void>(
       context: context,
       backgroundColor: AppColors.white,
@@ -336,122 +351,203 @@ class BookingDetailsPage extends StatelessWidget with Component {
         ),
       ),
       builder: (BuildContext context) {
-        return Padding(
-          padding:
-              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Text(
-                      'Offer New Price',
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.textColorBlack),
-                    ),
-                    margin(16),
-                    Container(
-                      width: double.infinity,
-                      child: Text(
-                        'Current Total Payable: ${booking.totalPayable}',
-                        style: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
+        return StatefulBuilder(
+            builder: (BuildContext context, StateSetter setModelState) {
+          bottomSheetState = setModelState;
+          return SingleChildScrollView(
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Text(
+                        'Offer New Price',
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
                             color: AppColors.textColorBlack),
                       ),
-                    ),
-                    margin(24),
-                    TextField(
-                        // controller: controller.firstNameController,
-                        decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      label: const Text("Offer New Price"),
-                      labelStyle: TextStyle(color: AppColors.darkGray),
-                    )),
-                    margin(24),
-                    TextField(
-                        enabled: false,
-                        // controller: controller.firstNameController,
-                        decoration: InputDecoration(
-                          disabledBorder: OutlineInputBorder(),
-                          floatingLabelBehavior: FloatingLabelBehavior.always,
-                          label: const Text("Check In and Check Out Date"),
-                          hintText:
-                              "Click here to pick check in and check out date",
-                          labelStyle: TextStyle(color: AppColors.darkGray),
-                        )),
-                    margin(24),
-                    TextField(
-                        enabled: false,
-                        // controller: controller.firstNameController,
-                        decoration: InputDecoration(
-                          disabledBorder: OutlineInputBorder(),
-                          floatingLabelBehavior: FloatingLabelBehavior.always,
-                          label: const Text("Listing"),
-                          hintText: "Click here to select listing",
-                          labelStyle: TextStyle(color: AppColors.darkGray),
-                        )),
+                      margin(16),
+                      SizedBox(
+                        width: double.infinity,
+                        child: Text(
+                          'Current Total Payable: ${booking.totalPayable}',
+                          style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              color: AppColors.textColorBlack),
+                        ),
+                      ),
+                      margin(24),
+                      TextField(
+                          controller: amountController,
+                          keyboardType: TextInputType.number,
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.digitsOnly
+                          ], // Only numbers ca
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: AppColors.lineColor)),
+                            label: Text("Offer New Price"),
+                            labelStyle: TextStyle(color: AppColors.darkGray),
+                          )),
+                      margin(24),
+                      InkWell(
+                        onTap: () async {
+                          var data = await Get.to(() =>
+                              PickCalenderPage(searchOptions: searchOptions));
+                          if (data != null) {
+                            bottomSheetState(() {
+                              searchOptions = data;
+                              calenderController.text =
+                                  searchOptions.getCheckinCheckoutShortDate();
+                            });
+                          }
+                        },
+                        child: TextField(
+                            enabled: false,
+                            controller: calenderController,
+                            decoration: const InputDecoration(
+                              disabledBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: AppColors.lineColor)),
+                              floatingLabelBehavior:
+                                  FloatingLabelBehavior.always,
+                              label: Text("Check In and Check Out Date"),
+                              hintText:
+                                  "Click here to pick check in and check out date",
+                              labelStyle: TextStyle(color: AppColors.darkGray),
+                            )),
+                      ),
+                      margin(24),
+                      InkWell(
+                        onTap: () async {
+                          var data = await Get.to(() =>
+                              MyListingPage(searchOptions: searchOptions));
+                          if (data != null) {
+                            bottomSheetState(() {
+                              searchOptions = data;
+                              if (searchOptions.listingModel != null) {
+                                listingController.text =
+                                    searchOptions.listingModel!.title;
+                              }
+                            });
+                          }
+                        },
+                        child: TextField(
+                            enabled: false,
+                            controller: listingController,
+                            decoration: const InputDecoration(
+                              disabledBorder: OutlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: AppColors.lineColor)),
+                              floatingLabelBehavior:
+                                  FloatingLabelBehavior.always,
+                              label: Text("Listing"),
+                              hintText: "Click here to select listing",
+                              labelStyle: TextStyle(color: AppColors.darkGray),
+                            )),
+                      ),
 
-
-                    // ElevatedButton(
-                    //   child: const Text('Close BottomSheet'),
-                    //   onPressed: () => Get.back(),
-                    // ),
+                      // ElevatedButton(
+                      //   child: const Text('Close BottomSheet'),
+                      //   onPressed: () => Get.back(),
+                      // ),
+                    ],
+                  ),
+                ),
+                Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Expanded(
+                        flex: 1,
+                        child: InkWell(
+                          onTap: () {
+                            Get.back();
+                          },
+                          child: Container(
+                            height: 50,
+                            color: AppColors.darkGray,
+                            alignment: Alignment.center,
+                            child: Text(
+                              "Cancel".toUpperCase(),
+                              style: const TextStyle(
+                                  color: AppColors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        )),
+                    Expanded(
+                        flex: 1,
+                        child: InkWell(
+                          onTap: () {
+                            Get.back();
+                            controller.updateBooking(
+                                bookingId: booking.id,
+                                status: "ACCEPTED",
+                                from: searchOptions.checkinDateCalender == null
+                                    ? ""
+                                    : Constants.calenderToString(
+                                        searchOptions.checkinDateCalender!,
+                                        "yyyy-MM-dd"),
+                                to: searchOptions.checkoutDateCalender == null
+                                    ? ""
+                                    : Constants.calenderToString(
+                                        searchOptions.checkoutDateCalender!,
+                                        "yyyy-MM-dd"),
+                                listing_id: searchOptions.listingModel != null
+                                    ? searchOptions.listingModel!.id
+                                    : "",
+                                total_payable: amountController.text);
+                          },
+                          child: Container(
+                            height: 50,
+                            color: AppColors.appColor,
+                            alignment: Alignment.center,
+                            child: Text(
+                              "Offer New Price".toUpperCase(),
+                              style: const TextStyle(
+                                  color: AppColors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        )),
                   ],
                 ),
-              ),
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Expanded(
-                      flex: 1,
-                      child: Container(
-                        height: 40,
-                        color: AppColors.darkGray,
-                        alignment: Alignment.center,
-                        child: Text("Listing", style: TextStyle(
-                            color: AppColors.white,
-                            fontSize: 16, fontWeight: FontWeight.bold
-                        ),),
-                      )),
-                  Expanded(
-                      flex: 1,
-                      child: Container(
-                        height: 40,
-                        color: AppColors.appColor,
-                        alignment: Alignment.center,
-                        child: Text("Listing", style: TextStyle(
-                            color: AppColors.white,
-                            fontSize: 16, fontWeight: FontWeight.bold
-                        ),),
-                      )),
-                ],
-              ),
-
-            ],
-          ),
-        );
+              ],
+            ),
+          );
+        });
       },
     );
   }
 
   approveRejectButton() {
-    return ElevatedButton(
-        style: buttonStyle(),
-        onPressed: () {
-          acceptRejectDialog();
-        },
-        child: buttonText(
-            buttonTitle: booking.isRequested()
-                ? "Approve or Reject".toUpperCase()
-                : "Update Status".toUpperCase(),
-            height: 50));
+    return Column(
+      children: [
+        ElevatedButton(
+            style: buttonStyle(),
+            onPressed: () {
+              acceptRejectDialog();
+            },
+            child: buttonText(
+                buttonTitle: booking.isRequested()
+                    ? "Approve or Reject".toUpperCase()
+                    : "Update Status".toUpperCase(),
+                height: 50)),
+        margin(16),
+        spatialOfferButton()
+      ],
+    );
   }
 
   void acceptRejectDialog() {
@@ -516,5 +612,15 @@ class BookingDetailsPage extends StatelessWidget with Component {
             ),
           );
         });
+  }
+
+  createBookingForGuest() {
+    return ElevatedButton(
+        style: buttonStyle(backgroundColor: Colors.green),
+        onPressed: () {
+          // spatialOfferBottomSheet();
+        },
+        child:
+        buttonText(buttonTitle: "Create New Booking".toUpperCase(), height: 50));
   }
 }

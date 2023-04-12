@@ -4,6 +4,7 @@ import 'package:base_app_flutter/controller/BookingController.dart';
 import 'package:base_app_flutter/model/BookingModel.dart';
 import 'package:base_app_flutter/pages/BookingDetailsPage.dart';
 import 'package:base_app_flutter/utility/AppColors.dart';
+import 'package:base_app_flutter/utility/AssetsName.dart';
 import 'package:base_app_flutter/utility/Constrants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -35,13 +36,19 @@ class MyReservation extends BaseStatelessWidget {
   showListOrEmptyView() {
     return Expanded(
       child: Container(
-          color: AppColors.backgroundColor,
-          child: !controller.apiCalled.value
-              ? Component.loadingView()
-              : (controller.apiCalled.value && controller.dataList.isNotEmpty)
-                  ? uiDesign()
-                  : Component.emptyView(
-                      "No Data Found", "assets/animation/empty_item.json")),
+        color: AppColors.backgroundColor,
+        child: !controller.apiCalled.value
+            ? Component.loadingView()
+            : (controller.apiCalled.value && controller.dataList.isNotEmpty)
+                ? uiDesign()
+                : controller.error.value
+                    ? Component.emptyView(
+                        controller.errorMessage, AssetsName.errorAnimation)
+                    : Component.emptyView(
+                        "No Data Found",
+                        "assets/animation/empty_item.json",
+                      ),
+      ),
     );
   }
 

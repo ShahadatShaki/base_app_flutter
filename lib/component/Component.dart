@@ -455,6 +455,10 @@ class Component {
   }
 
   static dismissDialog(BuildContext context) {
+
+    // _isThereCurrentDialogShowing(BuildContext context) =>
+    //     ModalRoute.of(context)?.isCurrent != true;
+
     Navigator.pop(context);
   }
 }
