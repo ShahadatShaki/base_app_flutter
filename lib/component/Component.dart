@@ -461,4 +461,13 @@ class Component {
 
     Navigator.pop(context);
   }
+
+  static bottomSheetShape({double radius = 25}) {
+    return RoundedRectangleBorder(
+      // <-- SEE HERE
+      borderRadius: BorderRadius.vertical(
+        top: Radius.circular(radius),
+      ),
+    );
+  }
 }

@@ -1,4 +1,5 @@
 import 'package:base_app_flutter/base/BaseStatelessWidget.dart';
+import 'package:base_app_flutter/component/GuestCountBottomSheet.dart';
 import 'package:base_app_flutter/controller/ListingDetailsController.dart';
 import 'package:base_app_flutter/model/SearchOptions.dart';
 import 'package:base_app_flutter/utility/AssetsName.dart';
@@ -7,7 +8,6 @@ import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 
 import '../../component/Component.dart';
-import '../../component/GuestBottomSheet.dart';
 import '../../model/ListingModel.dart';
 import '../../utility/AppColors.dart';
 import 'PickCalenderPage.dart';
@@ -171,9 +171,20 @@ class BookingRequestPage extends BaseStatelessWidget {
         shape: Component.roundShape(),
         elevation: 0,
         child: InkWell(
-          onTap: () {
-            GuestBottomSheet.showGuestCountBottomSheet(
-                context, controller.searchOptions);
+
+          onTap: () async {
+            final data = await showModalBottomSheet(
+              context: context,
+              backgroundColor: AppColors.white,
+              shape: Component.bottomSheetShape(),
+              builder: (context) => GuestCountBottomSheet(
+                  searchOptions: controller.searchOptions.value),
+            );
+
+            if (data != null) {
+              controller.searchOptions.value = data;
+              controller.searchOptions.refresh();
+            }
           },
           child: Container(
             height: 70,

@@ -64,8 +64,7 @@ class MyBookings extends BaseStatelessWidget {
     return InkWell(
       onTap: () {
 
-        Component.dialog(context);
-        // Get.to(() => BookingDetailsPage(id: item.id.toString()));
+        Get.to(() => BookingDetailsPage(id: item.id.toString()));
 
       },
       child: Container(
