@@ -228,7 +228,7 @@ class ConversationPage extends BaseStatelessWidget {
                     TextButton(
                       style: Component.textButtonStyle(),
                       onPressed: () {
-                        Get.to(() => BookingDetailsPage(id: item.id));
+                        visitBookingDetailsPage(item.id);
                       },
                       child: Container(
                         alignment: Alignment.center,
@@ -272,7 +272,7 @@ class ConversationPage extends BaseStatelessWidget {
           :
           //Host View
           margin(0);
-    }else{
+    } else {
       return margin(0);
     }
   }
@@ -288,9 +288,13 @@ class ConversationPage extends BaseStatelessWidget {
     return ElevatedButton(
         style: buttonStyle(),
         onPressed: () {
-          Get.to(() =>
-              BookingDetailsPage(id: controller.conversation.value.booking.id));
+          visitBookingDetailsPage(controller.conversation.value.booking.id);
         },
         child: buttonText(buttonTitle: "Confirm And Pay", height: 50));
+  }
+
+  void visitBookingDetailsPage(String id) {
+    Get.to(() => BookingDetailsPage(id: id))
+        ?.then((value) => controller.getBooking());
   }
 }

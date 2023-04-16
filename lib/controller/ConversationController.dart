@@ -194,4 +194,14 @@ class ConversationController extends BaseController {
     conversation.value.booking = res.data?[0];
     conversation.refresh();
   }
+
+  @override
+  void onResumed() {
+    // TODO: implement onResumed
+    super.onResumed();
+
+    if (conversation.value.id.isNotEmpty) {
+      getBooking();
+    }
+  }
 }

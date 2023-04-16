@@ -1,3 +1,4 @@
+import 'package:base_app_flutter/base/BaseStatelessWidget.dart';
 import 'package:base_app_flutter/component/GuestCountBottomSheet.dart';
 import 'package:base_app_flutter/component/ListingComponent.dart';
 import 'package:base_app_flutter/component/TextFieldHelper.dart';
@@ -19,7 +20,7 @@ import 'package:get/get.dart';
 import '../../component/Component.dart';
 import '../../utility/AppColors.dart';
 
-class BookingDetailsPage extends StatelessWidget with Component {
+class BookingDetailsPage extends BaseStatelessWidget {
   final BookingDetailsController controller =
       Get.put(BookingDetailsController());
   String id;
@@ -33,6 +34,8 @@ class BookingDetailsPage extends StatelessWidget with Component {
     controller.getSingleBooking(id);
     this.context = context;
     controller.context = context;
+
+
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: Component.appbar(name: "Booking Details"),
@@ -742,23 +745,7 @@ class BookingDetailsPage extends StatelessWidget with Component {
                         child: InkWell(
                           onTap: () {
                             Get.back();
-                            // controller.updateBooking(
-                            //     bookingId: booking.id,
-                            //     status: "ACCEPTED",
-                            //     from: searchOptions.checkinDateCalender == null
-                            //         ? ""
-                            //         : Constants.calenderToString(
-                            //             searchOptions.checkinDateCalender!,
-                            //             "yyyy-MM-dd"),
-                            //     to: searchOptions.checkoutDateCalender == null
-                            //         ? ""
-                            //         : Constants.calenderToString(
-                            //             searchOptions.checkoutDateCalender!,
-                            //             "yyyy-MM-dd"),
-                            //     listing_id: searchOptions.listingModel != null
-                            //         ? searchOptions.listingModel!.id
-                            //         : "",
-                            //     total_payable: amountController.text);
+                            controller.createNewBookingForGuest(searchOptions);
                           },
                           child: Container(
                             height: 50,

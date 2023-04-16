@@ -123,4 +123,14 @@ class SearchOptions {
   String getName() {
     return name;
   }
+
+  String getCheckinDateForServer(){
+    return Constants.calenderToString(
+        checkinDateCalender!, "yyyy-MM-dd");
+  }
+
+  String getCheckoutDateForServer(){
+    return Constants.calenderToString(
+        checkoutDateCalender!, "yyyy-MM-dd");
+  }
 }

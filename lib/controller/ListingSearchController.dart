@@ -59,11 +59,9 @@ class ListingSearchController extends BaseController {
       "infant": searchOptions.infantCount.toString(),
       "location": "${searchOptions.lat},${searchOptions.lng}",
       if (searchOptions.checkinDateCalender != null)
-        "from": Constants.calenderToString(
-            searchOptions.checkinDateCalender!, "yyyy-MM-dd"),
+        "from": searchOptions.getCheckinDateForServer(),
       if (searchOptions.checkoutDateCalender != null)
-        "to": Constants.calenderToString(
-            searchOptions.checkoutDateCalender!, "yyyy-MM-dd"),
+        "to": searchOptions.getCheckoutDateForServer(),
     };
 
     var uri = Uri.https(Urls.ROOT_URL_MAIN, "/api/listing", queryParameters);

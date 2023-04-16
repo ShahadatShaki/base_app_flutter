@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
-class BaseController extends GetxController {
+class BaseController extends SuperController {
   var apiCalled = false.obs;
   var error = false.obs;
   bool callingApi = false;
@@ -67,6 +67,26 @@ class BaseController extends GetxController {
             "Error occurred while Communication with Server with StatusCode : ${response.statusCode}";
         throw BadRequestException(errorMessage);
     }
+  }
+
+  @override
+  void onDetached() {
+    // TODO: implement onDetached
+  }
+
+  @override
+  void onInactive() {
+    // TODO: implement onInactive
+  }
+
+  @override
+  void onPaused() {
+    // TODO: implement onPaused
+  }
+
+  @override
+  void onResumed() {
+    // TODO: implement onResumed
   }
 }
 

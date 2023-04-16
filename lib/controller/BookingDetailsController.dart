@@ -4,6 +4,7 @@ import 'package:base_app_flutter/base/ApiResponse.dart';
 import 'package:base_app_flutter/base/BaseController.dart';
 import 'package:base_app_flutter/component/Component.dart';
 import 'package:base_app_flutter/model/BookingModel.dart';
+import 'package:base_app_flutter/model/SearchOptions.dart';
 import 'package:base_app_flutter/pages/Webview.dart';
 import 'package:base_app_flutter/utility/Constrants.dart';
 import 'package:base_app_flutter/utility/DioExceptions.dart';
@@ -171,6 +172,34 @@ class BookingDetailsController extends BaseController {
     } catch (e) {
       Component.dismissDialog(context!);
       print("response: " + DioExceptions.fromDioError(e as DioError).message);
+    }
+  }
+
+  void createNewBookingForGuest(SearchOptions searchOptions) async {
+    Component.progressDialog(context!);
+
+    Dio dio = await Urls.getDio();
+    var formData = FormData.fromMap({
+      "listing_id": searchOptions.listingModel!.id,
+      "guests": searchOptions.guestCount.toString(),
+      "guest_id": booking.value.guest.id,
+      "from": searchOptions.getCheckinDateForServer(),
+      "to": searchOptions.getCheckoutDateForServer(),
+      "status": "ACCEPTED"
+    });
+
+    try {
+      var response = await dio.post('api/booking', data: formData);
+      if(response.data["success"]) {
+        booking.value = BookingModel.fromJson(response.data["data"]);
+        booking.refresh();
+      }else{
+        Constants.showToast(response.data["message"]);
+      }
+      Component.dismissDialog(context!);
+    } catch (e) {
+      Component.dismissDialog(context!);
+      Constants.showToast("response: " + DioExceptions.fromDioError(e as DioError).message);
     }
   }
 }
