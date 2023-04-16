@@ -15,10 +15,7 @@ import '../utility/Urls.dart';
 class InboxController extends BaseController {
   var conversation = ConversationModel().obs;
   var conversationDataList = <ConversationModel>[].obs;
-  var messagesDataList = <MessagesModel>[].obs;
-  var id = "";
   late ScrollController scrollController;
-  late ScrollController messagesScrollController;
   var inboxPage = 1;
   var conversationPage = 1;
 
@@ -33,20 +30,6 @@ class InboxController extends BaseController {
           if (hasMoreData && !callingApi) {
             inboxPage++;
             getConversationList();
-          }
-        }
-      });
-
-    messagesScrollController = ScrollController()
-      ..addListener(() {
-        double maxScroll = messagesScrollController.position.maxScrollExtent;
-        double currentScroll = messagesScrollController.position.pixels;
-        double delta = 200.0; // or something else..
-        if (maxScroll - currentScroll <= delta) {
-          if (hasMoreData && !callingApi) {
-            conversationPage++;
-            print(conversationPage);
-            getMessagesList();
           }
         }
       });
@@ -95,34 +78,4 @@ class InboxController extends BaseController {
     callingApi = false;
   }
 
-  void getMessagesList() async {
-    try {
-      if (callingApi) {
-        return;
-      }
-
-      callingApi = true;
-      var client = http.Client();
-      final queryParameters = {
-        "page": conversationPage.toString(),
-      };
-
-      var uri = Uri.https(Urls.ROOT_URL_MAIN, "/api/conversation/$id/messages",
-          queryParameters);
-      print(uri);
-      var response = await get(uri);
-      var res = ApiResponseList<MessagesModel>.fromJson(
-          json.decode(response.body), (data) => MessagesModel.fromJson(data));
-      if (conversationPage == 1) {
-        messagesDataList.clear();
-      }
-      messagesDataList.value.addAll(res.data!);
-      messagesDataList.refresh();
-      hasMoreData = res.data!.isNotEmpty;
-      apiCalled.value = true;
-      callingApi = false;
-    } catch (e) {
-      print(e);
-    }
-  }
 }

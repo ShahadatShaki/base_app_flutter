@@ -190,16 +190,18 @@ class BookingDetailsController extends BaseController {
 
     try {
       var response = await dio.post('api/booking', data: formData);
-      if(response.data["success"]) {
+      if (response.data["success"]) {
         booking.value = BookingModel.fromJson(response.data["data"]);
         booking.refresh();
-      }else{
+        Constants.showToast("Booking created successfully");
+      } else {
         Constants.showToast(response.data["message"]);
       }
       Component.dismissDialog(context!);
     } catch (e) {
       Component.dismissDialog(context!);
-      Constants.showToast("response: " + DioExceptions.fromDioError(e as DioError).message);
+      Constants.showToast(
+          "response: ${DioExceptions.fromDioError(e as DioError).message}");
     }
   }
 }

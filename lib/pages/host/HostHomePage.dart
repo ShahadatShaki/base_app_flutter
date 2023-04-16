@@ -4,6 +4,7 @@ import 'package:base_app_flutter/pages/guest/home/ExplorePage.dart';
 import 'package:base_app_flutter/pages/guest/home/InboxPage.dart';
 import 'package:base_app_flutter/pages/guest/home/MyBookings.dart';
 import 'package:base_app_flutter/pages/guest/home/NotificationPage.dart';
+import 'package:base_app_flutter/pages/host/home/HostCalenderPage.dart';
 import 'package:base_app_flutter/pages/host/home/MyReservation.dart';
 import 'package:base_app_flutter/utility/AppColors.dart';
 import 'package:base_app_flutter/utility/AssetsName.dart';
@@ -95,7 +96,7 @@ class _HostHomePageState extends State<HostHomePage> {
     MyReservation(),
     InboxPage(),
     MyBookings(),
-    NotificationPage(),
+    HostCalenderPage(),
     UserProfilePage()
   ];
 }

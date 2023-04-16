@@ -1,30 +1,47 @@
-import 'dart:convert';
-
 import 'Serializable.dart';
 
 class ApiResponseList<T extends Serializable> {
-  bool? status;
-  String? message;
-  List<T>? data;
+  bool? _status;
+  bool? _success;
+  String? _message;
+  List<T>? _data;
 
-  ApiResponseList({this.status, this.message, this.data});
+  bool get status {
+    _status ??= false;
+    return _status!;
+  }
 
-  factory ApiResponseList.fromJson(
+  bool get success {
+    _success ??= false;
+    return _success!;
+  }
+
+  String get message {
+    _message ??= "";
+    return _message!;
+  }
+
+  List<T> get data {
+    _data ??= [];
+    return _data!;
+  }
+
+  ApiResponseList.fromJson(
       Map<String, dynamic> json, Function(Map<String, dynamic>) create) {
     List<T>? data = [];
     json['data'].forEach((v) {
       data.add(create(v));
     });
 
-    return ApiResponseList<T>(
-      status: json["status"],
-      message: json["message"],
-      data: data,
-    );
+    _status = json["status"];
+    _success = json["success"];
+    _message = json["message"];
+    _data = data;
   }
 
   Map<String, dynamic> toJson() => {
         "status": this.status,
+        "success": this.success,
         "message": this.message,
         // "data": this.data!.toJson(),
         "data": List<dynamic>.from(data!.map((x) => x.toJson())),

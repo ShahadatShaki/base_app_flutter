@@ -66,7 +66,7 @@ class InboxPage extends BaseStatelessWidget {
   cardDesign(int index, ConversationModel item) {
     return InkWell(
       onTap: () {
-        Get.to(() => ConversationPage(id: item.id.toString()));
+        Get.to(() => ConversationPage(id: item.id.toString()))?.then((value) => controller.getConversationList());
       },
       child: Container(
         padding: const EdgeInsets.only(left: 16, right: 16, top: 24),

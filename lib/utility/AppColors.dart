@@ -10,6 +10,8 @@ class AppColors {
   static const Color darkGray = Color(0xFF666870);
   static const Color lineColor = Color(0xFFC3C6D3);
   static const Color lightestLineColor = Color(0xFFF5F5F5);
+  static const Color lightestRed = Color(0x15FF0000);
+  static const Color lightestGreen = Color(0x8A8CECF6);
 
   // static const Color separator =  Color(0xFFECEDF0);
   static const Color textColorBlack = Color(0xFF1A1819);

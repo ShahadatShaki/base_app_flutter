@@ -1,10 +1,10 @@
 void main() {
 
-  var v = "  bool? _status;String? _message;  T? _data;";
+  var v = "String? _id;  String? _date;  String? _count";
   var variabls = v.split(';');
 //   print(variabls.length);
 //   print(variabls);
-  for (int i = 0; i < variabls.length - 1; i++) {
+  for (int i = 0; i < variabls.length ; i++) {
 //     print(variabls[i]);
     variabls[i] = variabls[i].trim();
     var typs = variabls[i].split(' ');
