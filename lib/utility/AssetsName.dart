@@ -5,6 +5,7 @@ class AssetsName {
   static String message = "assets/icon/message.svg";
   static String back = "assets/icon/back.svg";
   static String arrow_right = "assets/icon/arrow_right.svg";
+  static String arrow_drop_down = "assets/icon/arrow_drop_down.svg";
   static String discount = "assets/icon/discount.svg";
   static String edit = "assets/icon/edit.svg";
   static String send = "assets/icon/send.svg";

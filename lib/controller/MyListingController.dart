@@ -13,7 +13,6 @@ import '../utility/Urls.dart';
 
 class MyListingController extends BaseController {
   var dataList = <ListingModel>[].obs;
-  late SearchOptions searchOptions;
   late ScrollController scrollController;
   var isSearching = false;
   var page = 1;
@@ -45,7 +44,6 @@ class MyListingController extends BaseController {
     error.value = false;
 
     callingApi = true;
-    var client = http.Client();
     final queryParameters = {
       "page": page.toString(),
       "host": SharedPref.userId,
@@ -61,9 +59,9 @@ class MyListingController extends BaseController {
       if (page == 1) {
         dataList.clear();
       }
-      dataList.value.addAll(res.data!);
+      dataList.value.addAll(res.data);
       dataList.refresh();
-      hasMoreData = res.data!.isNotEmpty;
+      hasMoreData = res.data.isNotEmpty;
     } catch (e) {
       error.value = true;
       errorMessage = e.toString();

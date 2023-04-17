@@ -1,7 +1,10 @@
 import 'package:base_app_flutter/base/BaseStatelessWidget.dart';
 import 'package:base_app_flutter/component/Component.dart';
+import 'package:base_app_flutter/component/SmallListingItem.dart';
 import 'package:base_app_flutter/controller/HostCalenderController.dart';
+import 'package:base_app_flutter/pages/host/MyListingPage.dart';
 import 'package:base_app_flutter/utility/AppColors.dart';
+import 'package:base_app_flutter/utility/AssetsName.dart';
 import 'package:base_app_flutter/utility/Constrants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,51 +17,76 @@ class HostCalenderPage extends BaseStatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    controller.getBlockDateList();
+    controller.getMyListing();
+    // controller.getBlockDateList();
     return Scaffold(
-        appBar: Component.appbar(name: "Select Dates"),
-        body: Container(
-            padding:
-                const EdgeInsets.only(left: 24, right: 24, top: 16, bottom: 24),
-            width: double.infinity,
-            height: double.infinity,
-            alignment: Alignment.center,
-            color: AppColors.white,
-            child: Column(
-              children: [
-                topBar(),
-                Container(
-                  height: 1,
-                  color: AppColors.lineColor,
-                  margin: EdgeInsets.only(top: 16, bottom: 16),
-                ),
-                Expanded(
+        body: SafeArea(
+            child: Obx(
+      () => Container(
+          padding:
+              const EdgeInsets.only(left: 24, right: 24, top: 16, bottom: 24),
+          width: double.infinity,
+          height: double.infinity,
+          alignment: Alignment.center,
+          color: AppColors.white,
+          child: Column(
+            children: [
+              bookingDetails(),
+              Expanded(
                   // flex: 1,
-                  child: Obx(() =>
-                      controller.apiCalled.value ? showCalender() : margin(0)),
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                TextButton(
-                  style: Component.textButtonStyle(),
-                  onPressed: () {},
-                  child: Container(
-                      height: 40,
-                      width: double.infinity,
-                      alignment: Alignment.center,
-                      child: const Text('Done')),
-                ),
-              ],
-            )));
+                  child: controller.calenderData.value
+                      ? showCalender()
+                      : Component.loadingView()),
+              const SizedBox(
+                height: 16,
+              ),
+              TextButton(
+                style: Component.textButtonStyle(),
+                onPressed: () {},
+                child: Container(
+                    height: 40,
+                    width: double.infinity,
+                    alignment: Alignment.center,
+                    child: const Text('Done')),
+              ),
+            ],
+          )),
+    )));
   }
 
-  topBar() {
-    return Row(
-      // mainAxisSize: MainAxisSize.max,
-      // mainAxisAlignment: MainAxisAlignment.center,
-      children: [],
-    );
+  bookingDetails() {
+    var listing = controller.listing.value;
+    return listing.id.isEmpty
+        ? margin(0)
+        : InkWell(
+            onTap: () async {
+              var data = await Get.to(() => MyListingPage());
+              if (data != null) {
+                controller.listing.value = data;
+                controller.listing.refresh();
+                controller.getBlockDateList();
+              }
+            },
+            child: Card(
+              margin: EdgeInsets.all(8),
+              elevation: 2,
+              child: Container(
+                padding: const EdgeInsets.all(8),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  // mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                        child: SmallListingItem(
+                      listingModel: controller.listing.value,
+                    )),
+                    margin(8),
+                    showIcon(name: AssetsName.arrow_drop_down)
+                  ],
+                ),
+              ),
+            ),
+          );
   }
 
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
@@ -71,10 +99,9 @@ class HostCalenderPage extends BaseStatelessWidget {
 
   dateInBlockDate(DateTime date) {
     for (int i = 0; i < controller.blockDatesList.length; i++) {
-      var item  = controller.blockDatesList[i];
-      if (Constants.totalDays(date) ==
-          Constants.totalDays(item)) {
-        if(controller.blockDatesObjList[i].price.isNotEmpty){
+      var item = controller.blockDatesList[i];
+      if (Constants.totalDays(date) == Constants.totalDays(item)) {
+        if (controller.blockDatesObjList[i].price.isNotEmpty) {
           return AppColors.lightestGreen;
         }
         return AppColors.lightestRed;
@@ -103,20 +130,6 @@ class HostCalenderPage extends BaseStatelessWidget {
       selectionColor: AppColors.transparent,
       selectionMode: DateRangePickerSelectionMode.multiple,
       onSelectionChanged: _onSelectionChanged,
-      // monthViewSettings: DateRangePickerMonthViewSettings(
-      //   specialDates: [
-      //     DateTime(2023, 04, 20),
-      //     DateTime(2020, 03, 16),
-      //     DateTime(2020, 03, 17)
-      //   ],
-      // ),
-      // monthCellStyle: DateRangePickerMonthCellStyle(
-      //   specialDatesDecoration: BoxDecoration(
-      //       color: Colors.green,
-      //       border: Border.all(color: const Color(0xFF2B732F), width: 1),
-      //       shape: BoxShape.circle),
-      //   specialDatesTextStyle: const TextStyle(color: Colors.white),
-      // ),
       cellBuilder: (context, cellDetails) {
         var bgcolor = dateInBlockDate(cellDetails.date);
         var isSelected = dateInSelectedDate(cellDetails.date);
@@ -125,8 +138,7 @@ class HostCalenderPage extends BaseStatelessWidget {
           alignment: Alignment.center,
           decoration: isSelected
               ? BoxDecoration(shape: BoxShape.circle, color: AppColors.appColor)
-              : BoxDecoration(
-                      shape: BoxShape.rectangle, color: bgcolor),
+              : BoxDecoration(shape: BoxShape.rectangle, color: bgcolor),
           child: Text(
             cellDetails.date.day.toString(),
             style: TextStyle(

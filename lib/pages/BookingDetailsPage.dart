@@ -35,7 +35,6 @@ class BookingDetailsPage extends BaseStatelessWidget {
     this.context = context;
     controller.context = context;
 
-
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: Component.appbar(name: "Booking Details"),
@@ -424,11 +423,10 @@ class BookingDetailsPage extends BaseStatelessWidget {
                       margin(24),
                       InkWell(
                         onTap: () async {
-                          var data = await Get.to(() =>
-                              MyListingPage(searchOptions: searchOptions));
+                          var data = await Get.to(() => MyListingPage());
                           if (data != null) {
                             bottomSheetState(() {
-                              searchOptions = data;
+                              searchOptions.listingModel = data;
                               if (searchOptions.listingModel != null) {
                                 listingController.text =
                                     searchOptions.listingModel!.title;
@@ -684,11 +682,10 @@ class BookingDetailsPage extends BaseStatelessWidget {
                       margin(24),
                       InkWell(
                         onTap: () async {
-                          var data = await Get.to(() =>
-                              MyListingPage(searchOptions: searchOptions));
+                          var data = await Get.to(() => MyListingPage());
                           if (data != null) {
                             bottomSheetState(() {
-                              searchOptions = data;
+                              searchOptions.listingModel = data;
                               if (searchOptions.listingModel != null) {
                                 listingController.text =
                                     searchOptions.listingModel!.title;
