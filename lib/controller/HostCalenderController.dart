@@ -4,7 +4,9 @@ import 'package:base_app_flutter/base/BaseController.dart';
 import 'package:base_app_flutter/model/BlockDatesModel.dart';
 import 'package:base_app_flutter/model/ListingModel.dart';
 import 'package:base_app_flutter/utility/Constrants.dart';
+import 'package:base_app_flutter/utility/DioExceptions.dart';
 import 'package:base_app_flutter/utility/SharedPref.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart' hide FormData;
 import 'package:get/state_manager.dart';
@@ -20,6 +22,8 @@ class HostCalenderController extends BaseController {
   late ScrollController scrollController;
   var inboxPage = 1;
   var listing = ListingModel().obs;
+  var amountController = TextEditingController();
+  var calenderOptionOnAvailable = true.obs;
 
   var calenderData = false.obs;
 
@@ -102,5 +106,117 @@ class HostCalenderController extends BaseController {
     }
     apiCalled.value = true;
     callingApi = false;
+  }
+
+  void updateCalenderSettings() async {
+    if (calenderOptionOnAvailable.value) {
+       unblockDates();
+      updatePrice();
+    } else {
+      blockDates();
+    }
+
+  }
+
+  void blockDates() async {
+    // Component.progressDialog(context!);
+
+    List<String> dates = [];
+    for (var i = 0; i < selectedDates.length; i++) {
+      dates.add(Constants.calenderToString(selectedDates[i], "yyyy-MM-dd"));
+    }
+
+    Dio dio = await Urls.getDio();
+    var formData = FormData.fromMap({
+      "listing": listing.value.id,
+      "total_count": "1",
+      "dates[]": dates,
+    });
+
+    try {
+      var response = await dio.post('api/restriction', data: formData);
+      if (response.data["success"]) {
+        selectedDates.clear();
+        getBlockDateList();
+        Constants.showToast("Success");
+      } else {
+        Constants.showToast(response.data["message"]);
+      }
+      // Component.dismissDialog(context!);
+    } catch (e) {
+      // Component.dismissDialog(context!);
+      Constants.showToast(
+          "response: ${DioExceptions.fromDioError(e as DioError).message}");
+    }
+  }
+
+  void unblockDates() async {
+    List<String> dates = [];
+    for (var i = 0; i < selectedDates.length; i++) {
+      for (var j = 0; j < blockDatesObjList.length; j++) {
+        if (Constants.totalDays(selectedDates[i]) ==
+            Constants.totalDays(blockDatesList[j]) && blockDatesObjList[j].price.isEmpty) {
+
+          dates.add(blockDatesObjList[j].id);
+          unblock(blockDatesObjList[j].id);
+        }
+      }
+    }
+  }
+
+  void unblock(String id) async {
+    Dio dio = await Urls.getDio();
+    // var formData = FormData.fromMap({
+    //   // "listing": listing.value.id,
+    //   // "total_count": "1",
+    //   "dates[]": dates,
+    // });
+
+    try {
+      var response = await dio.delete('api/restriction/$id');
+      if (response.data["success"]) {
+        selectedDates.clear();
+        getBlockDateList();
+      } else {
+        Constants.showToast(response.data["message"]);
+      }
+      // Component.dismissDialog(context!);
+    } catch (e) {
+      // Component.dismissDialog(context!);
+      Constants.showToast(
+          "response: ${DioExceptions.fromDioError(e as DioError).message}");
+    }
+  }
+
+  void updatePrice() async {
+    // Component.progressDialog(context!);
+
+    List<String> dates = [];
+    for (var i = 0; i < selectedDates.length; i++) {
+      dates.add(Constants.calenderToString(selectedDates[i], "yyyy-MM-dd"));
+    }
+
+    Dio dio = await Urls.getDio();
+    var formData = FormData.fromMap({
+      "listing_id": listing.value.id,
+      "price": amountController.text,
+      "dates[]": dates,
+    });
+
+    try {
+      var response = await dio.post('api/custom-listing-price', data: formData);
+      if (response.data["success"]) {
+        selectedDates.clear();
+        getBlockDateList();
+        Constants.showToast("Success");
+      } else {
+        Constants.showToast(response.data["message"]);
+      }
+      // Component.dismissDialog(context!);
+    } catch (e) {
+      // Component.dismissDialog(context!);
+      Constants.showToast(
+          "response: ${DioExceptions.fromDioError(e as DioError).message}");
+    }
   }
 }

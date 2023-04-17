@@ -7,6 +7,7 @@ import 'package:base_app_flutter/utility/AppColors.dart';
 import 'package:base_app_flutter/utility/AssetsName.dart';
 import 'package:base_app_flutter/utility/Constrants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
@@ -34,21 +35,19 @@ class HostCalenderPage extends BaseStatelessWidget {
               bookingDetails(),
               Expanded(
                   // flex: 1,
-                  child: controller.calenderData.value
+                  child: Stack(
+                children: [
+                  controller.calenderData.value
                       ? showCalender()
-                      : Component.loadingView()),
-              const SizedBox(
-                height: 16,
-              ),
-              TextButton(
-                style: Component.textButtonStyle(),
-                onPressed: () {},
-                child: Container(
-                    height: 40,
-                    width: double.infinity,
-                    alignment: Alignment.center,
-                    child: const Text('Done')),
-              ),
+                      : Component.loadingView(),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: controller.selectedDates.length > 0
+                        ? showUpdateOptions()
+                        : margin(0),
+                  )
+                ],
+              )),
             ],
           )),
     )));
@@ -111,6 +110,20 @@ class HostCalenderPage extends BaseStatelessWidget {
     return AppColors.white;
   }
 
+  getInitialPriceForUpdate(DateTime date) {
+    for (int i = 0; i < controller.blockDatesList.length; i++) {
+      var item = controller.blockDatesList[i];
+      if (Constants.totalDays(date) == Constants.totalDays(item)) {
+        if (controller.blockDatesObjList[i].price.isNotEmpty) {
+          return controller.blockDatesObjList[i].price;
+        }
+        return controller.listing.value.price;
+      }
+    }
+
+    return controller.listing.value.price;
+  }
+
   dateInSelectedDate(DateTime date) {
     for (int i = 0; i < controller.selectedDates.length; i++) {
       if (Constants.totalDays(date) ==
@@ -127,6 +140,7 @@ class HostCalenderPage extends BaseStatelessWidget {
       navigationMode: DateRangePickerNavigationMode.scroll,
       navigationDirection: DateRangePickerNavigationDirection.vertical,
       enableMultiView: true,
+      monthViewSettings: DateRangePickerMonthViewSettings(),
       selectionColor: AppColors.transparent,
       selectionMode: DateRangePickerSelectionMode.multiple,
       onSelectionChanged: _onSelectionChanged,
@@ -148,5 +162,132 @@ class HostCalenderPage extends BaseStatelessWidget {
         );
       },
     );
+  }
+
+  showUpdateOptions() {
+    var price = getInitialPriceForUpdate(controller.selectedDates.first);
+    controller.amountController.text = price;
+    return Card(
+        elevation: 8,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        margin: EdgeInsets.all(8),
+        child: ClipPath(
+          clipper: ShapeBorderClipper(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15))),
+          child: Container(
+            width: double.infinity,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(16),
+                  child: Column(
+                    children: [
+                      Stack(
+                        children: [
+                          Align(
+                            alignment: Alignment.center,
+                            child: Text("Calender Action",
+                                style: Component.textStyle16bkw500()),
+                          ),
+                          Align(
+                              alignment: Alignment.topRight,
+                              child: showIcon(name: AssetsName.call))
+                        ],
+                      ),
+                      margin(16),
+                      TextField(
+                          controller: controller.amountController,
+                          keyboardType: TextInputType.number,
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: AppColors.lineColor)),
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                            label: Text("Custom Price"),
+                            hintText: "Custom Price",
+                            labelStyle: TextStyle(color: AppColors.darkGray),
+                          )),
+                      margin(16),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: InkWell(
+                              onTap: () {
+                                controller.calenderOptionOnAvailable.value =
+                                    !controller.calenderOptionOnAvailable.value;
+                              },
+                              child: Container(
+                                alignment: Alignment.center,
+                                width: double.infinity,
+                                padding: EdgeInsets.only(
+                                    left: 18, right: 18, top: 8, bottom: 8),
+                                decoration:
+                                    controller.calenderOptionOnAvailable.value
+                                        ? containerRoundShapeWithBorder(
+                                            borderWidth: 1,
+                                            borderColor: AppColors.appColor,
+                                            size: 25)
+                                        : null,
+                                child: Text("Availabile"),
+                              ),
+                            ),
+                          ),
+                          margin(24),
+                          Expanded(
+                            child: InkWell(
+                              onTap: () {
+                                controller.calenderOptionOnAvailable.value =
+                                    !controller.calenderOptionOnAvailable.value;
+                              },
+                              child: Container(
+                                alignment: Alignment.center,
+                                width: double.infinity,
+                                padding: EdgeInsets.only(
+                                    left: 18, right: 18, top: 8, bottom: 8),
+                                decoration:
+                                    controller.calenderOptionOnAvailable.value
+                                        ? null
+                                        : containerRoundShapeWithBorder(
+                                            borderWidth: 1,
+                                            borderColor: AppColors.appColor,
+                                            size: 25),
+                                child: Text("Block"),
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    controller.updateCalenderSettings();
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.all(12),
+                    alignment: Alignment.center,
+                    color: AppColors.appColor,
+                    child: const Text(
+                      "UPDATE",
+                      style: TextStyle(
+                          color: AppColors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ));
   }
 }
