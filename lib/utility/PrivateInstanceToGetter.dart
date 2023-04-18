@@ -1,10 +1,10 @@
 void main() {
 
-  var v = "String? _id;  String? _date;  String? _count";
+  var v = "  String? _place;  String? _cleanliness;  String? _behaviour;";
   var variabls = v.split(';');
 //   print(variabls.length);
 //   print(variabls);
-  for (int i = 0; i < variabls.length ; i++) {
+  for (int i = 0; i < variabls.length-1 ; i++) {
 //     print(variabls[i]);
     variabls[i] = variabls[i].trim();
     var typs = variabls[i].split(' ');

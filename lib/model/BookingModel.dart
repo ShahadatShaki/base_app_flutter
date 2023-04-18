@@ -1,7 +1,9 @@
 import 'package:base_app_flutter/model/ImageModel.dart';
 import 'package:base_app_flutter/model/ListingModel.dart';
+import 'package:base_app_flutter/model/ReviewModel.dart';
 import 'package:base_app_flutter/model/UserProfileModel.dart';
 import 'package:base_app_flutter/utility/Constrants.dart';
+import 'package:base_app_flutter/utility/SharedPref.dart';
 
 import '../base/Serializable.dart';
 
@@ -26,7 +28,7 @@ class BookingModel implements Serializable {
   String? _statusUpdatedAt;
   String? _osPlatform;
   bool? _is_expire;
-  List<Null>? _reviews;
+  List<ReviewModel>? _reviews;
   UserProfileModel? _guest;
   UserProfileModel? _host;
   ListingModel? _listing;
@@ -48,6 +50,7 @@ class BookingModel implements Serializable {
     _from ??= "";
     return _from!;
   }
+
   String get paymentUrl {
     _paymentUrl ??= "";
     return _paymentUrl!;
@@ -140,7 +143,7 @@ class BookingModel implements Serializable {
     return _osPlatform!;
   }
 
-  List<Null> get reviews {
+  List<ReviewModel> get reviews {
     _reviews ??= [];
     return _reviews!;
   }
@@ -256,12 +259,12 @@ class BookingModel implements Serializable {
     _status = json['status'].toString();
     _is_expire = json['is_expire'];
     _createdAt = json['created_at'].toString();
-    // if (json['reviews'] != null) {
-    //   reviews = <Null>[];
-    //   json['reviews'].forEach((v) {
-    //     reviews!.add(new Null.fromJson(v));
-    //   });
-    // }
+    if (json['reviews'] != null) {
+      _reviews = <ReviewModel>[];
+      json['reviews'].forEach((v) {
+        reviews!.add(ReviewModel.fromJson(v));
+      });
+    }
     _statusUpdatedAt = json['status_updated_at'].toString();
     _osPlatform = json['os_platform'].toString();
   }
@@ -294,5 +297,68 @@ class BookingModel implements Serializable {
   getTotalNights() {
     return Constants.totalDays(calenderCheckout()) -
         Constants.totalDays(calenderCheckin());
+  }
+
+  String getArrivingTime() {
+    String message = "";
+    DateTime currentCalendar = DateTime.now();
+    DateTime chekinCalender = calenderCheckin();
+    DateTime checkoutCalender = DateTime(calenderCheckout().year,
+        calenderCheckout().month, calenderCheckout().day, 14, 0);
+    int dayDiff = Constants.totalDays(chekinCalender) -
+        Constants.totalDays(currentCalendar);
+    int checkoutDayDiff = Constants.totalDays(checkoutCalender) -
+        Constants.totalDays(currentCalendar);
+
+    if (dayDiff == 0) {
+      message = "Check-in today";
+    } else if (dayDiff == 1) {
+      message = "Arriving tomorrow";
+    } else if (dayDiff > 1) {
+      message = "Arriving in $dayDiff  days";
+    } else {
+      //Checkin date passed, either stying or checked out
+      if (checkoutDayDiff > -1) {
+        message = "Currently staying";
+      }
+
+      if (checkoutDayDiff == 0) {
+        message = "Check-out today";
+      }
+
+      if (checkoutDayDiff <= 0 &&
+          currentCalendar.millisecond > checkoutCalender.millisecond) {
+        if (isReviewButtonEnable()) {
+          if (SharedPref.isHost) {
+            //For Host
+            message = "Awaiting guest review";
+          } else {
+            //For guest
+            message = "Awaiting host review";
+          }
+        } else {
+          message = "Past guest";
+        }
+      }
+    }
+
+    return message;
+  }
+
+  bool isReviewButtonEnable() {
+    bool enableReviewButton = true;
+
+    // return enableReviewButton;
+    for (int i = 0; i < reviews.length; i++) {
+      if (reviews[i].userId == SharedPref.userId) {
+        enableReviewButton = false;
+      }
+    }
+
+    return ((Constants.totalDays(calenderCheckout()) <=
+                Constants.totalDays(DateTime.now())) &&
+            (Constants.totalDays(calenderCheckout()) + 2 >=
+                Constants.totalDays(DateTime.now()))) &&
+        enableReviewButton;
   }
 }

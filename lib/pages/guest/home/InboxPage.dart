@@ -22,7 +22,7 @@ class InboxPage extends BaseStatelessWidget {
     controller.getConversationList();
     this.context = context;
     return Scaffold(
-      appBar: Component.appbar(name: "Inbox", showBackIcon: true),
+      appBar: Component.appbar(name: "Inbox", showBackIcon: false),
       backgroundColor: AppColors.white,
       body: getMainLayout(),
     );
@@ -66,23 +66,26 @@ class InboxPage extends BaseStatelessWidget {
   cardDesign(int index, ConversationModel item) {
     return InkWell(
       onTap: () {
-        Get.to(() => ConversationPage(id: item.id.toString()))?.then((value) => controller.getConversationList());
+        Get.to(() => ConversationPage(id: item.id.toString()))
+            ?.then((value) => controller.getConversationList());
       },
       child: Container(
         padding: const EdgeInsets.only(left: 16, right: 16, top: 24),
         child: Row(
           children: [
             loadCircleImage(
-                imageUrl:
-                SharedPref.isHost?
-                item.guest.image.url
-                :item.host.image.url
-                , height: 50, width: 50),
+                imageUrl: SharedPref.isHost
+                    ? item.guest.image.url
+                    : item.host.image.url,
+                height: 50,
+                width: 50),
             const SizedBox(width: 16),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  if (item.booking.status == "4" || item.booking.isConfirmed())
+                    Text(item.booking.getArrivingTime(), style: TextStyle(color: AppColors.greenAppColor, fontSize: 12),),
                   Text(
                     SharedPref.isHost
                         ? item.guest.firstName

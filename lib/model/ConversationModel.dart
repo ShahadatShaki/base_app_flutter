@@ -2,6 +2,7 @@ import 'package:base_app_flutter/base/Serializable.dart';
 import 'package:base_app_flutter/model/BookingModel.dart';
 import 'package:base_app_flutter/model/MessagesModel.dart';
 import 'package:base_app_flutter/model/UserProfileModel.dart';
+import 'package:base_app_flutter/utility/Constrants.dart';
 
 class ConversationModel implements Serializable {
   String? _id;
@@ -58,6 +59,8 @@ class ConversationModel implements Serializable {
     _bookingReviews ??= false;
     return _bookingReviews!;
   }
+
+
 
   ConversationModel.fromJson(Map<String, dynamic> json) {
     _id = json['id'].toString();

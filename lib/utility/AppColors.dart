@@ -8,6 +8,7 @@ class AppColors {
   static const Color warning = Color(0xFFFFDD72);
   static const Color white = Color(0xFFFFFFFF);
   static const Color darkGray = Color(0xFF666870);
+  static const Color greenAppColor = Color(0xFF02b875);
   static const Color lineColor = Color(0xFFC3C6D3);
   static const Color lightestLineColor = Color(0xFFF5F5F5);
   static const Color lightestRed = Color(0x15FF0000);
