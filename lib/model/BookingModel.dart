@@ -23,6 +23,7 @@ class BookingModel implements Serializable {
   String? _paid;
   String? _amount;
   String? _status;
+  bool? _is_listing_available;
   String? _createdAt;
   String? _paymentUrl;
   String? _statusUpdatedAt;
@@ -69,6 +70,11 @@ class BookingModel implements Serializable {
   String get price {
     _price ??= "";
     return _price!;
+  }
+
+  bool get is_listing_available {
+    _is_listing_available ??= false;
+    return _is_listing_available!;
   }
 
   int get minimumPayableAmount {
@@ -192,7 +198,7 @@ class BookingModel implements Serializable {
   }
 
   bool isAccepted() {
-    return status.toLowerCase() == "accepted";
+    return status.toLowerCase() == "accepted" || status.toLowerCase() == "1";
   }
 
   bool isRejected() {
@@ -244,6 +250,7 @@ class BookingModel implements Serializable {
       });
     }
     _from = json['from'].toString();
+    _is_listing_available = json['is_listing_available'];
     _to = json['to'].toString();
     _paymentUrl = json['payment_url'].toString();
     _amount = json['amount'].toString();
@@ -287,6 +294,7 @@ class BookingModel implements Serializable {
         'extra_guest_charge': extraGuestCharge,
         'service_fee': serviceFee,
         'paid': paid,
+        'is_listing_available': is_listing_available,
         'status': status,
         'created_at': createdAt,
         // 'reviews': reviews,

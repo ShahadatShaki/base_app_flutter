@@ -294,7 +294,10 @@ class Component {
         alignment: Alignment.center,
         child: Text(
           buttonTitle,
-          style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.w500,),
+          style: TextStyle(
+            fontSize: fontSize,
+            fontWeight: FontWeight.w500,
+          ),
         ));
   }
 
@@ -455,7 +458,6 @@ class Component {
   }
 
   static dismissDialog(BuildContext context) {
-
     // _isThereCurrentDialogShowing(BuildContext context) =>
     //     ModalRoute.of(context)?.isCurrent != true;
 

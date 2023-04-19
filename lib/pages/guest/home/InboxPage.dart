@@ -64,6 +64,11 @@ class InboxPage extends BaseStatelessWidget {
   }
 
   cardDesign(int index, ConversationModel item) {
+    String arrivingTime = "";
+    if (item.booking.status == "4" || item.booking.isConfirmed()) {
+      arrivingTime = item.booking.getArrivingTime();
+    }
+
     return InkWell(
       onTap: () {
         Get.to(() => ConversationPage(id: item.id.toString()))
@@ -84,8 +89,12 @@ class InboxPage extends BaseStatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (item.booking.status == "4" || item.booking.isConfirmed())
-                    Text(item.booking.getArrivingTime(), style: TextStyle(color: AppColors.greenAppColor, fontSize: 12),),
+                  if (arrivingTime.isNotEmpty)
+                    Text(
+                      item.booking.getArrivingTime(),
+                      style: TextStyle(
+                          color: AppColors.greenAppColor, fontSize: 12),
+                    ),
                   Text(
                     SharedPref.isHost
                         ? item.guest.firstName
@@ -113,6 +122,38 @@ class InboxPage extends BaseStatelessWidget {
                         fontWeight: FontWeight.w400,
                         color: AppColors.darkGray),
                   ),
+                  if (arrivingTime == "Awaiting guest review" ||
+                      arrivingTime == "Awaiting host review")
+                    Container(
+                      margin: const EdgeInsets.only(top: 4),
+                      child: TextButton(
+                        style: Component.textButtonStyle(
+                            radius: 4, backgroundColor: AppColors.appColor),
+                        onPressed: () {},
+                        child: buttonText(
+                            fontSize: 12,
+                            buttonTitle: "Write Review",
+                            height: 25),
+                      ),
+                    ),
+                  if (!SharedPref.isHost &&
+                      item.booking.is_listing_available &&
+                      !item.booking.isExpire &&
+                      item.booking.isAccepted())
+                    Container(
+                      margin: const EdgeInsets.only(top: 4),
+                      child: TextButton(
+                        style: Component.textButtonStyle(
+                            radius: 4, backgroundColor: AppColors.appColor),
+                        onPressed: () {
+
+                        },
+                        child: buttonText(
+                            fontSize: 12,
+                            buttonTitle: "Confirm Now",
+                            height: 25),
+                      ),
+                    ),
                 ],
               ),
             ),
