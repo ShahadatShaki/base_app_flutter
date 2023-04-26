@@ -3,6 +3,7 @@ import 'package:base_app_flutter/component/Component.dart';
 import 'package:base_app_flutter/controller/InboxController.dart';
 import 'package:base_app_flutter/model/ConversationModel.dart';
 import 'package:base_app_flutter/pages/ConversationPage.dart';
+import 'package:base_app_flutter/pages/guest/WriteReviewHostPage.dart';
 import 'package:base_app_flutter/utility/AppColors.dart';
 import 'package:base_app_flutter/utility/AssetsName.dart';
 import 'package:base_app_flutter/utility/Constrants.dart';
@@ -122,14 +123,16 @@ class InboxPage extends BaseStatelessWidget {
                         fontWeight: FontWeight.w400,
                         color: AppColors.darkGray),
                   ),
-                  if (arrivingTime == "Awaiting guest review" ||
+                  if (arrivingTime != "Awaiting guest review" ||
                       arrivingTime == "Awaiting host review")
                     Container(
                       margin: const EdgeInsets.only(top: 4),
                       child: TextButton(
                         style: Component.textButtonStyle(
                             radius: 4, backgroundColor: AppColors.appColor),
-                        onPressed: () {},
+                        onPressed: () {
+                          Get.to(()=> WriteReviewHostPage(bookingModel: item.booking));
+                        },
                         child: buttonText(
                             fontSize: 12,
                             buttonTitle: "Write Review",

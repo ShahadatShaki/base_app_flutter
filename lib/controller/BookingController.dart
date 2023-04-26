@@ -53,7 +53,6 @@ class BookingController extends BaseController {
     }
 
     callingApi = true;
-    var client = http.Client();
     var key = "guest";
     if (SharedPref.isHost) {
       key = "host";
@@ -76,7 +75,7 @@ class BookingController extends BaseController {
       hasMoreData = res.data!.isNotEmpty;
     } catch (e) {
       error.value = true;
-      errorMessage = "Something went wrong";
+      // errorMessage = "Something went wrong";
       print(e);
     }
 

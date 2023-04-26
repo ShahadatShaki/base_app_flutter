@@ -2,8 +2,8 @@ import 'package:base_app_flutter/utility/SharedPref.dart';
 import 'package:dio/dio.dart';
 
 class Urls {
-  static String ROOT_URL_MAIN = "api.travela.world";
-  // static String ROOT_URL_MAIN = "api.travela.xyz";
+  // static String ROOT_URL_MAIN = "api.travela.world";
+  static String ROOT_URL_MAIN = "api.travela.xyz";
 
   // static var SOCKET_SERVER = "socket.travela.xyz";
   static var SOCKET_SERVER = "socket.travela.world";
@@ -14,10 +14,10 @@ class Urls {
   static var PUSHER_APP_CLUSTER = "mt1";
 
   static getHeaders() async {
-    String token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9hcGkudHJhdmVsYS53b3JsZFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTY3NDAzMjMyNSwiZXhwIjoxNzA1NTY4MzI1LCJuYmYiOjE2NzQwMzIzMjUsImp0aSI6Ik8zZzJWR1Z1S0hLUEN3aHUiLCJzdWIiOjYsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.a8GRkVYisAgPikSGCpirGnAgUfpunhREvUNNh-llFPQ"; //Test token
+    // String token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9hcGkudHJhdmVsYS53b3JsZFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTY3NDAzMjMyNSwiZXhwIjoxNzA1NTY4MzI1LCJuYmYiOjE2NzQwMzIzMjUsImp0aSI6Ik8zZzJWR1Z1S0hLUEN3aHUiLCJzdWIiOjYsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.a8GRkVYisAgPikSGCpirGnAgUfpunhREvUNNh-llFPQ"; //Test token
 
    //Live Token
-   //  String token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvYXBpLnRyYXZlbGEueHl6XC9hcGlcL2F1dGhcL2xvZ2luIiwiaWF0IjoxNjgwNTkyNTUxLCJleHAiOjE4MzgyNzI1NTEsIm5iZiI6MTY4MDU5MjU1MSwianRpIjoiOFpnQTJzc250azJidWkwMCIsInN1YiI6NiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.NWXzbedqjTFTgiYVXNnYN3LvZoAiR7xxXg_Wo8_kg8Y";
+    String token = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvYXBpLnRyYXZlbGEueHl6XC9hcGlcL2F1dGhcL2xvZ2luIiwiaWF0IjoxNjgwNTkyNTUxLCJleHAiOjE4MzgyNzI1NTEsIm5iZiI6MTY4MDU5MjU1MSwianRpIjoiOFpnQTJzc250azJidWkwMCIsInN1YiI6NiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.NWXzbedqjTFTgiYVXNnYN3LvZoAiR7xxXg_Wo8_kg8Y";
     // String token = await SharedPref.getString(SharedPref.AUTH_KEY);
     int userId = 6; //Test User ID
     SharedPref.putString(SharedPref.USER_ID, "6");

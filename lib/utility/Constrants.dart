@@ -59,7 +59,7 @@ class Constants {
   }
   static DateTime stingToCalender(String dateTime) {
      try {
-       DateTime date = DateTime.parse(dateTime);
+       DateTime date = DateTime.parse(dateTime).toLocal();
        return  date;
     } catch (e) {
       return DateTime.now();

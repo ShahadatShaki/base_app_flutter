@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:base_app_flutter/utility/Constrants.dart';
 import 'package:base_app_flutter/utility/Urls.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
@@ -15,12 +17,15 @@ class BaseController extends SuperController {
   BuildContext? context;
 
   Future<dynamic> get(Uri uri) async {
+    print(uri);
     var client = http.Client();
     var responseJson;
     try {
       var response = await client.get(uri, headers: await Urls.getHeaders());
+      print(response);
       responseJson = _returnResponse(response);
     } on SocketException {
+      Constants.showFailedToast('No Internet connection');
       throw BadRequestException('No Internet connection');
     }
     return responseJson;
@@ -34,6 +39,7 @@ class BaseController extends SuperController {
           await client.post(uri!, headers: await Urls.getHeaders(), body: body);
       responseJson = _returnResponse(response);
     } on SocketException {
+      Constants.showFailedToast('No Internet connection');
       throw BadRequestException('No Internet connection');
     }
     return responseJson;
@@ -88,6 +94,19 @@ class BaseController extends SuperController {
   void onResumed() {
     // TODO: implement onResumed
   }
+
+   showFailedToast(String s) {
+    Fluttertoast.showToast(
+        msg: s,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);
+  }
+
+
 }
 
 class BadRequestException implements Exception {

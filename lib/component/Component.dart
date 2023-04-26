@@ -77,10 +77,11 @@ class Component {
     return Container(
       width: double.infinity,
       height: double.infinity,
+      margin: EdgeInsets.all(24),
       alignment: Alignment.center,
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        children: [Lottie.asset(image, height: 200, width: 200), Text(message)],
+        children: [Lottie.asset(image, height: 200, width: 200), Text(message, textAlign: TextAlign.center,)],
       ),
     );
   }

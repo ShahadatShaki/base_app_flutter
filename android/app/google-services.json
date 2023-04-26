@@ -1,0 +1,115 @@
+{
+  "project_info": {
+    "project_number": "63559417054",
+    "firebase_url": "https://travela-53d75-default-rtdb.firebaseio.com",
+    "project_id": "travela-53d75",
+    "storage_bucket": "travela-53d75.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:63559417054:android:4100ed689376166f69164f",
+        "android_client_info": {
+          "package_name": "com.travela.flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "63559417054-6hpo3l4dmjo4rtlvh6fhkq681pufggjf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_BbO07oKPwPwkaClBRCKJV3zAKf2XBZk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "63559417054-6hpo3l4dmjo4rtlvh6fhkq681pufggjf.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "63559417054-ig5sfbqj6b9612qggcj44kf57647o1ib.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "tkhabbab.travela.tt.tk.travela"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:63559417054:android:a705a0b0bd15b35869164f",
+        "android_client_info": {
+          "package_name": "com.travela.xyz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "63559417054-9bvjaqq1f5soshsqagt1gk612qhquebu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.travela.xyz",
+            "certificate_hash": "e3ed883bf5f403f4b8731c032c182fa7f2104f39"
+          }
+        },
+        {
+          "client_id": "63559417054-btj9jkvid84b7d2drg6htntgepa04bt3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.travela.xyz",
+            "certificate_hash": "bd209ad7daa14ed21f4fa340ab5c8a395823991b"
+          }
+        },
+        {
+          "client_id": "63559417054-k57b64c40p27tli1lk1kaf89bi8gcg9e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.travela.xyz",
+            "certificate_hash": "82565641a31deba7cf06c54fb36b8be2dbc87689"
+          }
+        },
+        {
+          "client_id": "63559417054-q2kgj7s3tqr77tpav8jndpg3lhvucfjh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.travela.xyz",
+            "certificate_hash": "410aff5d4df03952aa3ae2ff4aff044e8567d21b"
+          }
+        },
+        {
+          "client_id": "63559417054-6hpo3l4dmjo4rtlvh6fhkq681pufggjf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_BbO07oKPwPwkaClBRCKJV3zAKf2XBZk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "63559417054-6hpo3l4dmjo4rtlvh6fhkq681pufggjf.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "63559417054-ig5sfbqj6b9612qggcj44kf57647o1ib.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "tkhabbab.travela.tt.tk.travela"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
