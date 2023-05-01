@@ -22,7 +22,7 @@ class BaseController extends SuperController {
     var responseJson;
     try {
       var response = await client.get(uri, headers: await Urls.getHeaders());
-      print(response);
+      print(json.decode(response.body));
       responseJson = _returnResponse(response);
     } on SocketException {
       Constants.showFailedToast('No Internet connection');

@@ -1,5 +1,6 @@
 class AssetsName {
   static String root = "assets/images/";
+  static String login_page_img = "assets/images/login_page_img.png";
   static String generic_placeholder = "assets/generic_placeholder.png";
   static String name = "";
   static String message = "assets/icon/message.svg";

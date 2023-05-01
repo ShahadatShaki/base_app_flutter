@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:base_app_flutter/pages/auth/LoginPage.dart';
 import 'package:base_app_flutter/pages/guest/UserHomePage.dart';
 import 'package:base_app_flutter/pages/host/HostHomePage.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,8 @@ class SplashScreen extends StatelessWidget {
     bool isHost = await SharedPref.getBool(SharedPref.CURRENT_ROLL_HOST);
     if (b) {
       if(isHost) {
-        Get.off(HostHomePage());
+        // Get.off(HostHomePage());
+        Get.off(LoginPage());
       }else{
         Get.off(UserHomePage());
       }

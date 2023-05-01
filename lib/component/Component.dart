@@ -63,6 +63,19 @@ class Component {
     );
   }
 
+  Widget showSvgImage(
+      {required String name,
+      double height = 20,
+      double width = 20,
+      Color? color}) {
+    return SvgPicture.asset(
+      name,
+      width: width,
+      height: height,
+      color: color,
+    );
+  }
+
   static Widget loadingView() {
     return Container(
       width: double.infinity,
@@ -81,7 +94,13 @@ class Component {
       alignment: Alignment.center,
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        children: [Lottie.asset(image, height: 200, width: 200), Text(message, textAlign: TextAlign.center,)],
+        children: [
+          Lottie.asset(image, height: 200, width: 200),
+          Text(
+            message,
+            textAlign: TextAlign.center,
+          )
+        ],
       ),
     );
   }

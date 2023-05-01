@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../utility/SharedPref.dart';
-import 'LoginPage.dart';
 
 
 class TextWigetPage extends StatelessWidget {
