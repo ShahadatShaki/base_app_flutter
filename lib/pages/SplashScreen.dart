@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:base_app_flutter/pages/auth/LoginPage.dart';
+import 'package:base_app_flutter/pages/auth/OtpPage.dart';
 import 'package:base_app_flutter/pages/guest/UserHomePage.dart';
 import 'package:base_app_flutter/pages/host/HostHomePage.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,7 @@ class SplashScreen extends StatelessWidget {
     if (b) {
       if(isHost) {
         // Get.off(HostHomePage());
-        Get.off(LoginPage());
+        Get.off(OtpPage(phoneNumber: "+8801685558803",));
       }else{
         Get.off(UserHomePage());
       }

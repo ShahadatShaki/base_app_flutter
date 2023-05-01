@@ -93,10 +93,8 @@ class _LoginPageState extends State<LoginPage> {
                 TextButton(
                   style: Component.textButtonStyle(
                       radius: 8, backgroundColor: AppColors.appColor),
-                  onPressed: () async {
-
+                  onPressed: ()  async {
                     await FirebaseAuth.instance.verifyPhoneNumber(
-                      // phoneNumber: '+8801234567890',
                       phoneNumber: phoneNumber,
                       verificationCompleted: (PhoneAuthCredential credential) {
                         Constants.showToast("verificationCompleted");

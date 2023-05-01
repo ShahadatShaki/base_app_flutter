@@ -52,6 +52,7 @@ dev_dependencies:
   firebase_core_platform_interface: 4.5.1
   firebase_messaging: ^13.0.4
   country_code_picker: ^3.0.0
+#  pinput: ^2.2.31
 
 flutter:
 
