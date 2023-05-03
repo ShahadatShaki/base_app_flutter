@@ -23,6 +23,11 @@ class SharedPref {
     prefs.setString(key, value??"");
   }
 
+  static clear() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+  }
+
   static getBool(String key) async {
     final prefs = await SharedPreferences.getInstance();
     bool? b =  prefs.getBool(key);
@@ -37,7 +42,7 @@ class SharedPref {
 
   static putBool(String key, bool value) async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setBool(key, value);
+    await prefs.setBool(key, value);
   }
 
   static getInt(String key) async {
@@ -69,8 +74,10 @@ class SharedPref {
 
   static var userId;
   static var isHost;
+  static var token;
   static void initData() async {
     userId = await getString(USER_ID);
+    token = await getString(AUTH_KEY);
     isHost = await getBool(CURRENT_ROLL_HOST);
   }
 }

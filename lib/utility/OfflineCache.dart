@@ -19,4 +19,13 @@ class OfflineCache {
       print(e);
     }
   }
+
+  static clearData() {
+    try {
+      JsonStore jsonStore = JsonStore();
+      jsonStore.clearDataBase();
+    } catch (e) {
+      print(e);
+    }
+  }
 }

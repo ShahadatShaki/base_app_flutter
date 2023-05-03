@@ -30,13 +30,13 @@ class SplashScreen extends StatelessWidget {
     bool isHost = await SharedPref.getBool(SharedPref.CURRENT_ROLL_HOST);
     if (b) {
       if(isHost) {
-        // Get.off(HostHomePage());
-        Get.off(OtpPage(phoneNumber: "+8801685558803",));
+        Get.off(HostHomePage());
+        // Get.off(OtpPage(phoneNumber: "+8801685558803", verificationId: "",));
       }else{
         Get.off(UserHomePage());
       }
     } else {
-      Get.off(UserHomePage());
+      Get.off(LoginPage());
     }
   }
 }

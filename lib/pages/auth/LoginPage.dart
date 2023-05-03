@@ -1,9 +1,11 @@
 import 'package:base_app_flutter/component/Component.dart';
+import 'package:base_app_flutter/pages/auth/OtpPage.dart';
 import 'package:base_app_flutter/utility/AppColors.dart';
 import 'package:base_app_flutter/utility/Constrants.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../utility/AssetsName.dart';
 
@@ -18,19 +20,21 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   var phoneNumber = "";
-  var countryCode = "";
+  var countryCode = "+880";
   Component component = Component();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: Component.appbar(name: "name"),
+        appBar: Component.appbar(name: "", showBackIcon: false),
         body: SingleChildScrollView(
+
           child: Container(
-            // color: AppColors.appColor,
-            margin: EdgeInsets.all(24),
+            color: AppColors.white,
+            padding: EdgeInsets.all(24),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
               children: [
                 Image.asset(
                   width: double.infinity,
@@ -68,46 +72,55 @@ class _LoginPageState extends State<LoginPage> {
                   decoration: component.containerRoundShapeWithBorder(
                       borderColor: AppColors.appColor, borderWidth: 1),
                   child: TextField(
-                    onChanged: (value) {
-                      phoneNumber = value;
-                    },
+                      onChanged: (value) {
+                        phoneNumber = countryCode + value;
+                      },
+                      keyboardType: TextInputType.phone,
                       decoration: InputDecoration(
-                    border: InputBorder.none,
-                    label: const Text("Phone Number"),
-                    labelStyle: const TextStyle(color: AppColors.darkGray),
-                    prefixIcon: Align(
-                      widthFactor: 1.0,
-                      heightFactor: 1.0,
-                      child: CountryCodePicker(
-                        onChanged: (value) {
-                          countryCode = value.code!;
-                        },
-                        initialSelection: 'BD',
-                        showCountryOnly: false,
-                        showOnlyCountryWhenClosed: false,
-                      ),
-                    ),
-                  )),
+                        border: InputBorder.none,
+                        label: const Text("Phone Number"),
+                        labelStyle: const TextStyle(color: AppColors.darkGray),
+                        prefixIcon: Align(
+                          widthFactor: 1.0,
+                          heightFactor: 1.0,
+                          child: CountryCodePicker(
+                            onChanged: (value) {
+                              countryCode = value.code!;
+                            },
+                            initialSelection: 'BD',
+                            showCountryOnly: false,
+                            showOnlyCountryWhenClosed: false,
+                          ),
+                        ),
+                      )),
                 ),
                 component.margin(32),
                 TextButton(
                   style: Component.textButtonStyle(
                       radius: 8, backgroundColor: AppColors.appColor),
-                  onPressed: ()  async {
+                  onPressed: () async {
+                    Component.progressDialog(context);
+
                     await FirebaseAuth.instance.verifyPhoneNumber(
                       phoneNumber: phoneNumber,
                       verificationCompleted: (PhoneAuthCredential credential) {
                         Constants.showToast("verificationCompleted");
                       },
                       verificationFailed: (FirebaseAuthException e) {
+                        Component.dismissDialog(context);
                         Constants.showToast(
                             "Verification Failed : ${e.message}");
                       },
                       codeSent: (String verificationId, int? resendToken) {
-                        Constants.showToast("codeSent");
+                        Component.dismissDialog(context);
+                        Get.to(() => OtpPage(
+                              phoneNumber: phoneNumber,
+                              verificationId: verificationId,
+                            ));
+                        Constants.showToast("Code Sent to your Phone Number");
                       },
                       codeAutoRetrievalTimeout: (String verificationId) {
-                        Constants.showToast("codeAutoRetrievalTimeout");
+                        // Constants.showToast("codeAutoRetrievalTimeout");
                       },
                     );
                   },

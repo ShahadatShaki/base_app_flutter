@@ -16,6 +16,8 @@ class UserProfileModel implements Serializable {
   String? _status;
   String? _osPlatform;
   String? _hostStatus;
+  String? _accessToken;
+  bool? _newUser;
   ImageModel? _image;
 
   UserProfileModel();
@@ -28,6 +30,14 @@ class UserProfileModel implements Serializable {
   String get firstName {
     _firstName ??= "";
     return _firstName!;
+  }
+  bool get newUser {
+    _newUser ??= false;
+    return _newUser!;
+  }
+  String get accessToken {
+    _accessToken ??= "";
+    return _accessToken!;
   }
 
   String get fullName{
@@ -104,6 +114,8 @@ class UserProfileModel implements Serializable {
     _totalBooking = json['total_booking'].toString();
     _averageResponse = json['average_response'].toString();
     _status = json['status'].toString();
+    _newUser = json['new_user'];
+    _accessToken = json['access_token'];
     _osPlatform = json['os_platform'].toString();
     _image = json['image'] != null
         ? ImageModel.fromJson(json['image'])

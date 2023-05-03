@@ -4,10 +4,12 @@ import 'package:base_app_flutter/controller/UserController.dart';
 import 'package:base_app_flutter/model/UserProfileModel.dart';
 import 'package:base_app_flutter/pages/Webview.dart';
 import 'package:base_app_flutter/pages/auth/EditProfilePage.dart';
+import 'package:base_app_flutter/pages/auth/LoginPage.dart';
 import 'package:base_app_flutter/pages/guest/UserHomePage.dart';
 import 'package:base_app_flutter/pages/guest/home/MyBookings.dart';
 import 'package:base_app_flutter/pages/host/HostHomePage.dart';
 import 'package:base_app_flutter/utility/AssetsName.dart';
+import 'package:base_app_flutter/utility/OfflineCache.dart';
 import 'package:base_app_flutter/utility/SharedPref.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -72,15 +74,15 @@ class UserProfilePage extends BaseStatelessWidget {
             lineHorizontal(
                 margin: EdgeInsets.only(top: 24, bottom: 24),
                 color: AppColors.gray.shade100),
-
             section(
                 icon: AssetsName.discount,
                 title: "Get Discount",
                 page: MyBookings()),
             section(
                 icon: AssetsName.switch_to_host,
-                title: SharedPref.isHost?"Switch to guest":"Switch to hosting",
-                page: SharedPref.isHost?UserHomePage():HostHomePage(),
+                title:
+                    SharedPref.isHost ? "Switch to guest" : "Switch to hosting",
+                page: SharedPref.isHost ? UserHomePage() : HostHomePage(),
                 type: "switch"),
             section(
                 icon: AssetsName.payment_history,
@@ -101,7 +103,7 @@ class UserProfilePage extends BaseStatelessWidget {
                 icon: AssetsName.call,
                 title: "Contact with us",
                 page: MyBookings()),
-            section(title: "Log Out", page: MyBookings()),
+            section(title: "Log Out", page: LoginPage(), type: "logout"),
           ],
         ),
       ),
@@ -121,7 +123,11 @@ class UserProfilePage extends BaseStatelessWidget {
                     SharedPref.CURRENT_ROLL_HOST, !SharedPref.isHost);
                 SharedPref.initData();
                 Get.off(page);
-              }else{
+              } else if (type == "logout") {
+                SharedPref.clear();
+                OfflineCache.clearData();
+                Get.offAll(page);
+              } else {
                 Get.to(page);
               }
             },
