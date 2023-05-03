@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:base_app_flutter/base/ApiResponse.dart';
@@ -44,6 +45,7 @@ class UserController extends BaseController {
       OfflineCache.saveOfflineJson(
           OfflineCache.USER_PROFILE, res.data?.toJson());
       profile.value = res.data!;
+      await SharedPref.putString(SharedPref.USER_ID, profile.value.id);
     } else {
       // errorMessage = response.
     }
@@ -65,20 +67,16 @@ class UserController extends BaseController {
       Component.dismissDialog(context!);
 
       if (response.data["success"]) {
-
         UserProfileModel userProfile =
             UserProfileModel.fromJson(response.data["data"]);
         if (userProfile.newUser) {
         } else {
-          await SharedPref.putString(SharedPref.AUTH_KEY, "Bearer ${userProfile.accessToken}");
+          await SharedPref.putString(
+              SharedPref.AUTH_KEY, "Bearer ${userProfile.accessToken}");
           await SharedPref.putBool(SharedPref.IS_LOGIN, true);
-          await getUserProfile();
-
-          await SharedPref.putString(SharedPref.USER_ID, profile.value.id);
+          getUserProfile();
           SharedPref.initData();
           Get.off(UserHomePage());
-
-
         }
       } else {
         Constants.showToast(response.data["message"]);
@@ -94,6 +92,7 @@ class UserController extends BaseController {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
+    _timer.cancel();
   }
 
   void getProfileDataOffline() async {
@@ -101,5 +100,23 @@ class UserController extends BaseController {
     if (offRes != null) {
       profile.value = UserProfileModel.fromJson(offRes);
     }
+  }
+
+  final countDown = 5.obs;
+  late Timer _timer;
+
+  void startTimer() {
+    countDown.value = 5;
+    const oneSec = const Duration(seconds: 1);
+    _timer = Timer.periodic(
+      oneSec,
+      (Timer timer) {
+        if (countDown.value == 0) {
+          timer.cancel();
+        } else {
+          countDown.value--;
+        }
+      },
+    );
   }
 }

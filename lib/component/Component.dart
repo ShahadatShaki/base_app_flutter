@@ -459,22 +459,26 @@ class Component {
   }
 
   static progressDialog(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            content: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: const [
-                CircularProgressIndicator(),
-                SizedBox(
-                  width: 16,
-                ),
-                Text("Please Wait..."),
-              ],
-            ),
-          );
-        });
+    try {
+      showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  content: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: const [
+                      CircularProgressIndicator(),
+                      SizedBox(
+                        width: 16,
+                      ),
+                      Text("Please Wait..."),
+                    ],
+                  ),
+                );
+              });
+    } catch (e) {
+      print(e);
+    }
   }
 
   static dismissDialog(BuildContext context) {

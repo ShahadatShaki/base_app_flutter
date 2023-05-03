@@ -1,7 +1,7 @@
 import 'package:base_app_flutter/base/BaseStatelessWidget.dart';
-import 'package:base_app_flutter/controller/EditProfileController.dart';
 import 'package:base_app_flutter/controller/UserController.dart';
 import 'package:base_app_flutter/model/UserProfileModel.dart';
+import 'package:base_app_flutter/utility/AssetsName.dart';
 import 'package:base_app_flutter/utility/Constrants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +25,7 @@ class OtpPage extends BaseStatelessWidget {
   Widget build(BuildContext context) {
     this.context = context;
     controller.context = context;
+    controller.startTimer();
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: Component.appbar(name: "Verify Phone Number"),
@@ -43,6 +44,7 @@ class OtpPage extends BaseStatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              margin(32),
               const Text(
                 "Enter the verification code",
                 style: TextStyle(
@@ -50,7 +52,7 @@ class OtpPage extends BaseStatelessWidget {
                     color: AppColors.textColorBlack,
                     fontWeight: FontWeight.w500),
               ),
-              margin(8),
+              margin(16),
               const Text(
                 "Enter the 6 digit code went to",
                 style: TextStyle(
@@ -61,7 +63,7 @@ class OtpPage extends BaseStatelessWidget {
               margin(4),
               Text(
                 phoneNumber,
-                style: TextStyle(
+                style: const TextStyle(
                     fontSize: 14,
                     color: AppColors.textColorBlack,
                     fontWeight: FontWeight.w400),
@@ -69,7 +71,8 @@ class OtpPage extends BaseStatelessWidget {
               margin(24),
               pinInput(),
               margin(24),
-
+              resendOtpView(),
+              margin(48),
               TextButton(
                 style: Component.textButtonStyle(
                     radius: 8, backgroundColor: AppColors.appColor),
@@ -91,7 +94,7 @@ class OtpPage extends BaseStatelessWidget {
                         Component.dismissDialog(context);
                         print(user.uid);
                         controller.login(phoneNumber, user.uid);
-                      }else{
+                      } else {
                         Constants.showFailedToast("Something is wrong ");
                         Component.dismissDialog(context);
                       }
@@ -156,5 +159,75 @@ class OtpPage extends BaseStatelessWidget {
       pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
       showCursor: true,
     );
+  }
+
+  resendOtpView() {
+    return Obx(() => controller.countDown.value == 0
+        ? Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children:  [
+              const Text(
+                "Didn’t receive the code?",
+                style: TextStyle(
+                    fontSize: 14,
+                    color: AppColors.darkGray,
+                    fontWeight: FontWeight.w400),
+              ),
+              InkWell(
+                onTap: () async{
+                  Component.progressDialog(context);
+                  await FirebaseAuth.instance.verifyPhoneNumber(
+                    phoneNumber: phoneNumber,
+                    verificationCompleted: (PhoneAuthCredential credential) {
+                      Constants.showToast("verificationCompleted");
+                    },
+                    verificationFailed: (FirebaseAuthException e) {
+                      Component.dismissDialog(context);
+                      Constants.showToast(
+                          "Verification Failed : ${e.message}");
+                    },
+                    codeSent: (String verificationId, int? resendToken) {
+                      Component.dismissDialog(context);
+                      this.verificationId = verificationId;
+                      Constants.showToast("Code Sent to your Phone Number");
+                    },
+                    codeAutoRetrievalTimeout: (String verificationId) {
+                      // Constants.showToast("codeAutoRetrievalTimeout");
+                    },
+                  );
+
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(8),
+                  child: const Text(
+                    "Resend code",
+                    style: TextStyle(
+                        fontSize: 14,
+                        color: AppColors.appColor,
+                        fontWeight: FontWeight.w400),
+                  ),
+                ),
+              ),
+            ],
+          )
+        : Container(
+            padding: EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
+            decoration:
+                containerRoundShape(size: 8, color: AppColors.separator),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                showIcon(name: AssetsName.call),
+                margin(8),
+                Text(
+                  "${controller.countDown.value}",
+                  style: const TextStyle(
+                      fontSize: 14,
+                      color: AppColors.textColorBlack,
+                      fontWeight: FontWeight.w400),
+                )
+              ],
+            ),
+          ));
   }
 }
