@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>63559417054-mddjs9mnk36pfqs526taa7qjdvkq93oq.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.63559417054-mddjs9mnk36pfqs526taa7qjdvkq93oq</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>63559417054-9bvjaqq1f5soshsqagt1gk612qhquebu.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAzmzn3xaAdopTjuo_4AIGXQ4MSag3UvjY</string>
+	<key>GCM_SENDER_ID</key>
+	<string>63559417054</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.baseAppFlutter</string>
+	<key>PROJECT_ID</key>
+	<string>travela-53d75</string>
+	<key>STORAGE_BUCKET</key>
+	<string>travela-53d75.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:63559417054:ios:0cf8b35dd556c4a869164f</string>
+	<key>DATABASE_URL</key>
+	<string>https://travela-53d75-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>

@@ -1,17 +1,18 @@
-import 'package:base_app_flutter/pages/ListingDetailsPage.dart';
+import 'package:base_app_flutter/firebase_options.dart';
 import 'package:base_app_flutter/pages/SplashScreen.dart';
-import 'package:base_app_flutter/pages/guest/home/InboxPage.dart';
-import 'package:base_app_flutter/pages/guest/home/MyBookings.dart';
 import 'package:base_app_flutter/utility/AppColors.dart';
 import 'package:base_app_flutter/utility/Fonts.dart';
 import 'package:base_app_flutter/utility/SharedPref.dart';
-import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   runApp(const MyApp());
 }
 
@@ -32,6 +33,4 @@ class MyApp extends StatelessWidget {
       // home: InboxPage(),
     );
   }
-
-
 }

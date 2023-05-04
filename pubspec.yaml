@@ -51,6 +51,7 @@ dev_dependencies:
   firebase_core: ^1.6.0
   firebase_core_platform_interface: 4.5.1
   firebase_messaging: ^13.0.4
+  flutterfire_cli: ^0.2.7
   country_code_picker: ^3.0.0
   pinput: ^2.2.31
 
