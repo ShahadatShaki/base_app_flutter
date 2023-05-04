@@ -11,6 +11,7 @@ import 'package:base_app_flutter/utility/DioExceptions.dart';
 import 'package:base_app_flutter/utility/OfflineCache.dart';
 import 'package:base_app_flutter/utility/SharedPref.dart';
 import 'package:dio/dio.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart' hide FormData;
 import 'package:http/http.dart' as http;
 
@@ -75,6 +76,7 @@ class UserController extends BaseController {
               SharedPref.AUTH_KEY, "Bearer ${userProfile.accessToken}");
           await SharedPref.putBool(SharedPref.IS_LOGIN, true);
           getUserProfile();
+          sendFCMToken();
           SharedPref.initData();
           Get.off(UserHomePage());
         }
@@ -115,6 +117,27 @@ class UserController extends BaseController {
           timer.cancel();
         } else {
           countDown.value--;
+        }
+      },
+    );
+  }
+
+  void sendFCMToken() {
+    FirebaseMessaging.instance.getToken().then(
+      (value) async {
+        print(value);
+
+        Dio dio = await Urls.getDio();
+        var formData = FormData.fromMap({
+          "fcm_token": value,
+        });
+
+        try {
+          var response = await dio.post('api/user/fcm-token', data: formData);
+          int i = 0;
+        } catch (e) {
+          Constants.showToast(
+              "response: ${DioExceptions.fromDioError(e as DioError).message}");
         }
       },
     );

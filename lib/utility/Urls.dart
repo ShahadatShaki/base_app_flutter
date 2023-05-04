@@ -5,8 +5,8 @@ class Urls {
   // static String ROOT_URL_MAIN = "api.travela.world";
   static String ROOT_URL_MAIN = "api.travela.xyz";
 
-  // static var SOCKET_SERVER = "socket.travela.xyz";
-  static var SOCKET_SERVER = "socket.travela.world";
+  static var SOCKET_SERVER = "socket.travela.xyz";
+  // static var SOCKET_SERVER = "socket.travela.world";
 
   static var PUSHER_APP_ID = "travela";
   static var PUSHER_APP_SECRET = "travela123";
