@@ -55,6 +55,7 @@ dev_dependencies:
   flutterfire_cli: ^0.2.7
   country_code_picker: ^3.0.0
   pinput: ^2.2.31
+  flutter_local_notifications: ^14.0.0+1
 
 flutter:
 

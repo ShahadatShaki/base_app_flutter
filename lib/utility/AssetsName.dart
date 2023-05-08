@@ -4,6 +4,7 @@ class AssetsName {
   static String generic_placeholder = "assets/generic_placeholder.png";
   static String name = "";
   static String message = "assets/icon/message.svg";
+  static String ic_push_notification = "assets/icon/ic_push_notification.png";
   static String back = "assets/icon/back.svg";
   static String arrow_right = "assets/icon/arrow_right.svg";
   static String arrow_drop_down = "assets/icon/arrow_drop_down.svg";
