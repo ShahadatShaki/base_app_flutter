@@ -19,13 +19,6 @@ dependencies:
 
   cupertino_icons: ^1.0.2
   rxdart: ^0.27.7
-
-
-
-dev_dependencies:
-  flutter_test:
-    sdk: flutter
-
   flutter_lints: ^2.0.0
   get: ^4.6.5
   http: ^0.13.5
@@ -46,7 +39,7 @@ dev_dependencies:
   pusher_client: ^2.0.0
   json_store: ^2.0.1
   #  webview_flutter: ^4.0.5
-#  flutter_webview_plugin: ^0.4.0
+  #  flutter_webview_plugin: ^0.4.0
   flutter_rating_bar: ^4.0.1
   firebase_auth: ^3.1.1
   firebase_core: ^1.6.0
@@ -56,6 +49,15 @@ dev_dependencies:
   country_code_picker: ^3.0.0
   pinput: ^2.2.31
   flutter_local_notifications: ^14.0.0+1
+  permission_handler: ^10.2.0
+
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+
 
 flutter:
 

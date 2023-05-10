@@ -52,7 +52,7 @@ class FCMProvider with ChangeNotifier {
   }
 
   static Future<void> backgroundHandler(RemoteMessage message) async {
-
-
+    // NotificationClickIntentHandler().getIntentByType(type, id);
+    int i =0;
   }
 }

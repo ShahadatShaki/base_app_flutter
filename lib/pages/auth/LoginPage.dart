@@ -31,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
 
           child: Container(
             color: AppColors.white,
-            padding: EdgeInsets.all(24),
+            padding: const EdgeInsets.all(24),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.max,

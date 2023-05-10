@@ -11,7 +11,6 @@ import 'package:base_app_flutter/utility/DioExceptions.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide FormData;
-import 'package:get/state_manager.dart';
 import 'package:http/http.dart' as http;
 
 import '../utility/Urls.dart';
@@ -37,27 +36,31 @@ class BookingDetailsController extends BaseController {
   }
 
   getSingleBooking(String bookingId) async {
-    // apiCalled.value = false;
+    error.value = false;
 
     if (callingApi) {
       return;
     }
-
-    this.id = bookingId;
     callingApi = true;
 
-    var uri = Uri.https(Urls.ROOT_URL_MAIN, "/api/booking/$bookingId");
+    this.id = bookingId;
+
+    booking.value = await getBookingById(id);
+    apiCalled.value = true;
+    callingApi = false;
+  }
+
+  Future<dynamic> getBookingById(String id) async {
+    var uri = Uri.https(Urls.ROOT_URL_MAIN, "/api/booking/$id");
     try {
       var response = await get(uri);
       var res = ApiResponse<BookingModel>.fromJson(
           json.decode(response.body), (data) => BookingModel.fromJson(data));
-      booking.value = res.data!;
+      return res.data!;
     } catch (e) {
       error.value = true;
       print(e);
     }
-    apiCalled.value = true;
-    callingApi = false;
   }
 
   void getPaymentUrl(bool getUrl) async {

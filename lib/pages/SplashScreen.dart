@@ -1,21 +1,27 @@
 import 'dart:async';
 
 import 'package:base_app_flutter/pages/auth/LoginPage.dart';
-import 'package:base_app_flutter/pages/auth/OtpPage.dart';
 import 'package:base_app_flutter/pages/guest/UserHomePage.dart';
 import 'package:base_app_flutter/pages/host/HostHomePage.dart';
+import 'package:base_app_flutter/utility/NotificationClickHandler.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import '../utility/SharedPref.dart';
 
-class SplashScreen extends StatelessWidget {
-
+class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
   @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
   Widget build(BuildContext context) {
+    setupInteractedMessage();
+
     Timer(Duration(seconds: 1), () => checkLoginStatus());
     return Scaffold(
         body: Image.asset(
@@ -25,18 +31,40 @@ class SplashScreen extends StatelessWidget {
     ));
   }
 
+  Future<void> setupInteractedMessage() async {
+    RemoteMessage? initialMessage =
+        await FirebaseMessaging.instance.getInitialMessage();
+    if (initialMessage != null) {
+      _handleMessage(initialMessage);
+    }
+    FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+  }
+
+  var notificationClicked = false;
+
+  void _handleMessage(RemoteMessage message) {
+    notificationClicked = true;
+    NotificationClickHandler()
+        .navigat(message.data["item_type"], message.data["item_id"]);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   void checkLoginStatus() async {
+    if (notificationClicked) return;
     bool b = await SharedPref.getBool(SharedPref.IS_LOGIN);
     bool isHost = await SharedPref.getBool(SharedPref.CURRENT_ROLL_HOST);
     if (b) {
-      if(isHost) {
+      if (isHost) {
         Get.off(HostHomePage());
-        // Get.off(OtpPage(phoneNumber: "+8801685558803", verificationId: "",));
-      }else{
+      } else {
         Get.off(UserHomePage());
       }
     } else {
-      Get.off(LoginPage());
+      Get.off(const LoginPage());
     }
   }
 }

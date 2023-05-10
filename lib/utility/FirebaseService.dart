@@ -25,7 +25,7 @@ class FirebaseService {
   static FlutterLocalNotificationsPlugin localNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
   static Future<void> initializeLocalNotifications() async {
-    final InitializationSettings _initSettings = InitializationSettings(
+    const InitializationSettings _initSettings = InitializationSettings(
         android: AndroidInitializationSettings("ic_notification_icon"),
         iOS: DarwinInitializationSettings()
     );
@@ -33,15 +33,17 @@ class FirebaseService {
     await FirebaseService.localNotificationsPlugin.initialize(_initSettings, onDidReceiveNotificationResponse: FCMProvider.onTapNotification);
     /// need this for ios foregournd notification
     await FirebaseService.firebaseMessaging.setForegroundNotificationPresentationOptions(
+
       alert: true, // Required to display a heads up notification
       badge: true,
       sound: true,
     );
   }
 
-  static NotificationDetails platformChannelSpecifics = NotificationDetails(
+  static NotificationDetails platformChannelSpecifics = const NotificationDetails(
     android: AndroidNotificationDetails(
-      "high_importance_channel", "High Importance Notifications", priority: Priority.max, importance: Importance.max,
+      "all_notification", "All Notification", priority: Priority.max, importance: Importance.max,
+      sound: RawResourceAndroidNotificationSound("guest_notification_sound.mp3")
     ),
   );
 

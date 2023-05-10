@@ -82,7 +82,7 @@ class Component {
       height: double.infinity,
       alignment: Alignment.center,
       child: Lottie.asset('assets/animation/loading_animation.json',
-          height: 200, width: 200),
+          height: 300, width: 400),
     );
   }
 

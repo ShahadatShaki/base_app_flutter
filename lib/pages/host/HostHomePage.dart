@@ -1,19 +1,24 @@
 import 'package:base_app_flutter/component/Component.dart';
 import 'package:base_app_flutter/pages/UserProfilePage.dart';
-import 'package:base_app_flutter/pages/guest/home/ExplorePage.dart';
 import 'package:base_app_flutter/pages/guest/home/InboxPage.dart';
 import 'package:base_app_flutter/pages/guest/home/MyBookings.dart';
-import 'package:base_app_flutter/pages/guest/home/NotificationPage.dart';
 import 'package:base_app_flutter/pages/host/home/HostCalenderPage.dart';
 import 'package:base_app_flutter/pages/host/home/MyReservation.dart';
 import 'package:base_app_flutter/utility/AppColors.dart';
 import 'package:base_app_flutter/utility/AssetsName.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class HostHomePage extends StatefulWidget {
-  const HostHomePage({
+  HostHomePage({
     Key? key,
-  }) : super(key: key);
+    dynamic? page,
+  }) {
+    // super(key: key);
+    if (page != null) {
+      Get.to(() => page);
+    }
+  }
 
   @override
   State<HostHomePage> createState() => _HostHomePageState();
