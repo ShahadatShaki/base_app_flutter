@@ -139,7 +139,7 @@ class BookingModel implements Serializable {
 
   bool get isExpire {
     _is_expire ??= false;
-    var isCheckinDateExpired = Constants.totalDays(calenderCheckin()) <=
+    var isCheckinDateExpired = Constants.totalDays(calenderCheckin()) <
         Constants.totalDays(DateTime.now());
     return _is_expire! || isCheckinDateExpired;
   }
@@ -195,6 +195,26 @@ class BookingModel implements Serializable {
 
   bool isConfirmed() {
     return status.toLowerCase() == "confirmed";
+  }
+
+
+  static String ACTION_NONE = "ACTION_NONE";
+  static String ACTION_BOOK_AGAIN = "ACTION_BOOK_AGAIN";
+  static String ACTION_PAY = "ACTION_PAY";
+  String actionButton() {
+    String result = ACTION_NONE;
+
+    if (isConfirmed() &&
+        (Constants.totalDays(calenderCheckout()) <=
+            Constants.totalDays(DateTime.now()))) {
+      return ACTION_BOOK_AGAIN;
+    } else if (isPartial() || (isAccepted() && !isExpire)) {
+      return ACTION_PAY;
+    } else if (isRequested() && isExpire) {
+      return ACTION_BOOK_AGAIN;
+    }
+
+    return result;
   }
 
   bool isAccepted() {

@@ -13,7 +13,6 @@ import 'package:base_app_flutter/utility/AssetsName.dart';
 import 'package:base_app_flutter/utility/Constrants.dart';
 import 'package:base_app_flutter/utility/SharedPref.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
@@ -188,19 +187,65 @@ class BookingDetailsPage extends BaseStatelessWidget {
   }
 
   contactDetails() {
+    return isCallButtonEnable()
+        ? booking.guest.id == SharedPref.userId
+            ? contactDetailsForGuest()
+            : contactDetailsForHost()
+        : Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              sectionTitle("Contact Details"),
+              const SizedBox(height: 12),
+              const Text(
+                "Contact Number & Location will be provided once you \nConfirm &Pay",
+                style: TextStyle(
+                    fontSize: 14,
+                    color: AppColors.darkGray,
+                    fontWeight: FontWeight.w400),
+              ),
+            ],
+          );
+  }
+
+  bool isCallButtonEnable() {
+    return (booking.isConfirmed() || booking.isPartial()) &&
+        Constants.totalDays(booking.calenderCheckout()) + 1 >=
+            Constants.totalDays(DateTime.now());
+  }
+
+  contactDetailsForGuest() {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        sectionTitle("Contact Details"),
-        const SizedBox(height: 12),
-        const Text(
-          "Contact Number & Location will be provided once you \nConfirm &Pay",
-          style: TextStyle(
-              fontSize: 14,
-              color: AppColors.darkGray,
-              fontWeight: FontWeight.w400),
+        Row(
+          children: [
+            Expanded(
+              child: Column(children: [
+                Text(
+                  booking.host.firstName,
+                  style: const TextStyle(
+                      fontSize: 14,
+                      color: AppColors.textColorBlack,
+                      fontWeight: FontWeight.w400),
+                ),
+                // HtmlWidget(
+                //   booking.host.phone,
+                //   textStyle: const TextStyle(
+                //       fontSize: 14,
+                //       color: AppColors.textColorBlack,
+                //       fontWeight: FontWeight.w400),
+                // ),
+              ]),
+            ),
+            showIcon(name: AssetsName.call, size: 30),
+          ],
         ),
       ],
+    );
+  }
+
+  contactDetailsForHost() {
+    return Column(
+      children: [],
     );
   }
 
@@ -282,19 +327,25 @@ class BookingDetailsPage extends BaseStatelessWidget {
         ?
         //Guest View
         //<editor-fold desc="Book Again">
-        booking.isConfirmed()
-            ? Constants.totalDays(booking.calenderCheckout()) <=
-                    Constants.totalDays(DateTime.now())
-                ? bookAgain()
-                : margin(0)
-            //</editor-fold>
-            : booking.isPartial()
+        // booking.isConfirmed()
+        //     ? Constants.totalDays(booking.calenderCheckout()) <=
+        //             Constants.totalDays(DateTime.now())
+        //         ?
+        // bookAgain()
+        //         : margin(0)
+        //     //</editor-fold>
+        //     : booking.isPartial()
+        //         ? confirmAndPayButton()
+        //         : booking.isAccepted() && !booking.isExpire
+        //             ? confirmAndPayButton()
+        //             : booking.isRequested() && !booking.isExpire
+        //                 ? margin(0)
+        //                 : bookAgain()
+        booking.actionButton() == BookingModel.ACTION_PAY
+            ? confirmAndPayButton()
+            : booking.actionButton() == BookingModel.ACTION_BOOK_AGAIN
                 ? confirmAndPayButton()
-                : booking.isAccepted() && !booking.isExpire
-                    ? confirmAndPayButton()
-                    : booking.isRequested() && !booking.isExpire
-                        ? margin(0)
-                        : bookAgain()
+                : margin(0)
         :
         //Host View
         (booking.isRequested() ||

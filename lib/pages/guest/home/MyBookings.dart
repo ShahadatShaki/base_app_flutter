@@ -34,19 +34,17 @@ class MyBookings extends BaseStatelessWidget {
   }
 
   showListOrEmptyView() {
-    return Expanded(
-      child: Container(
-          color: AppColors.backgroundColor,
-          child: !controller.apiCalled.value
-              ? Component.loadingView()
-              : (controller.apiCalled.value && controller.dataList.isNotEmpty)
-                  ? uiDesign()
-                  : controller.error.value
-                      ? Component.emptyView(
-                          controller.errorMessage, AssetsName.errorAnimation)
-                      : Component.emptyView(
-                          "No Data Found", "assets/animation/empty_item.json")),
-    );
+    return Container(
+        color: AppColors.backgroundColor,
+        child: !controller.apiCalled.value
+            ? Component.loadingView()
+            : (controller.apiCalled.value && controller.dataList.isNotEmpty)
+                ? uiDesign()
+                : controller.error.value
+                    ? Component.emptyView(
+                        controller.errorMessage, AssetsName.errorAnimation)
+                    : Component.emptyView(
+                        "No Data Found", "assets/animation/empty_item.json"));
   }
 
   uiDesign() {

@@ -1,4 +1,5 @@
 import 'package:base_app_flutter/component/Component.dart';
+import 'package:base_app_flutter/controller/UserController.dart';
 import 'package:base_app_flutter/pages/auth/OtpPage.dart';
 import 'package:base_app_flutter/utility/AppColors.dart';
 import 'package:base_app_flutter/utility/Constrants.dart';
@@ -20,15 +21,17 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   var phoneNumber = "";
+  var firebaseUid = "Rd4x9hNsKkMmxiHpoIoO9dKzlMi2";
   var countryCode = "+880";
   Component component = Component();
+  final UserController controller = Get.put(UserController());
 
   @override
   Widget build(BuildContext context) {
+    controller.context = context;
     return Scaffold(
         appBar: Component.appbar(name: "", showBackIcon: false),
         body: SingleChildScrollView(
-
           child: Container(
             color: AppColors.white,
             padding: const EdgeInsets.all(24),
@@ -94,11 +97,37 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       )),
                 ),
+                Container(
+                  decoration: component.containerRoundShapeWithBorder(
+                      borderColor: AppColors.appColor, borderWidth: 1),
+                  child: TextField(
+
+                      onChanged: (value) {
+                        firebaseUid = value;
+                      },
+                      decoration: const InputDecoration(
+
+                        border: InputBorder.none,
+                        label: Text("Firebase Token"),
+                        labelStyle: TextStyle(color: AppColors.darkGray),
+                      )),
+                ),
                 component.margin(32),
                 TextButton(
                   style: Component.textButtonStyle(
                       radius: 8, backgroundColor: AppColors.appColor),
                   onPressed: () async {
+
+                    if(phoneNumber.length<8){
+                      Constants.showFailedToast("Input a phone number");
+                      return;
+                    }
+
+                    if(firebaseUid.isNotEmpty){
+                      Constants.showToast("loging with FID");
+                      controller.login(phoneNumber, firebaseUid);
+                      return;
+                    }
                     Component.progressDialog(context);
 
                     await FirebaseAuth.instance.verifyPhoneNumber(

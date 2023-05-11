@@ -1,15 +1,14 @@
 import 'package:base_app_flutter/base/BaseStatelessWidget.dart';
 import 'package:base_app_flutter/component/Component.dart';
 import 'package:base_app_flutter/controller/ConversationController.dart';
+import 'package:base_app_flutter/model/BookingModel.dart';
 import 'package:base_app_flutter/model/MessagesModel.dart';
 import 'package:base_app_flutter/pages/BookingDetailsPage.dart';
 import 'package:base_app_flutter/pages/ListingDetailsPage.dart';
 import 'package:base_app_flutter/utility/AppColors.dart';
 import 'package:base_app_flutter/utility/AssetsName.dart';
-import 'package:base_app_flutter/utility/Constrants.dart';
 import 'package:base_app_flutter/utility/SharedPref.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 
 class ConversationPage extends BaseStatelessWidget {
@@ -256,19 +255,24 @@ class ConversationPage extends BaseStatelessWidget {
           ?
           //Guest View
           //<editor-fold desc="Book Again">
-          booking.isConfirmed()
-              ? Constants.totalDays(booking.calenderCheckout()) <=
-                      Constants.totalDays(DateTime.now())
-                  ? bookAgain()
-                  : margin(0)
-              //</editor-fold>
-              : booking.isPartial()
+          // booking.isConfirmed()
+          //     ? Constants.totalDays(booking.calenderCheckout()) <=
+          //             Constants.totalDays(DateTime.now())
+          //         ? bookAgain()
+          //         : margin(0)
+          //     //</editor-fold>
+          //     : booking.isPartial()
+          //         ? confirmAndPayButton()
+          //         : booking.isAccepted() && !booking.isExpire
+          //             ? confirmAndPayButton()
+          //             : booking.isRequested() && !booking.isExpire
+          //                 ? margin(0)
+          //                 : bookAgain()
+          booking.actionButton() == BookingModel.ACTION_PAY
+              ? confirmAndPayButton()
+              : booking.actionButton() == BookingModel.ACTION_BOOK_AGAIN
                   ? confirmAndPayButton()
-                  : booking.isAccepted() && !booking.isExpire
-                      ? confirmAndPayButton()
-                      : booking.isRequested() && !booking.isExpire
-                          ? margin(0)
-                          : bookAgain()
+                  : margin(0)
           :
           //Host View
           margin(0);
