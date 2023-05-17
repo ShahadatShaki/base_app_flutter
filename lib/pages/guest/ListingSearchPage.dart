@@ -149,7 +149,7 @@ class ListingSearchPage extends BaseStatelessWidget {
                                     ? 16
                                     : 0),
                             searchOptions.guestCount != 0
-                                ? Component.showIcon(
+                                ? Component.showIconStatic(
                                     name: AssetsName.guest_fill,
                                     size: 16,
                                   )
@@ -168,7 +168,7 @@ class ListingSearchPage extends BaseStatelessWidget {
                 ],
               ),
             ),
-            Component.showIcon(name: AssetsName.edit, size: 24)
+            Component.showIconStatic(name: AssetsName.edit, size: 24)
           ],
         ));
   }
@@ -199,7 +199,7 @@ class ListingSearchPage extends BaseStatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 16),
-                Component.showIcon(name: AssetsName.star, size: 16),
+                Component.showIconStatic(name: AssetsName.star, size: 16),
                 const SizedBox(width: 4),
                 Text(
                   "${item.reviewsAvg} (${item.reviewsCount})",

@@ -91,7 +91,7 @@ class ConversationPage extends BaseStatelessWidget {
       padding: const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
       child: Row(
         children: [
-          Component.showIcon(name: AssetsName.guest, size: 15),
+          Component.showIconStatic(name: AssetsName.guest, size: 15),
           const SizedBox(width: 16),
           Flexible(
             child: Text(
@@ -184,7 +184,7 @@ class ConversationPage extends BaseStatelessWidget {
             onTap: () {
               controller.sendMessage();
             },
-            child: Component.showIcon(
+            child: Component.showIconStatic(
                 name: AssetsName.send, color: AppColors.white, size: 30)),
         margin(16),
       ],

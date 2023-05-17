@@ -604,7 +604,7 @@ class BookingDetailsPage extends BaseStatelessWidget {
                   children: [
                     TextButton(
                       onPressed: () {
-                        Component.dismissDialog(context!);
+                        Component.dismissDialog();
 
                         controller.updateBooking(
                             bookingId: booking.id, status: "rejected");
@@ -622,7 +622,7 @@ class BookingDetailsPage extends BaseStatelessWidget {
                     Spacer(flex: 1),
                     TextButton(
                       onPressed: () {
-                        Component.dismissDialog(context);
+                        Component.dismissDialog();
                         controller.updateBooking(
                             bookingId: booking.id, status: "accepted");
                       },

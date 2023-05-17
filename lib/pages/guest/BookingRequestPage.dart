@@ -117,7 +117,7 @@ class BookingRequestPage extends BaseStatelessWidget {
               // mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Component.showIcon(
+                Component.showIconStatic(
                   name: AssetsName.calender,
                   size: 24,
                 ),
@@ -194,7 +194,7 @@ class BookingRequestPage extends BaseStatelessWidget {
               // mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Component.showIcon(
+                Component.showIconStatic(
                   name: AssetsName.guest,
                   size: 24,
                 ),

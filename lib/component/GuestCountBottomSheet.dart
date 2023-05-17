@@ -145,7 +145,7 @@ class GuestCountBottomSheet extends BaseStatelessWidget {
                   damiSearchOption.changeCount(title, -1);
                 });
               },
-              child: Component.showIcon(
+              child: Component.showIconStatic(
                 name: AssetsName.minus,
                 size: 40,
               )),
@@ -161,7 +161,7 @@ class GuestCountBottomSheet extends BaseStatelessWidget {
                   damiSearchOption.changeCount(title, 1);
                 });
               },
-              child: Component.showIcon(name: AssetsName.plus, size: 40))
+              child: Component.showIconStatic(name: AssetsName.plus, size: 40))
         ],
       ),
     );

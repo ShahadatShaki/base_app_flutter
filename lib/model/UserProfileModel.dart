@@ -17,6 +17,7 @@ class UserProfileModel implements Serializable {
   String? _osPlatform;
   String? _hostStatus;
   String? _accessToken;
+  String? _bkashMsisdn;
   bool? _newUser;
   ImageModel? _image;
 
@@ -97,6 +98,10 @@ class UserProfileModel implements Serializable {
     _hostStatus ??= "";
     return _hostStatus!;
   }
+  String get bkashMsisdn {
+    _bkashMsisdn ??= "";
+    return _bkashMsisdn!;
+  }
 
   ImageModel get image {
     _image ??= ImageModel();
@@ -108,6 +113,7 @@ class UserProfileModel implements Serializable {
     _firstName = json['first_name'].toString();
     _lastName = json['last_name'].toString();
     _phone = json['phone'].toString();
+    _bkashMsisdn = json['bkash_msisdn'].toString();
     _email = json['email'].toString();
     _birthdate = json['birthdate'].toString();
     _referCode = json['refer_code'].toString();
@@ -130,6 +136,7 @@ class UserProfileModel implements Serializable {
     data['last_name'] = this.lastName;
     data['phone'] = this.phone;
     data['email'] = this.email;
+    data['bkash_msisdn'] = this.bkashMsisdn;
     data['birthdate'] = this.birthdate;
     data['refer_code'] = this.referCode;
     data['total_booking'] = this.totalBooking;

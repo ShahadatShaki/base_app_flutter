@@ -119,7 +119,7 @@ class HostCalenderController extends BaseController {
   }
 
   void blockDates() async {
-    // Component.progressDialog(context!);
+    // Component.progressDialog();
 
     List<String> dates = [];
     for (var i = 0; i < selectedDates.length; i++) {
@@ -142,9 +142,9 @@ class HostCalenderController extends BaseController {
       } else {
         Constants.showToast(response.data["message"]);
       }
-      // Component.dismissDialog(context!);
+      // Component.dismissDialog();
     } catch (e) {
-      // Component.dismissDialog(context!);
+      // Component.dismissDialog();
       Constants.showToast(
           "response: ${DioExceptions.fromDioError(e as DioError).message}");
     }
@@ -180,16 +180,16 @@ class HostCalenderController extends BaseController {
       } else {
         Constants.showToast(response.data["message"]);
       }
-      // Component.dismissDialog(context!);
+      // Component.dismissDialog();
     } catch (e) {
-      // Component.dismissDialog(context!);
+      // Component.dismissDialog();
       Constants.showToast(
           "response: ${DioExceptions.fromDioError(e as DioError).message}");
     }
   }
 
   void updatePrice() async {
-    // Component.progressDialog(context!);
+    // Component.progressDialog();
 
     List<String> dates = [];
     for (var i = 0; i < selectedDates.length; i++) {
@@ -212,9 +212,9 @@ class HostCalenderController extends BaseController {
       } else {
         Constants.showToast(response.data["message"]);
       }
-      // Component.dismissDialog(context!);
+      // Component.dismissDialog();
     } catch (e) {
-      // Component.dismissDialog(context!);
+      // Component.dismissDialog();
       Constants.showToast(
           "response: ${DioExceptions.fromDioError(e as DioError).message}");
     }

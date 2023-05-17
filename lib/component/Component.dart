@@ -53,7 +53,7 @@ class Component {
         color: AppColors.darkGray, fontSize: 12, fontWeight: FontWeight.w700);
   }
 
-  static Widget showIcon(
+  static Widget showIconStatic(
       {required String name, double size = 20, Color? color}) {
     return SvgPicture.asset(
       name,
@@ -242,7 +242,7 @@ class Component {
               onTap: () => {Get.back()},
               child: Padding(
                   padding: const EdgeInsets.all(14),
-                  child: Component.showIcon(name: AssetsName.back)),
+                  child: Component.showIconStatic(name: AssetsName.back)),
             )
           : SizedBox(),
       title: Container(
@@ -270,7 +270,7 @@ class Component {
               onTap: () => {Get.back()},
               child: Padding(
                   padding: const EdgeInsets.all(14),
-                  child: Component.showIcon(
+                  child: Component.showIconStatic(
                       name: AssetsName.back, color: AppColors.white)),
             )
           : SizedBox(),
@@ -458,34 +458,36 @@ class Component {
     );
   }
 
-  static progressDialog(BuildContext context) {
+  static progressDialog() {
     try {
       showDialog(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  content: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: const [
-                      CircularProgressIndicator(),
-                      SizedBox(
-                        width: 16,
-                      ),
-                      Text("Please Wait..."),
-                    ],
+          context: Get.context!,
+          barrierDismissible: true,
+          builder: (context) {
+            return AlertDialog(
+              content: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: const [
+                  CircularProgressIndicator(),
+                  SizedBox(
+                    width: 16,
                   ),
-                );
-              });
+                  Text("Please Wait..."),
+                ],
+              ),
+            );
+          });
     } catch (e) {
       print(e);
     }
   }
 
-  static dismissDialog(BuildContext context) {
+  static dismissDialog() {
     // _isThereCurrentDialogShowing(BuildContext context) =>
     //     ModalRoute.of(context)?.isCurrent != true;
 
-    Navigator.pop(context);
+    // Navigator.pop(context);
+    Get.back();
   }
 
   static bottomSheetShape({double radius = 25}) {
@@ -496,4 +498,39 @@ class Component {
       ),
     );
   }
+
+  Widget showIcon({required String name, double size = 20, Color? color}) {
+    return SvgPicture.asset(
+      name,
+      width: size,
+      height: size,
+      color: color,
+    );
+  }
+
+//
+// buttonStyle(
+//     {MaterialColor backgroundColor = AppColors.primary,
+//       Color? borderColor,
+//       double? borderWidth,
+//       double borderRadius = 8}) {
+//   return ButtonStyle(
+//     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+//       RoundedRectangleBorder(
+//         borderRadius: BorderRadius.circular(borderRadius),
+//         // side: borderWidth==null?BorderSide(
+//         //   width: 0
+//         // ): BorderSide(
+//         //   color: borderColor!,
+//         //   width:  borderWidth!,
+//         // )
+//       ),
+//     ),
+//     backgroundColor: MaterialStateProperty.resolveWith<Color?>(
+//           (Set<MaterialState> states) {
+//         return backgroundColor;
+//       },
+//     ),
+//   );
+// }
 }

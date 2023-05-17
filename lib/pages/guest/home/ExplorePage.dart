@@ -85,7 +85,7 @@ class _ExplorePageState extends State<ExplorePage> {
             padding: const EdgeInsets.all(16.0),
             child: Row(
               children: [
-                Component.showIcon(name: AssetsName.ic_location, size: 24),
+                Component.showIconStatic(name: AssetsName.ic_location, size: 24),
                 const SizedBox(
                   width: 16,
                 ),
@@ -105,7 +105,7 @@ class _ExplorePageState extends State<ExplorePage> {
                 const SizedBox(
                   width: 16,
                 ),
-                Component.showIcon(name: AssetsName.search)
+                Component.showIconStatic(name: AssetsName.search)
               ],
             ),
           ),
@@ -141,7 +141,7 @@ class _ExplorePageState extends State<ExplorePage> {
               // mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Component.showIcon(
+                Component.showIconStatic(
                   name: AssetsName.calender,
                   size: 24,
                 ),
@@ -204,7 +204,7 @@ class _ExplorePageState extends State<ExplorePage> {
               // mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Component.showIcon(
+                Component.showIconStatic(
                   name: AssetsName.guest,
                   size: 24,
                 ),
@@ -391,7 +391,7 @@ class _ExplorePageState extends State<ExplorePage> {
                 });
                 setState(() {});
               },
-              child: Component.showIcon(
+              child: Component.showIconStatic(
                 name: AssetsName.minus,
                 size: 40,
               )),
@@ -408,7 +408,7 @@ class _ExplorePageState extends State<ExplorePage> {
                 });
                 setState(() {});
               },
-              child: Component.showIcon(name: AssetsName.plus, size: 40))
+              child: Component.showIconStatic(name: AssetsName.plus, size: 40))
         ],
       ),
     );

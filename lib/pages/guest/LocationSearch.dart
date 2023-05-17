@@ -82,7 +82,7 @@ class LocationSearch extends StatelessWidget {
           children: [
             Row(
               children: [
-                Component.showIcon(
+                Component.showIconStatic(
                     name: AssetsName.ic_location, color: AppColors.appColor),
                 SizedBox(
                   width: 12,

@@ -70,7 +70,7 @@ class PaymentOverviewPage extends BaseStatelessWidget {
                       children: [
                         Text(
                           "Oder ID: #${booking.id}",
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 16, fontWeight: FontWeight.w500),
                         ),
                         margin(16),
@@ -91,7 +91,9 @@ class PaymentOverviewPage extends BaseStatelessWidget {
                               fontSize: 16, fontWeight: FontWeight.w500),
                         ),
                         margin(24),
+                        //<editor-fold desc="Bkash Payment">
                         Container(
+                          padding: EdgeInsets.only(top: 8, bottom: 8),
                           decoration: containerRoundShapeWithBorder(
                               borderWidth: 1, borderColor: AppColors.lineColor),
                           child: RadioListTile(
@@ -119,8 +121,34 @@ class PaymentOverviewPage extends BaseStatelessWidget {
                             },
                           ),
                         ),
+                        Visibility(
+                          visible: controller.paymentGateway.value == "bkash",
+                          child: Row(
+                            children: [
+                              Checkbox(
+                                value: controller.bkashAction.value == "agreement",
+                                onChanged: (value) {
+                                  if(value!){
+                                    controller.bkashAction.value = "agreement";
+                                  }else{
+                                    controller.bkashAction.value = "one-time";
+                                  }
+                                },
+                              ),
+                              const Text(
+                                "Save Bkash Number",
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    color: AppColors.textColorBlack,
+                                    fontWeight: FontWeight.w400),
+                              ),
+                            ],
+                          ),
+                        ),
+                        //</editor-fold>
                         margin(24),
                         Container(
+                          padding: EdgeInsets.only(top: 8, bottom: 8),
                           decoration: containerRoundShapeWithBorder(
                               borderWidth: 1, borderColor: AppColors.lineColor),
                           child: RadioListTile(
@@ -249,7 +277,7 @@ class PaymentOverviewPage extends BaseStatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     "Full Payment",
                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                   ),

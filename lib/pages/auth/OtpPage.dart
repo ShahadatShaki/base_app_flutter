@@ -78,7 +78,7 @@ class OtpPage extends BaseStatelessWidget {
                     radius: 8, backgroundColor: AppColors.appColor),
                 onPressed: () async {
                   // Create a PhoneAuthCredential with the code
-                  Component.progressDialog(context);
+                  Component.progressDialog();
                   try {
                     PhoneAuthCredential credential =
                         PhoneAuthProvider.credential(
@@ -91,16 +91,16 @@ class OtpPage extends BaseStatelessWidget {
                         .authStateChanges()
                         .listen((User? user) {
                       if (user != null) {
-                        Component.dismissDialog(context);
+                        Component.dismissDialog();
                         print(user.uid);
                         controller.login(phoneNumber, user.uid);
                       } else {
                         Constants.showFailedToast("Something is wrong ");
-                        Component.dismissDialog(context);
+                        Component.dismissDialog();
                       }
                     });
                   } catch (e) {
-                    Component.dismissDialog(context);
+                    Component.dismissDialog();
                     Constants.showToast("Wrong Code");
                   }
                 },
@@ -175,19 +175,19 @@ class OtpPage extends BaseStatelessWidget {
               ),
               InkWell(
                 onTap: () async{
-                  Component.progressDialog(context);
+                  Component.progressDialog();
                   await FirebaseAuth.instance.verifyPhoneNumber(
                     phoneNumber: phoneNumber,
                     verificationCompleted: (PhoneAuthCredential credential) {
                       Constants.showToast("verificationCompleted");
                     },
                     verificationFailed: (FirebaseAuthException e) {
-                      Component.dismissDialog(context);
+                      Component.dismissDialog();
                       Constants.showToast(
                           "Verification Failed : ${e.message}");
                     },
                     codeSent: (String verificationId, int? resendToken) {
-                      Component.dismissDialog(context);
+                      Component.dismissDialog();
                       this.verificationId = verificationId;
                       Constants.showToast("Code Sent to your Phone Number");
                     },

@@ -124,7 +124,7 @@ class ListingDetailsPage extends BaseStatelessWidget {
                   const SizedBox(height: 16),
                   Row(
                     children: [
-                      Component.showIcon(
+                      Component.showIconStatic(
                           name: AssetsName.star,
                           color: AppColors.warning,
                           size: 20),
@@ -203,7 +203,7 @@ class ListingDetailsPage extends BaseStatelessWidget {
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Component.showIcon(name: icon, size: 20),
+            Component.showIconStatic(name: icon, size: 20),
             const SizedBox(width: 8),
             Text(
               count.toString(),
@@ -257,7 +257,7 @@ class ListingDetailsPage extends BaseStatelessWidget {
             const SizedBox(height: 8),
             Row(
               children: [
-                Component.showIcon(name: AssetsName.verify, size: 14),
+                Component.showIconStatic(name: AssetsName.verify, size: 14),
                 const SizedBox(width: 4),
                 const Text("Identity verified",
                     style: TextStyle(
@@ -275,7 +275,7 @@ class ListingDetailsPage extends BaseStatelessWidget {
   hostSpecilities(String icon, String font, String back) {
     return Row(
       children: [
-        Component.showIcon(name: icon, size: 20),
+        Component.showIconStatic(name: icon, size: 20),
         const SizedBox(width: 10),
         Text(font,
             style: TextStyle(

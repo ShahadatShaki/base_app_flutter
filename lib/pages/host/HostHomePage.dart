@@ -38,7 +38,7 @@ class _HostHomePageState extends State<HostHomePage> {
           BottomNavigationBarItem(
             icon: Container(
                 margin: EdgeInsets.only(bottom: 4),
-                child: Component.showIcon(
+                child: Component.showIconStatic(
                     name: AssetsName.calender,
                     color: _selectedIndex == 0
                         ? AppColors.appColor
@@ -48,7 +48,7 @@ class _HostHomePageState extends State<HostHomePage> {
           BottomNavigationBarItem(
             icon: Container(
                 margin: EdgeInsets.only(bottom: 4),
-                child: Component.showIcon(
+                child: Component.showIconStatic(
                     name: AssetsName.message,
                     color: _selectedIndex == 1
                         ? AppColors.appColor
@@ -58,7 +58,7 @@ class _HostHomePageState extends State<HostHomePage> {
           BottomNavigationBarItem(
             icon: Container(
                 margin: EdgeInsets.only(bottom: 4),
-                child: Component.showIcon(
+                child: Component.showIconStatic(
                     name: AssetsName.bookings,
                     color: _selectedIndex == 2
                         ? AppColors.appColor
@@ -72,7 +72,7 @@ class _HostHomePageState extends State<HostHomePage> {
           BottomNavigationBarItem(
             icon: Container(
                 margin: EdgeInsets.only(bottom: 4),
-                child: Component.showIcon(
+                child: Component.showIconStatic(
                     name: AssetsName.guest,
                     color: _selectedIndex == 4
                         ? AppColors.appColor

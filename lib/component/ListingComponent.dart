@@ -10,7 +10,7 @@ class ListingComponent {
   static ratingView(ListingModel listingModel) {
     return Row(
       children: [
-        Component.showIcon(name: AssetsName.star, size: 16),
+        Component.showIconStatic(name: AssetsName.star, size: 16),
         const SizedBox(width: 4),
         Text(
           "${listingModel.reviewsAvg} (${listingModel.reviewsCount})",
@@ -34,7 +34,7 @@ class ListingComponent {
         Row(
           children: [
             iconFront.isNotEmpty
-                ? Component.showIcon(name: iconFront, size: 14)
+                ? Component.showIconStatic(name: iconFront, size: 14)
                 : const SizedBox(),
             SizedBox(width: iconFront.isNotEmpty ? 8 : 0),
             Expanded(
@@ -46,7 +46,7 @@ class ListingComponent {
             ),
             SizedBox(width: iconBack.isNotEmpty ? 8 : 0),
             iconBack.isNotEmpty
-                ? Component.showIcon(
+                ? Component.showIconStatic(
                     name: iconBack, size: 14, color: iconBackColor)
                 : const SizedBox(),
           ],

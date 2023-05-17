@@ -77,7 +77,7 @@ class RatingController extends BaseController {
             rateHouseRules.value +
             rateGuestsBehaviour.value) /
         3;
-    Component.progressDialog(context!);
+    Component.progressDialog();
     Dio dio = await Urls.getDio();
     var formData = FormData.fromMap({
       "guest_id": booking.value.guest.id,
@@ -98,9 +98,9 @@ class RatingController extends BaseController {
       } else {
         Constants.showToast(response.data["message"]);
       }
-      Component.dismissDialog(context!);
+      Component.dismissDialog();
     } catch (e) {
-      Component.dismissDialog(context!);
+      Component.dismissDialog();
       Constants.showToast(
           "response: ${DioExceptions.fromDioError(e as DioError).message}");
     }

@@ -6,7 +6,8 @@
    <application
         android:label="Travela Flutter"
         android:name="${applicationName}"
-        android:icon="@drawable/ic_launcher">
+       android:usesCleartextTraffic="true"
+       android:icon="@drawable/ic_launcher">
 
        <meta-data android:name="com.google.android.geo.API_KEY"
            android:value="AIzaSyC_BbO07oKPwPwkaClBRCKJV3zAKf2XBZk"/>

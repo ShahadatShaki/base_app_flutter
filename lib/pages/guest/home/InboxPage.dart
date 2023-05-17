@@ -12,15 +12,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 
-class InboxPage extends BaseStatelessWidget {
+class InboxPage extends StatefulWidget {
+  const InboxPage({Key? key}) : super(key: key);
+
+  @override
+  State<InboxPage> createState() => _InboxState();
+}
+
+class _InboxState extends State<InboxPage> with Component {
   final InboxController controller = Get.put(InboxController());
   late BuildContext context;
 
-  InboxPage({Key? key}) : super(key: key);
+  // InboxPage({Key? key}) : super(key: key);
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    controller.getConversationList();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    controller.getConversationList();
     this.context = context;
     return Scaffold(
       appBar: Component.appbar(name: "Inbox", showBackIcon: false),
@@ -131,7 +144,8 @@ class InboxPage extends BaseStatelessWidget {
                         style: Component.textButtonStyle(
                             radius: 4, backgroundColor: AppColors.appColor),
                         onPressed: () {
-                          Get.to(()=> WriteReviewHostPage(bookingModel: item.booking));
+                          Get.to(() =>
+                              WriteReviewHostPage(bookingModel: item.booking));
                         },
                         child: buttonText(
                             fontSize: 12,
@@ -148,9 +162,7 @@ class InboxPage extends BaseStatelessWidget {
                       child: TextButton(
                         style: Component.textButtonStyle(
                             radius: 4, backgroundColor: AppColors.appColor),
-                        onPressed: () {
-
-                        },
+                        onPressed: () {},
                         child: buttonText(
                             fontSize: 12,
                             buttonTitle: "Confirm Now",
@@ -180,3 +192,7 @@ class InboxPage extends BaseStatelessWidget {
     );
   }
 }
+
+// class InboxPage extends BaseStatelessWidget {
+//
+// }

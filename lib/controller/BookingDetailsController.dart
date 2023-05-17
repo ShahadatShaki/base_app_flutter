@@ -6,6 +6,8 @@ import 'package:base_app_flutter/component/Component.dart';
 import 'package:base_app_flutter/model/BookingModel.dart';
 import 'package:base_app_flutter/model/SearchOptions.dart';
 import 'package:base_app_flutter/pages/Webview.dart';
+import 'package:base_app_flutter/pages/guest/PaymentWebview.dart';
+import 'package:base_app_flutter/utility/AppColors.dart';
 import 'package:base_app_flutter/utility/Constrants.dart';
 import 'package:base_app_flutter/utility/DioExceptions.dart';
 import 'package:dio/dio.dart';
@@ -28,6 +30,7 @@ class BookingDetailsController extends BaseController {
   late TextEditingController partialPaymentController;
 
   var isTermsChecked = false.obs;
+  var bkashAction = "one-time".obs;
 
   @override
   void onInit() {
@@ -65,6 +68,7 @@ class BookingDetailsController extends BaseController {
 
   void getPaymentUrl(bool getUrl) async {
     if (getUrl) {
+
       var amount = paymentAmount.value;
 
       if (amount < 15) {
@@ -90,24 +94,29 @@ class BookingDetailsController extends BaseController {
         Constants.showFailedToast("Amount can not be more then total payable");
         return;
       }
+
+      Component.progressDialog();
+
     }
 
     var client = http.Client();
     final queryParameters = {
       "amount": getUrl ? paymentAmount.value.toString() : "100",
       "provider": getUrl ? paymentGateway.value : "ssl",
-      "action": "payment",
+      "action": bkashAction.value,
       "url": getUrl.toString(),
     };
 
     try {
       var uri = Uri.https(
           Urls.ROOT_URL_MAIN, "/api/booking/$id/payment", queryParameters);
-      var response = await client.get(uri, headers: await Urls.getHeaders());
+      var response = await get(uri);
+      if(getUrl)
+        Component.dismissDialog();
       var res = ApiResponse<BookingModel>.fromJson(
           json.decode(response.body), (data) => BookingModel.fromJson(data));
       if (getUrl) {
-        Get.to(() => WebviewPage(url: res.data!.paymentUrl, title: "Payment"));
+        Get.to(() => PaymentWebview(url: res.data!.paymentUrl, title: "Payment"));
       } else {
         bookingPayment.value = res.data!;
         bookingPayment.value.minimumPayableAmount = 100;
@@ -118,7 +127,29 @@ class BookingDetailsController extends BaseController {
     } catch (e) {
       print(e);
     }
+
   }
+  void showAlert(String s) {
+    showDialog(
+        context: Get.context!,
+        builder: (context) {
+          return AlertDialog(
+            // title: Text("Test Title"),
+            content: Container(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(s),
+                  ElevatedButton(
+                      onPressed: () => {Get.back()},
+                      child: Text("Close"))
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
 
   @override
   void dispose() {
@@ -155,7 +186,7 @@ class BookingDetailsController extends BaseController {
     String listing_id = "",
     String to = "",
   }) async {
-    Component.progressDialog(context!);
+    Component.progressDialog();
 
     Dio dio = await Urls.getDio();
     var formData = FormData.fromMap({
@@ -170,16 +201,16 @@ class BookingDetailsController extends BaseController {
     try {
       var response = await dio.post('api/booking/${bookingId}', data: formData);
       print(response.data);
-      Component.dismissDialog(context!);
+      Component.dismissDialog();
       getSingleBooking(bookingId);
     } catch (e) {
-      Component.dismissDialog(context!);
+      Component.dismissDialog();
       print("response: " + DioExceptions.fromDioError(e as DioError).message);
     }
   }
 
   void createNewBookingForGuest(SearchOptions searchOptions) async {
-    Component.progressDialog(context!);
+    Component.progressDialog();
 
     Dio dio = await Urls.getDio();
     var formData = FormData.fromMap({
@@ -200,9 +231,9 @@ class BookingDetailsController extends BaseController {
       } else {
         Constants.showToast(response.data["message"]);
       }
-      Component.dismissDialog(context!);
+      Component.dismissDialog();
     } catch (e) {
-      Component.dismissDialog(context!);
+      Component.dismissDialog();
       Constants.showToast(
           "response: ${DioExceptions.fromDioError(e as DioError).message}");
     }

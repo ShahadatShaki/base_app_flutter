@@ -55,7 +55,7 @@ class UserController extends BaseController {
   }
 
   login(String phone, String uid) async {
-    Component.progressDialog(context!);
+    Component.progressDialog();
 
     Dio dio = await Urls.getDio();
     var formData = FormData.fromMap({
@@ -65,7 +65,7 @@ class UserController extends BaseController {
 
     try {
       var response = await dio.post('api/auth/login', data: formData);
-      Component.dismissDialog(context!);
+      Component.dismissDialog();
 
       if (response.data["success"]) {
         UserProfileModel userProfile =
@@ -84,7 +84,7 @@ class UserController extends BaseController {
         Constants.showToast(response.data["message"]);
       }
     } catch (e) {
-      Component.dismissDialog(context!);
+      Component.dismissDialog();
       Constants.showToast(
           "response: ${DioExceptions.fromDioError(e as DioError).message}");
     }

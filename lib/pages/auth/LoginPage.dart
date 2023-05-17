@@ -128,7 +128,7 @@ class _LoginPageState extends State<LoginPage> {
                       controller.login(phoneNumber, firebaseUid);
                       return;
                     }
-                    Component.progressDialog(context);
+                    Component.progressDialog();
 
                     await FirebaseAuth.instance.verifyPhoneNumber(
                       phoneNumber: phoneNumber,
@@ -136,12 +136,12 @@ class _LoginPageState extends State<LoginPage> {
                         Constants.showToast("verificationCompleted");
                       },
                       verificationFailed: (FirebaseAuthException e) {
-                        Component.dismissDialog(context);
+                        Component.dismissDialog();
                         Constants.showToast(
                             "Verification Failed : ${e.message}");
                       },
                       codeSent: (String verificationId, int? resendToken) {
-                        Component.dismissDialog(context);
+                        Component.dismissDialog();
                         Get.to(() => OtpPage(
                               phoneNumber: phoneNumber,
                               verificationId: verificationId,

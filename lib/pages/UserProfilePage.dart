@@ -137,14 +137,14 @@ class UserProfilePage extends BaseStatelessWidget {
                 children: [
                   icon.isEmpty
                       ? const SizedBox()
-                      : Component.showIcon(name: icon),
+                      : Component.showIconStatic(name: icon),
                   icon.isEmpty ? const SizedBox() : margin(12),
                   Expanded(
                       child: Text(
                     title,
                     style: Component.ts16Gray500(),
                   )),
-                  Component.showIcon(name: AssetsName.arrow_right, size: 16),
+                  Component.showIconStatic(name: AssetsName.arrow_right, size: 16),
                 ],
               ),
             ),
