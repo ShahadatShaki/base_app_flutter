@@ -126,11 +126,12 @@ class PaymentOverviewPage extends BaseStatelessWidget {
                           child: Row(
                             children: [
                               Checkbox(
-                                value: controller.bkashAction.value == "agreement",
+                                value:
+                                    controller.bkashAction.value == "agreement",
                                 onChanged: (value) {
-                                  if(value!){
+                                  if (value!) {
                                     controller.bkashAction.value = "agreement";
-                                  }else{
+                                  } else {
                                     controller.bkashAction.value = "one-time";
                                   }
                                 },
@@ -181,7 +182,9 @@ class PaymentOverviewPage extends BaseStatelessWidget {
                     ),
                   ),
                   margin(24),
-                  customPayment()
+                  if (booking.totalPayable !=
+                      controller.bookingPayment.value.minimumPayableAmount)
+                    customPayment()
                 ],
               ),
             ),

@@ -119,7 +119,7 @@ class BookingDetailsController extends BaseController {
         Get.off(() => PaymentWebview(url: res.data!.paymentUrl, title: "Payment"));
       } else {
         bookingPayment.value = res.data!;
-        bookingPayment.value.minimumPayableAmount = 100;
+        // bookingPayment.value.minimumPayableAmount = 100;
         // booking.value.amount = res.data?.amount;
         showPartialPaymentTextField();
         bookingPayment.refresh();
@@ -129,6 +129,7 @@ class BookingDetailsController extends BaseController {
     }
 
   }
+
   void showAlert(String s) {
     showDialog(
         context: Get.context!,

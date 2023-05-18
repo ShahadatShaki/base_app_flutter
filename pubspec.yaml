@@ -38,20 +38,22 @@ dependencies:
   google_maps_flutter: ^2.2.3
   pusher_client: ^2.0.0
   json_store: ^2.0.1
-#  webview_flutter: ^4.2.0
-#  webview_flutter: ^4.0.5
+  #  webview_flutter: ^4.2.0
+  #  webview_flutter: ^4.0.5
   #  webview_flutter: ^4.0.5
   flutter_webview_plugin: ^0.4.0
   flutter_rating_bar: ^4.0.1
-  firebase_auth: ^3.1.1
-  firebase_core: ^1.6.0
-  firebase_core_platform_interface: 4.5.1
-  firebase_messaging: ^13.0.4
+  firebase_auth: ^4.6.1
+  firebase_core: ^2.13.0
+  firebase_core_platform_interface: ^4.8.0
+  firebase_messaging: ^14.6.1
   flutterfire_cli: ^0.2.7
   country_code_picker: ^3.0.0
   pinput: ^2.2.31
   flutter_local_notifications: ^14.0.0+1
   permission_handler: ^10.2.0
+#  webview_flutter: ^4.2.0
+#  webview_flutter_android: ^3.7.0
 #  flutter_widget_from_html: ^0.10.0
 
 
