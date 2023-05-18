@@ -249,29 +249,17 @@ class ConversationPage extends BaseStatelessWidget {
   }
 
   actionButton() {
+
     var booking = controller.conversation.value.booking;
+    var actionButton = booking.actionButton();
     if (booking.id.isNotEmpty) {
       return SharedPref.userId == booking.guest.id
           ?
           //Guest View
-          //<editor-fold desc="Book Again">
-          // booking.isConfirmed()
-          //     ? Constants.totalDays(booking.calenderCheckout()) <=
-          //             Constants.totalDays(DateTime.now())
-          //         ? bookAgain()
-          //         : margin(0)
-          //     //</editor-fold>
-          //     : booking.isPartial()
-          //         ? confirmAndPayButton()
-          //         : booking.isAccepted() && !booking.isExpire
-          //             ? confirmAndPayButton()
-          //             : booking.isRequested() && !booking.isExpire
-          //                 ? margin(0)
-          //                 : bookAgain()
-          booking.actionButton() == BookingModel.ACTION_PAY
+      actionButton == BookingModel.ACTION_PAY
               ? confirmAndPayButton()
-              : booking.actionButton() == BookingModel.ACTION_BOOK_AGAIN
-                  ? confirmAndPayButton()
+              : actionButton == BookingModel.ACTION_BOOK_AGAIN
+                  ? bookAgain(booking)
                   : margin(0)
           :
           //Host View
@@ -281,12 +269,6 @@ class ConversationPage extends BaseStatelessWidget {
     }
   }
 
-  bookAgain() {
-    return ElevatedButton(
-        style: buttonStyle(),
-        onPressed: () {},
-        child: buttonText(buttonTitle: "Book Again", height: 50));
-  }
 
   confirmAndPayButton() {
     return ElevatedButton(

@@ -22,6 +22,7 @@ class _PaymentWebviewState extends State<PaymentWebview> {
   final flutterWebViewPlugin = FlutterWebviewPlugin();
   var url;
   var title;
+  late var context;
 
 
   _PaymentWebviewState(this.url, this.title);
@@ -40,6 +41,9 @@ class _PaymentWebviewState extends State<PaymentWebview> {
 
   @override
   Widget build(BuildContext context) {
+
+    // showAlert("good");
+    this.context = context;
 
     flutterWebViewPlugin.onUrlChanged.listen((String url) {
       if (url.contains("ssl/callback/success")) {
@@ -77,28 +81,31 @@ class _PaymentWebviewState extends State<PaymentWebview> {
       hidden: false,
       appCacheEnabled: true,
       withJavascript: true,
+
       // withLocalStorage: true,
     );
   }
 
   void showAlert(String s) {
-    showDialog(
-        context: Get.context!,
-        builder: (context) {
-          return AlertDialog(
-            // title: Text("Test Title"),
-            content: Container(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(s),
-                  ElevatedButton(
-                      onPressed: () => {Get.back()},
-                      child: Text("Close"))
-                ],
-              ),
-            ),
-          );
-        });
+    Constants.showToast(s);
+    Get.back();
+    // showDialog(
+    //     context: context,
+    //     builder: (context) {
+    //       return AlertDialog(
+    //         // title: Text("Test Title"),
+    //         content: Container(
+    //           child: Column(
+    //             mainAxisSize: MainAxisSize.min,
+    //             children: [
+    //               Text(s),
+    //               ElevatedButton(
+    //                   onPressed: () => {Get.back()},
+    //                   child: Text("Close"))
+    //             ],
+    //           ),
+    //         ),
+    //       );
+    //     });
   }
 }

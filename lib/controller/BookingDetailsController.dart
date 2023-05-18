@@ -116,7 +116,7 @@ class BookingDetailsController extends BaseController {
       var res = ApiResponse<BookingModel>.fromJson(
           json.decode(response.body), (data) => BookingModel.fromJson(data));
       if (getUrl) {
-        Get.to(() => PaymentWebview(url: res.data!.paymentUrl, title: "Payment"));
+        Get.off(() => PaymentWebview(url: res.data!.paymentUrl, title: "Payment"));
       } else {
         bookingPayment.value = res.data!;
         bookingPayment.value.minimumPayableAmount = 100;

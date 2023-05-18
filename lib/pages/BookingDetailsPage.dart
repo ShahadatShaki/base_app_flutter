@@ -6,6 +6,7 @@ import 'package:base_app_flutter/controller/BookingDetailsController.dart';
 import 'package:base_app_flutter/model/BookingModel.dart';
 import 'package:base_app_flutter/model/SearchOptions.dart';
 import 'package:base_app_flutter/pages/ListingDetailsPage.dart';
+import 'package:base_app_flutter/pages/guest/BookingRequestPage.dart';
 import 'package:base_app_flutter/pages/guest/PaymentOverviewPage.dart';
 import 'package:base_app_flutter/pages/guest/PickCalenderPage.dart';
 import 'package:base_app_flutter/pages/host/MyListingPage.dart';
@@ -323,28 +324,16 @@ class BookingDetailsPage extends BaseStatelessWidget {
   }
 
   actionButton() {
+
+    var actionButton = booking.actionButton();
+
     return SharedPref.userId == booking.guest.id
         ?
         //Guest View
-        //<editor-fold desc="Book Again">
-        // booking.isConfirmed()
-        //     ? Constants.totalDays(booking.calenderCheckout()) <=
-        //             Constants.totalDays(DateTime.now())
-        //         ?
-        // bookAgain()
-        //         : margin(0)
-        //     //</editor-fold>
-        //     : booking.isPartial()
-        //         ? confirmAndPayButton()
-        //         : booking.isAccepted() && !booking.isExpire
-        //             ? confirmAndPayButton()
-        //             : booking.isRequested() && !booking.isExpire
-        //                 ? margin(0)
-        //                 : bookAgain()
-        booking.actionButton() == BookingModel.ACTION_PAY
+        actionButton == BookingModel.ACTION_PAY
             ? confirmAndPayButton()
-            : booking.actionButton() == BookingModel.ACTION_BOOK_AGAIN
-                ? confirmAndPayButton()
+            : actionButton == BookingModel.ACTION_BOOK_AGAIN
+                ? bookAgain(booking)
                 : margin(0)
         :
         //Host View
@@ -356,12 +345,7 @@ class BookingDetailsPage extends BaseStatelessWidget {
             : createBookingForGuest();
   }
 
-  bookAgain() {
-    return ElevatedButton(
-        style: buttonStyle(),
-        onPressed: () {},
-        child: buttonText(buttonTitle: "Book Again", height: 50));
-  }
+
 
   confirmAndPayButton() {
     return ElevatedButton(

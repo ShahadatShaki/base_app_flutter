@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:base_app_flutter/model/BookingModel.dart';
+import 'package:base_app_flutter/pages/guest/BookingRequestPage.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -506,6 +508,15 @@ class Component {
       height: size,
       color: color,
     );
+  }
+
+  bookAgain(BookingModel booking) {
+    return ElevatedButton(
+        style: buttonStyle(),
+        onPressed: () {
+          Get.to(BookingRequestPage(listing: booking.listing, listingId: booking.listing.id,));
+        },
+        child: buttonText(buttonTitle: "Book Again", height: 50));
   }
 
 //

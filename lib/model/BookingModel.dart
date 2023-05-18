@@ -197,10 +197,10 @@ class BookingModel implements Serializable {
     return status.toLowerCase() == "confirmed";
   }
 
-
   static String ACTION_NONE = "ACTION_NONE";
   static String ACTION_BOOK_AGAIN = "ACTION_BOOK_AGAIN";
   static String ACTION_PAY = "ACTION_PAY";
+
   String actionButton() {
     String result = ACTION_NONE;
 
@@ -210,7 +210,11 @@ class BookingModel implements Serializable {
       return ACTION_BOOK_AGAIN;
     } else if (isPartial() || (isAccepted() && !isExpire)) {
       return ACTION_PAY;
-    } else if (isRequested() && isExpire) {
+    }
+    // else if (isRequested() || !isExpire) {
+    //   return ACTION_BOOK_AGAIN;
+    // }
+    else if (isExpire) {
       return ACTION_BOOK_AGAIN;
     }
 
