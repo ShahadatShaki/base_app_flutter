@@ -182,7 +182,7 @@ class PaymentOverviewPage extends BaseStatelessWidget {
                     ),
                   ),
                   margin(24),
-                  if (booking.totalPayable !=
+                  if (  booking.totalPayable !=
                       controller.bookingPayment.value.minimumPayableAmount)
                     customPayment()
                 ],
